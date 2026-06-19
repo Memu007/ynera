@@ -1906,6 +1906,55 @@ section[id] { scroll-margin-top: 40px; }
   .hero { padding: 100px 0 40px !important; }
   .origin, .diagnostico-section { padding: 50px 0 60px !important; }
   .founders, .voices, .values, .cta, .rubros-seo { padding: 50px 0 !important; }
+
+  /* Reducir márgenes de cabeceras */
+  .products-header, .voices-header, .values-header, .founders-header, .origin-header { margin-bottom: 32px !important; }
+
+  /* Reducir paddings internos de tarjetas */
+  .voice { padding: 24px 20px !important; }
+  .value-tile { padding: 24px 20px !important; }
+  .product-card { padding: 24px 20px !important; min-height: 280px; }
+  .founder-panel { padding: 32px 24px !important; }
+
+  /* Compactar el Hero */
+  .hero h1 { font-size: clamp(38px, 10vw, 104px) !important; }
+  .hero-visual { min-height: 220px !important; }
+  .hero-inner { gap: 24px !important; }
+}
+
+@media (max-width: 800px) {
+  /* Transformar grillas apiladas en Carruseles horizontales (Swipe) para ahorrar scroll vertical */
+  .products-grid, .values-grid, .voices-grid { 
+    display: flex !important; 
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px !important;
+    padding-bottom: 12px;
+    margin: 0 -20px; /* Compensa el padding de .wrap para que el scroll use toda la pantalla */
+    padding: 0 20px 16px 20px;
+  }
+  @media (max-width: 600px) {
+    .products-grid, .values-grid, .voices-grid {
+      margin: 0 -16px;
+      padding: 0 16px 16px 16px;
+    }
+  }
+  .products-grid::-webkit-scrollbar, .values-grid::-webkit-scrollbar, .voices-grid::-webkit-scrollbar {
+    display: none; /* Ocultar barra de scroll para un look de app nativa */
+  }
+  .products-grid { -ms-overflow-style: none; scrollbar-width: none; }
+  .values-grid { -ms-overflow-style: none; scrollbar-width: none; }
+  .voices-grid { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .product-card, .value-tile, .voice { 
+    min-width: 85%; /* Deja asomar la siguiente tarjeta como pista (affordance) */
+    scroll-snap-align: center; 
+    flex: 0 0 auto;
+  }
+  /* En Testimonios (.voice) y Valores, quitar los bordes que servían para la grilla desktop */
+  .voice + .voice { border-top: none !important; border-left: .5px solid var(--ink-10) !important; }
 }
 </style>
 <script type="application/ld+json">
