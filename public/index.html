@@ -1917,9 +1917,14 @@ section[id] { scroll-margin-top: 40px; }
   .founder-panel { padding: 32px 24px !important; }
 
   /* Compactar el Hero */
-  .hero h1 { font-size: clamp(38px, 10vw, 104px) !important; }
+  .hero h1 { font-size: clamp(32px, 10vw, 104px) !important; }
   .hero-visual { min-height: 220px !important; }
   .hero-inner { gap: 24px !important; }
+  
+  /* Escala Tipográfica y Botones para Móvil */
+  .voice-quote, .hero-sub, .products-intro { font-size: 16px !important; }
+  .value-tile h3 { font-size: 22px !important; }
+  .btn-lg { padding: 18px 24px !important; min-height: 52px; display: inline-flex; justify-content: center; align-items: center; }
 }
 
 @media (max-width: 800px) {
@@ -1937,11 +1942,19 @@ section[id] { scroll-margin-top: 40px; }
   }
   .products-grid::-webkit-scrollbar, .values-grid::-webkit-scrollbar, .voices-grid::-webkit-scrollbar { display: none; }
   
+  /* Espaciador fantasma para el margen derecho del último ítem */
+  .products-grid::after, .values-grid::after, .voices-grid::after {
+    content: ''; flex: 0 0 20px;
+  }
+  
   @media (max-width: 600px) {
     .products-grid, .values-grid, .voices-grid {
       margin: 0 -16px;
       padding: 0 16px 24px 16px;
       scroll-padding-left: 16px;
+    }
+    .products-grid::after, .values-grid::after, .voices-grid::after {
+      flex: 0 0 16px;
     }
   }
 
