@@ -1,0 +1,3965 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ynera — Consultoría de IA para PyMEs | Construimos antes de aconsejar</title>
+<meta name="description" content="Consultoría de inteligencia artificial y formación para PyMEs argentinas. Dos builders, tres SaaS en producción. Oportunidades de IA rubro por rubro.">
+<!-- Open Graph / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ynera — Consultoría de IA para PyMEs argentinas">
+<meta property="og:description" content="Consultoría y formación en IA para PyMEs argentinas. Tres SaaS en producción. Construimos antes de aconsejar.">
+<meta property="og:url" content="https://ynera.com/">
+<meta property="og:image" content="https://ynera.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_AR">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ynera — Construimos antes de aconsejar">
+<meta name="twitter:description" content="Consultoría y formación en IA para PyMEs argentinas. Construimos antes de aconsejar.">
+<meta name="twitter:image" content="https://ynera.com/og-image.png">
+<link rel="canonical" href="https://ynera.com/">
+<!-- Favicons multi-tamaño (generados, subir junto al HTML) -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<!-- Analytics privacy-friendly: DESCOMENTAR al tener dominio en Plausible
+<script defer data-domain="ynera.com" src="https://plausible.io/js/script.js"></script>
+-->
+<!-- Favicon: monogram Y with a tiny sprig, drawn in brand colors -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23FAF7EE'/><text x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='600' fill='%231A1A1F' text-anchor='middle' font-style='italic'>Y</text><circle cx='24' cy='9' r='2' fill='%23D9603F'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF7EE;
+  --cream-2: #F5F0E0;
+  --ink: #1A1A1F;
+  --ink-60: rgba(26,26,31,0.62);
+  --ink-45: rgba(26,26,31,0.55);
+  --ink-20: rgba(26,26,31,0.2);
+  --ink-10: rgba(26,26,31,0.1);
+  --ink-05: rgba(26,26,31,0.05);
+  --clay: #D9603F;
+  --clay-dark: #BE4D2E;
+  --clay-dark: #B84D30;
+  --moss: #3D5C4A;
+  --moss-light: #7A8C5A;
+  --ochre: #E3A02F;
+  --radius: 4px;
+  --radius-lg: 14px;
+  /* Transiciones suaves entre día y noche */
+  transition: background-color 1.2s ease, color 1.2s ease;
+}
+
+/* ——— Modo noche automático (>= 19hs o < 7hs local) ———
+   No es dark mode clásico: la página sigue siendo clara, pero con
+   cream más tibio (como a la luz de una vela). Pequeños ajustes al
+   ink para que el contraste siga siendo confortable. */
+html.night {
+  --cream: #F2ECD9;
+  --cream-2: #E9E1C9;
+  --ink: #2A2520;
+  --ink-60: rgba(42, 37, 32, 0.68);
+  --ink-45: rgba(42, 37, 32, 0.5);
+  --ink-20: rgba(42, 37, 32, 0.22);
+  --ink-10: rgba(42, 37, 32, 0.12);
+  --clay: #C25736;
+  --ochre: #D89324;
+}
+html, body {
+  transition: background-color 1.2s ease;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+/* ——— Refinamiento silencioso: selección y scrollbar ——— */
+
+/* Selección de texto: clay suave, no el azul default del sistema */
+::selection {
+  background: rgba(217, 96, 63, 0.25);
+  color: var(--ink);
+}
+::-moz-selection {
+  background: rgba(217, 96, 63, 0.25);
+  color: var(--ink);
+}
+
+/* Scrollbar fina, en la paleta, con agarre suave */
+html { scrollbar-width: thin; scrollbar-color: rgba(61, 92, 74, 0.35) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(61, 92, 74, 0.3);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.25s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 96, 63, 0.55);
+  background-clip: padding-box;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate; /* create stacking context so ::after z:-1 stays above body bg */
+}
+
+/* ——— Fondo atmosférico: mesh de gradientes animado ———
+   Los washes tienen opacidades más bajas (el ojo lo lee como atmósfera,
+   no como manchas) y los puntos focales se mueven muy lentamente en
+   un ciclo de 40s. Imperceptible conscientemente, pero el cerebro lo
+   registra como vivo. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -10% -5%;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(18vw 16vh, rgba(217, 96, 63, 0.11), transparent 75%),
+    radial-gradient(22vw 24vh, rgba(122, 140, 90, 0.07), transparent 75%),
+    radial-gradient(22vw 20vh, rgba(227, 160, 47, 0.09), transparent 76%),
+    linear-gradient(172deg, var(--cream) 0%, #F3ECD9 45%, #EFE6D0 80%, #F2EAD5 100%);
+  background-repeat: no-repeat;
+  background-position: 115% -20%, -12% 50%, 118% 112%, 0 0;
+  animation: atmosphericDrift 40s ease-in-out infinite;
+  filter: blur(10px);
+}
+@keyframes atmosphericDrift {
+  0%, 100% { background-position: 105% -10%, -8% 50%, 108% 100%, 0 0; }
+  50%      { background-position: 100% -5%, -3% 55%, 103% 95%, 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+}
+
+/* ——— Grain refinado: neutral, sutil, integrado vía blend-mode ———
+   Sin color sepia encima. Es un noise transparente con mix-blend-mode
+   overlay, así texturiza sin ensuciar. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23g)' opacity='0.4'/></svg>");
+  background-size: 180px 180px;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+}
+
+/* ——— Red orgánica Voronoi ———
+   Capa fija de celdas irregulares conectadas por líneas finas. Las
+   celdas son un patrón matemático (Voronoi) pero también aparece en
+   la naturaleza: panales, grietas de barro seco, tejido celular.
+   Algunos nodos tienen un acento clay o ochre, como floración. Renderizado
+   a opacity 0.28 global sobre strokes con opacidad propia — el efecto
+   neto es imperceptible conscientemente pero le da estructura al fondo.
+   Las celdas escalan con el viewport (position: fixed + 100%x100%). */
+.bg-net {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+}
+.bg-net svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.bg-net .cell { fill: none; stroke: #3D5C4A; stroke-width: 0.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; }
+.bg-net .node { fill: #3D5C4A; opacity: 0.7; }
+.bg-net .node-accent-clay { fill: #D9603F; opacity: 0.85; }
+.bg-net .node-accent-ochre { fill: #E3A02F; opacity: 0.8; }
+html.night .bg-net { opacity: 0.2; }
+@media (max-width: 900px) {
+  .bg-net { opacity: 0.18; }
+}
+
+/* ——— Partículas botánicas flotantes ———
+   Semillas/esporas pequeñas que flotan lentamente desde abajo hacia
+   arriba con leve sway lateral. Generadas por JS con parámetros
+   aleatorios para variedad natural. Como polen en la luz. */
+.particle-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.particle svg { width: 100%; height: 100%; display: block; }
+@keyframes floatUp {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  8%   { opacity: var(--op, 0.3); }
+  92%  { opacity: var(--op, 0.3); }
+  100% { transform: translate(var(--drift, 40px), -105vh) rotate(var(--rot, 120deg)); opacity: 0; }
+}
+.particle.active {
+  animation: floatUp var(--dur, 32s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.serif { font-family: 'Fraunces', serif; letter-spacing: -0.02em; }
+.italic { font-style: italic; }
+.mono { font-family: 'Geist Mono', monospace; }
+
+.eyebrow {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--clay);
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--clay);
+  display: block;
+}
+
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.05;
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+.wrap-tight { max-width: 920px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+/* NAV */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 0;
+  transition: all 0.4s ease;
+  background: rgba(250, 247, 238, 0);
+}
+.nav.scrolled {
+  background: rgba(250, 247, 238, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--ink-10);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+.logo-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--clay);
+  border-radius: 50%;
+  transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.logo:hover .logo-dot { transform: scale(1.6); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  letter-spacing: -0.005em;
+}
+.btn-primary { background: var(--ink); color: var(--cream); position: relative; }
+.btn-primary:hover { background: var(--clay); transform: translateY(-1px); }
+.btn-primary .arrow { transition: transform 0.25s ease; }
+.btn-primary:hover .arrow { transform: translate(2px, -2px); }
+
+/* Pulsación orgánica: halo clay que respira cada 7s en los CTAs grandes.
+   Muy sutil — opacidad baja, duración larga. No la aplicamos al botón del nav
+   para no sobrecargar la cabeza de la página. */
+.btn-primary.btn-lg {
+  overflow: visible;
+}
+.btn-primary.btn-lg::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1.5px solid var(--clay);
+  opacity: 0;
+  pointer-events: none;
+  animation: breathe 7s ease-in-out 2s infinite;
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0; transform: scale(0.98); }
+  15%      { opacity: 0.4; transform: scale(1.02); }
+  30%      { opacity: 0; transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary.btn-lg::before { animation: none; }
+}
+
+.btn-lg { padding: 16px 30px; font-size: 15px; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 0.5px solid var(--ink-20);
+}
+.btn-ghost:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 160px 0 80px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+.hero h1 {
+  font-size: clamp(48px, 8vw, 104px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  margin: 26px 0 28px;
+}
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--clay); }
+
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-60);
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+.hero-ctas { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--ink-20);
+  padding-bottom: 2px;
+  transition: all 0.2s ease;
+}
+.text-link:hover { border-color: var(--clay); color: var(--clay); }
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  /* Custom cursor: una pequeña semilla (SVG inline, 24px) — aparece solo
+     cuando el mouse está sobre el jardín. Fallback a crosshair. */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><ellipse cx='12' cy='12' rx='4' ry='6' fill='%236b4a2a' stroke='%23412a18' stroke-width='0.5'/><path d='M 12 6 Q 12 10 11 13' stroke='%23412a18' stroke-width='0.5' fill='none' stroke-linecap='round'/></svg>") 12 12, crosshair;
+}
+.hero-visual svg {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  overflow: visible;
+}
+
+/* Tooltips botánicos: texto tipo etiqueta de herbario aparece al hover
+   sobre cada planta. Posición absoluta en el sistema de coordenadas del SVG. */
+.plant-tooltip {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(-8px);
+  background: var(--cream);
+  border: 0.5px solid var(--ink-20);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Fraunces', serif;
+  font-size: 12px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  z-index: 10;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 6px 20px rgba(26, 26, 31, 0.08);
+}
+.plant-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--cream);
+  filter: drop-shadow(0 1px 0 rgba(26, 26, 31, 0.15));
+}
+.plant-tooltip.show {
+  opacity: 1;
+  transform: translate(-50%, -100%) translateY(-14px);
+}
+.plant-tooltip .species {
+  font-style: italic;
+  color: var(--ink-60);
+  font-size: 11px;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Cada <g class="plant-X"> es hoverable.
+   Tooltips se disparan via JS en mouseenter/mouseleave del <g>.
+   Cada planta tiene un <rect> invisible detrás (.hit-area) que
+   captura el hover sin interferir visualmente. */
+.garden g[class*="plant-"] {
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+.garden g[class*="plant-"]:hover {
+  filter: brightness(1.08) saturate(1.15);
+}
+.hit-area {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.callout {
+  position: absolute;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-60);
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+.callout .line { width: 40px; height: 1px; background: var(--ink-20); }
+.callout-1 { top: 12%; left: -4%; }
+.callout-2 { bottom: 22%; right: -4%; flex-direction: row-reverse; }
+.callout-3 { top: 52%; left: -6%; }
+
+/* Dividers */
+.divider {
+  display: flex; justify-content: center; align-items: center;
+  padding: 40px 0; gap: 24px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 0.5px;
+  background: var(--ink-10); max-width: 160px;
+}
+.divider svg { width: 60px; height: auto; overflow: visible; }
+
+/* ORIGIN */
+.origin { padding: 80px 0 100px; position: relative; }
+.origin-header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  margin-bottom: 50px;
+  align-items: start;
+}
+.origin-header .label-col { padding-top: 8px; }
+.origin h2 {
+  font-size: clamp(36px, 5.4vw, 64px);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+.origin h2 em { font-style: italic; font-weight: 400; color: var(--moss); }
+
+.origin-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.origin-sprig { padding-top: 12px; }
+.origin-sprig svg { width: 120px; height: auto; overflow: visible; }
+
+.origin-prose { max-width: 620px; font-size: 17px; line-height: 1.75; color: var(--ink-60); }
+.origin-prose p { margin-bottom: 20px; }
+.origin-prose p:last-child { margin-bottom: 0; }
+.origin-prose strong { color: var(--ink); font-weight: 500; }
+
+.pull-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(26px, 3.8vw, 42px);
+  line-height: 1.15;
+  color: var(--ink);
+  letter-spacing: -0.025em;
+  margin: 48px -20px;
+  padding: 20px 0 20px 64px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  position: relative;
+}
+.pull-quote::before {
+  content: '"';
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 140px;
+  color: var(--clay);
+  position: absolute;
+  left: -8px;
+  top: 32px;
+  line-height: 0;
+  opacity: 0.85;
+}
+.pull-quote::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  bottom: 0;
+  width: 48px;
+  height: 1px;
+  background: var(--ink-20);
+}
+@media (max-width: 700px) {
+  .pull-quote { margin: 32px 0; padding-left: 44px; }
+  .pull-quote::before { font-size: 100px; left: 0; }
+}
+
+/* ——— Marginalia: ilustraciones tipo herbario en los márgenes del texto.
+       Decorativas, pequeñas (50–80px), flotando fuera del cuerpo principal.
+       Solo se muestran en pantallas anchas. ——— */
+.marginalia {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1.2s cubic-bezier(.3,.8,.3,1), transform 1.2s cubic-bezier(.3,.8,.3,1);
+}
+.marginalia.visible {
+  opacity: 0.7;
+  transform: translateY(0);
+}
+@media (max-width: 1200px) {
+  .marginalia { display: none; }
+}
+.marginalia svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* PRODUCTS */
+.products {
+  padding: 80px 0 100px;
+  position: relative;
+}
+.products-header { text-align: left; margin-bottom: 60px; max-width: 720px; }
+.products h2 { font-size: clamp(36px, 5.4vw, 64px); margin: 22px 0 20px; }
+.products h2 em { font-style: italic; color: var(--moss); font-weight: 400; }
+.products-intro { font-size: 18px; color: var(--ink-60); max-width: 560px; line-height: 1.6; }
+
+.products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.product-card {
+  background: var(--cream);
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 28px;
+  transition: all 0.4s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--ink-20);
+  box-shadow: 0 24px 48px -24px rgba(26,26,31,0.14);
+}
+.product-number {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ochre);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.product-illustration {
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 20px;
+  overflow: visible;
+}
+.product-illustration svg { max-height: 100%; width: auto; overflow: visible; }
+
+/* ——— Tallo vertical vegetal que crece con el scroll ———
+   Una línea fina al costado izquierdo que "crece" desde abajo a medida
+   que scrollás. Cada sección tiene un nodo/hoja que aparece cuando
+   pasás por ella. Es el hilo narrativo visual que une toda la página. */
+
+.stem-track {
+  position: fixed;
+  top: 0;
+  left: 28px;
+  width: 40px;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 20;
+  display: none;
+}
+/* Solo lo mostramos en pantallas anchas */
+@media (min-width: 1100px) {
+  .stem-track { display: block; }
+}
+
+.stem-track svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* El tallo mismo: path vertical con stroke-dashoffset controlado por JS */
+.stem-line {
+  fill: none;
+  stroke: #3D5C4A;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  opacity: 0.55;
+  transition: stroke-dashoffset 0.15s linear, opacity 0.5s ease;
+}
+
+/* Nodos / hojas que florecen en cada hito (una por sección) */
+.stem-node {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(.3,1.5,.5,1);
+}
+.stem-node.reached {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Indicador de sección activa (pequeño punto clay que desliza) */
+.stem-head {
+  fill: #D9603F;
+  stroke: #FAF7EE;
+  stroke-width: 2;
+  transition: cy 0.4s cubic-bezier(.3,.9,.3,1);
+}
+html.night .stem-line { stroke: #5a7a68; }
+html.night .stem-head { stroke: #F2ECD9; }
+
+/* ——— Logos de SaaS: animaciones al hover de cada card ——— */
+.saas-logo { transition: transform 0.5s cubic-bezier(.2,.8,.2,1); }
+.product-card:hover .saas-logo { transform: translateY(-3px); }
+
+/* CDI — la brújula se acerca sutilmente al hover, como si se aproximara
+   a la cámara. Sin rotaciones: se mantiene entera y legible. */
+.saas-logo .logo-rose {
+  transform-box: fill-box;
+  transform-origin: 70px 50px;
+  transition: transform 0.6s cubic-bezier(.2,.8,.2,1);
+}
+.product-card:hover .saas-logo .logo-rose {
+  transform: scale(1.06);
+}
+.saas-logo .logo-pivot {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+.product-card:hover .saas-logo .logo-pivot {
+  transform: scale(1.3);
+}
+@keyframes pan-sway {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-1.5px) rotate(-1deg); }
+}
+.product-card:hover .saas-logo .logo-pan {
+  animation: pan-sway 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+.saas-logo .logo-seed { transition: r 0.3s ease; }
+.product-card:hover .saas-logo .logo-seed { r: 2.2; }
+
+
+
+.product-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.product-industry {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--moss);
+  margin-bottom: 16px;
+}
+.product-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-60);
+  margin-top: auto;
+}
+
+/* FOUNDERS */
+.founders { padding: 100px 0; position: relative; }
+.founders-header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+  align-items: end;
+}
+.founders h2 { font-size: clamp(36px, 5.4vw, 64px); letter-spacing: -0.035em; }
+.founders h2 em { font-style: italic; color: var(--clay); font-weight: 400; }
+
+.founders-sub {
+  font-size: 17px; line-height: 1.65; color: var(--ink-60);
+  max-width: 480px; margin-top: 18px;
+}
+
+.founders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 0.5px solid var(--ink-10);
+  border-bottom: 0.5px solid var(--ink-10);
+}
+
+.founder-panel { padding: 50px 40px; position: relative; transition: background 0.35s ease; }
+.founder-panel:first-child { border-right: 0.5px solid var(--ink-10); }
+.founder-panel:hover { background: var(--cream-2); }
+
+.founder-ornament {
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  overflow: visible;
+}
+.founder-ornament svg { overflow: visible; }
+
+/* ——— Founder icons: mismo tratamiento que los logos de SaaS ——— */
+.founder-icon {
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+}
+.founder-panel:hover .founder-icon {
+  transform: translateY(-3px);
+}
+
+/* El que construye — el martillo golpea al hover */
+.builder-hammer {
+  transform-box: fill-box;
+  transform-origin: 30px 44px;
+  transition: transform 0.5s cubic-bezier(.3,.9,.3,1);
+}
+.founder-panel:hover .builder-hammer {
+  animation: hammer-strike 0.9s cubic-bezier(.3,1.4,.5,1);
+}
+@keyframes hammer-strike {
+  0%   { transform: rotate(0deg); }
+  30%  { transform: rotate(-22deg); }
+  55%  { transform: rotate(8deg); }
+  100% { transform: rotate(0deg); }
+}
+.builder-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.35s ease;
+}
+.founder-panel:hover .builder-core {
+  transform: scale(1.35);
+}
+.builder-spark {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.founder-panel:hover .builder-spark {
+  transform: scale(1.8);
+  opacity: 0.95;
+}
+
+/* El que detecta — la lupa se acerca sobre la semilla; la semilla brilla */
+.spotter-lens {
+  transform-box: fill-box;
+  transform-origin: 24px 22px;
+  transition: transform 0.55s cubic-bezier(.3,.9,.3,1);
+}
+.founder-panel:hover .spotter-lens {
+  transform: scale(1.12) translate(1px, 4px);
+}
+.spotter-find {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(.3,1.4,.5,1);
+}
+.founder-panel:hover .spotter-find {
+  transform: scale(1.5);
+}
+
+.founder-role {
+  font-family: 'Fraunces', serif;
+  font-weight: 500; font-size: 36px;
+  letter-spacing: -0.03em; line-height: 1.05;
+  margin-bottom: 8px;
+}
+.founder-role em { font-style: italic; color: var(--moss); }
+
+.founder-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--ink-45);
+  margin-bottom: 22px;
+}
+
+.founder-links { margin-top: 18px; }
+.founder-links a {
+  font-family: 'Geist Mono', monospace; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-45); text-decoration: none;
+  border-bottom: 1px solid var(--ink-10); padding-bottom: 2px;
+  transition: color .25s, border-color .25s;
+}
+.founder-links a:hover { color: var(--clay); border-color: var(--clay); }
+
+/* ── Testimonios: voces de los que usan los SaaS ── */
+.voices { padding: 90px 0; }
+.voices-header { text-align: center; margin-bottom: 56px; }
+.voices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border-top: .5px solid var(--ink-10); border-bottom: .5px solid var(--ink-10); }
+.voice { padding: 44px 36px; position: relative; }
+.voice + .voice { border-left: .5px solid var(--ink-10); }
+.voice-quote { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 400;
+  line-height: 1.5; letter-spacing: -.01em; color: var(--ink); margin-bottom: 24px; }
+.voice-quote::before { content: '“'; color: var(--clay); font-size: 28px; }
+.voice-who { font-family: 'Geist Mono', monospace; font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-45); }
+.voice-who strong { color: var(--moss); font-weight: 500; display: block; margin-bottom: 3px; }
+@media (max-width: 800px) {
+  .voices-grid { grid-template-columns: 1fr; }
+  .voice + .voice { border-left: none; border-top: .5px solid var(--ink-10); }
+}
+.product-visit {
+  display: inline-block; margin-top: 14px; margin-left: 16px;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--clay); text-decoration: none;
+  border-bottom: 1px solid rgba(217,96,63,.3); padding-bottom: 2px;
+  transition: border-color .25s;
+}
+.product-visit:hover { border-color: var(--clay); }
+.product-live {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--moss);
+  margin-top: 14px;
+}
+.product-live::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--moss); animation: livepulse 2.4s ease-in-out infinite;
+}
+@keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.founder-desc { font-size: 15px; line-height: 1.7; color: var(--ink-60); max-width: 420px; }
+
+/* ── Lámina founders: ilustración de los dos ── */
+.founders-lamina {
+  margin: 0 auto 56px;
+  max-width: 520px;
+  padding: 0 10px;
+}
+.lamina-svg { width: 100%; height: auto; overflow: visible; display: block; }
+
+/* draw-on: JS asigna dasharray/dashoffset; .drawn lo transiciona a 0 */
+.lamina-svg .dp { transition: stroke-dashoffset var(--dur,1s) cubic-bezier(.5,.05,.3,.98) var(--d,0s); }
+.lamina-svg.drawn .dp { stroke-dashoffset: 0 !important; }
+.lamina-svg .fp { opacity: 0; transition: opacity var(--fd,.45s) ease var(--fdd,.5s); }
+.lamina-svg.drawn .fp { opacity: var(--op,1); }
+
+/* loops post-dibujo */
+@keyframes lamClayPulse { 0%,100%{transform:scale(1);opacity:.95} 50%{transform:scale(2.1);opacity:.35} }
+.lamina-svg .clay-dot { transform-box: fill-box; transform-origin: center; }
+.lamina-svg.looping .clay-dot { animation: lamClayPulse 3.5s ease-in-out infinite; }
+@keyframes lamLensBlink { 0%,68%,100%{opacity:.7} 73%{opacity:.06} 81%{opacity:.7} }
+.lamina-svg .lens-shine { opacity: 0; }
+.lamina-svg.looping .lens-shine { animation: lamLensBlink 5.5s ease-in-out .5s infinite; }
+@keyframes lamLeafBreathe { 0%,100%{transform:scale(1) rotate(0)} 45%{transform:scale(1.12) rotate(6deg)} 75%{transform:scale(.95) rotate(-4deg)} }
+.lamina-svg .tat-leaf { transform-box: fill-box; }
+.lamina-svg.looping .tat-leaf { animation: lamLeafBreathe 4.2s ease-in-out infinite; }
+
+/* VALUES */
+.values { padding: 100px 0; position: relative; }
+.values-header { margin-bottom: 56px; max-width: 620px; }
+.values h2 { font-size: clamp(36px, 5.4vw, 60px); margin: 22px 0 0; }
+.values h2 em { font-style: italic; color: var(--moss); font-weight: 400; }
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--ink-10);
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.value-tile { background: var(--cream); padding: 38px 34px; transition: background 0.25s ease; }
+.value-tile:hover { background: var(--cream-2); }
+
+.value-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.value-icon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+}
+.value-tile:hover .value-icon svg {
+  transform: scale(1.08) rotate(-2deg);
+}
+/* Animaciones específicas por valor al hover */
+.val-bud {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(.3,1.5,.5,1);
+}
+.value-tile:hover .val-bud {
+  transform: scale(1.4);
+}
+.val-no {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  transition: stroke-dashoffset 0.7s cubic-bezier(.2,.6,.2,1);
+}
+.value-tile:hover .val-no {
+  stroke-dashoffset: 0;
+}
+.val-link {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.4s ease;
+}
+.value-tile:hover .val-link {
+  stroke-dashoffset: -40;
+  animation: dash-move 1.2s linear infinite;
+}
+@keyframes dash-move {
+  to { stroke-dashoffset: -60; }
+}
+.val-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+.value-tile:hover .val-node {
+  transform: scale(1.3);
+}
+
+.value-tile .eyebrow { margin-bottom: 14px; }
+.value-tile h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500; font-size: 26px;
+  letter-spacing: -0.025em; line-height: 1.15;
+  margin-bottom: 12px; color: var(--ink);
+}
+.value-tile h3 em { font-style: italic; color: var(--clay); font-weight: 400; }
+.value-tile p { font-size: 15px; line-height: 1.65; color: var(--ink-60); }
+
+/* CTA */
+.cta { padding: 100px 0 110px; position: relative; overflow: hidden; }
+.cta-panel {
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 24px;
+  padding: 80px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-panel h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(32px, 4.4vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+.cta-panel h2 em { font-style: italic; color: var(--ochre); font-weight: 400; }
+.cta-panel p {
+  font-size: 16px;
+  color: rgba(250, 247, 238, 0.7);
+  max-width: 520px;
+  margin: 0 auto 36px;
+  position: relative; z-index: 1;
+  line-height: 1.6;
+}
+.cta-botanical {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+.cta-botanical.left { top: -40px; left: -20px; width: 300px; height: 300px; }
+.cta-botanical.right { bottom: -30px; right: -10px; width: 260px; height: 260px; }
+.cta-botanical svg { width: 100%; height: 100%; overflow: visible; }
+
+.btn-cta {
+  background: var(--cream); color: var(--ink);
+  padding: 18px 36px; font-size: 15px; font-weight: 500;
+  position: relative; z-index: 1;
+}
+.btn-cta:hover { background: var(--clay); color: var(--cream); transform: translateY(-2px); }
+
+/* FOOTER */
+.footer { border-top: 0.5px solid var(--ink-10); padding: 40px 0 50px; }
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer-brand { display: flex; flex-direction: column; gap: 4px; }
+.footer-logo {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px;
+  color: var(--ink); letter-spacing: -0.03em;
+}
+.footer-logo .logo-dot { width: 6px; height: 6px; }
+.footer-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 12px; color: var(--ink-45); }
+.footer-links { display: flex; gap: 24px; font-size: 13px; }
+.footer-links a { color: var(--ink-60); text-decoration: none; transition: color 0.2s ease; }
+.footer-links a:hover { color: var(--clay); }
+.footer-meta {
+  font-family: 'Geist Mono', monospace; font-size: 11px;
+  color: var(--ink-45); text-transform: uppercase; letter-spacing: 0.12em;
+}
+
+/* REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.on { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+@keyframes drawIn {
+  from { stroke-dashoffset: 2000; }
+  to { stroke-dashoffset: 0; }
+}
+.draw path, .draw ellipse, .draw circle {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+}
+.draw.on path, .draw.on ellipse, .draw.on circle {
+  animation: drawIn 3s cubic-bezier(.5,.2,.3,1) forwards;
+}
+.draw.on ellipse, .draw.on circle { animation-duration: 1.6s; }
+
+/* Intro overlay elements shouldn't be stroke-drawn — they need to appear whole
+   (the can is pre-drawn; the draw animation makes it look like a line growing). */
+.garden #intro-can path, .garden #intro-can line, .garden #intro-can ellipse, .garden #intro-can circle,
+.garden #intro-seed ellipse, .garden #intro-seed path {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+/* INTRO sequence: seed → watering can → plants grow. CSS-orchestrated via delays.
+   Total duration ~6s. Wind (JS) is gated to start after this. */
+
+/* Seeds fall from above, staggered so they arrive along the garden row */
+@keyframes seedFall {
+  0%   { opacity: 0; transform: translateY(-60px); }
+  15%  { opacity: 1; }
+  75%  { opacity: 1; transform: translateY(515px); }
+  90%  { opacity: 1; transform: translateY(515px) scale(0.7, 0.5); }
+  100% { opacity: 0; transform: translateY(515px) scale(0.5, 0.3); }
+}
+#intro-seed .seed {
+  transform-box: fill-box;
+  opacity: 0;
+  animation: seedFall 1.3s cubic-bezier(.4,.1,.7,1) both;
+}
+#intro-seed .s1 { animation-delay: 0.15s; }
+#intro-seed .s2 { animation-delay: 0.25s; }
+#intro-seed .s3 { animation-delay: 0.35s; }
+#intro-seed .s4 { animation-delay: 0.45s; }
+#intro-seed .s5 { animation-delay: 0.55s; }
+#intro-seed .s6 { animation-delay: 0.65s; }
+
+/* Can position+rotation and water particles are JS-driven. Seed + plants-grow
+   stay as CSS because they're simple deterministic transforms. */
+#intro-can {
+  transform-box: fill-box;
+  transform-origin: 12px 46px; /* handle-side pivot */
+  /* Initial state — JS will take over on window load */
+  opacity: 0;
+  transform: translate(-80px, 40px) rotate(0deg);
+}
+
+/* Layered plant growth: root → stem → branches → leaves → blooms.
+   Each layer reveals via its own stroke-dashoffset draw (for line paths)
+   or opacity+scale (for filled shapes like berries/petals).
+   Timing: starts while watering is still happening, so it reads as
+   cause→effect. Layers overlap slightly for a natural flow. */
+
+/* Roots grow DOWNWARD from the ground — short paths */
+.layer-root {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+}
+.garden .layer-root {
+  animation: drawLayer 0.9s cubic-bezier(.4,.1,.4,1) forwards;
+  animation-delay: 3.0s;
+}
+
+/* Stems draw upward — main trunks ~300-400 units long */
+.layer-stem {
+  stroke-dasharray: 450;
+  stroke-dashoffset: 450;
+}
+.garden .layer-stem {
+  animation: drawLayer 1.6s cubic-bezier(.2,.6,.2,1) forwards;
+  animation-delay: 3.7s;
+}
+
+/* Branches draw outward — medium arcs ~80-150 units */
+.layer-branch {
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+}
+.garden .layer-branch {
+  animation: drawLayer 1.0s cubic-bezier(.3,.6,.3,1) forwards;
+  animation-delay: 4.6s;
+}
+
+/* Leaves: small scale+fade */
+.layer-leaf {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.3);
+}
+.garden .layer-leaf {
+  animation: bloomIn 0.7s cubic-bezier(.3,1.4,.5,1) forwards;
+  animation-delay: 5.3s;
+}
+
+/* Blooms (flowers, berries) scale+fade, even later */
+.layer-bloom {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.2);
+}
+.garden .layer-bloom {
+  animation: bloomIn 0.8s cubic-bezier(.25,1.5,.5,1) forwards;
+  animation-delay: 6.0s;
+}
+
+/* Cortadera plume: radiating feathery lines that fan open last */
+.layer-plume {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  opacity: 0;
+}
+.garden .layer-plume {
+  animation: plumeFan 1.1s cubic-bezier(.2,.7,.3,1) forwards;
+  animation-delay: 5.8s;
+}
+
+@keyframes drawLayer {
+  0%   { stroke-dashoffset: var(--len, 450); }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes bloomIn {
+  0%   { opacity: 0; transform: scale(0.2); }
+  60%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes plumeFan {
+  0%   { stroke-dashoffset: 50; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* Stagger delays within the same layer so plants grow in sequence L→R,
+   like a wave following the watering can. Each plant gets a delay bump. */
+.plant-1 { --s: 0s; }
+.plant-2 { --s: 0.25s; }
+.plant-3 { --s: 0.5s; }
+.plant-4 { --s: 0.75s; }
+
+.garden .plant-1 .layer-root { animation-delay: calc(3.0s + 0s); }
+.garden .plant-2 .layer-root { animation-delay: calc(3.0s + 0.25s); }
+.garden .plant-3 .layer-root { animation-delay: calc(3.0s + 0.5s); }
+.garden .plant-4 .layer-root { animation-delay: calc(3.0s + 0.75s); }
+
+.garden .plant-1 .layer-stem { animation-delay: calc(3.7s + 0s); }
+.garden .plant-2 .layer-stem { animation-delay: calc(3.7s + 0.25s); }
+.garden .plant-3 .layer-stem { animation-delay: calc(3.7s + 0.5s); }
+.garden .plant-4 .layer-stem { animation-delay: calc(3.7s + 0.75s); }
+
+.garden .plant-1 .layer-branch { animation-delay: calc(4.6s + 0s); }
+.garden .plant-2 .layer-branch { animation-delay: calc(4.6s + 0.25s); }
+.garden .plant-3 .layer-branch { animation-delay: calc(4.6s + 0.5s); }
+.garden .plant-4 .layer-branch { animation-delay: calc(4.6s + 0.75s); }
+
+.garden .plant-1 .layer-leaf { animation-delay: calc(5.3s + 0s); }
+.garden .plant-2 .layer-leaf { animation-delay: calc(5.3s + 0.25s); }
+.garden .plant-3 .layer-leaf { animation-delay: calc(5.3s + 0.5s); }
+.garden .plant-4 .layer-leaf { animation-delay: calc(5.3s + 0.75s); }
+
+.garden .plant-1 .layer-bloom, .garden .plant-1 .layer-plume { animation-delay: calc(6.0s + 0s); }
+.garden .plant-2 .layer-bloom, .garden .plant-2 .layer-plume { animation-delay: calc(6.0s + 0.25s); }
+.garden .plant-3 .layer-bloom, .garden .plant-3 .layer-plume { animation-delay: calc(6.0s + 0.5s); }
+.garden .plant-4 .layer-bloom, .garden .plant-4 .layer-plume { animation-delay: calc(6.0s + 0.75s); }
+
+/* Ground line just fades in quickly at start */
+.layer-ground {
+  opacity: 0;
+}
+.garden .layer-ground {
+  animation: fadeQuick 0.4s 2.6s forwards;
+}
+@keyframes fadeQuick {
+  to { opacity: 0.5; }
+}
+
+/* WIND — physics-driven sway.
+   Each swaying element is a <g class="sway"> with data-flex (0..1 stiffness inverse) and
+   data-anchor (transform-origin as two numbers in SVG units).
+   JS sets --wind (shared page-wide gust strength, -1..1) and each element's
+   local --phase + --flex to compute its individual rotation. */
+
+/* Sway: rotation at the base + a gentle counter-skew so the stem reads as
+   bending (cantilever), not pivoting rigidly. The skew is ~40% of the rotation
+   in the opposite direction, giving a real C-curve along the length. */
+.sway {
+  transform-box: fill-box;
+  transform-origin: var(--ox, 50%) var(--oy, 100%);
+  will-change: transform;
+  transform:
+    rotate(calc(var(--wind, 0) * var(--flex, 1) * var(--amp, 8deg)))
+    skewX(calc(var(--wind, 0) * var(--flex, 1) * var(--amp, 8deg) * -0.35));
+  transition: none;
+}
+
+/* Flutter: leaves trail the stem — bigger angle when the wind is
+   accelerating, catches up and overshoots. Uses --gust for lag-enhanced wind. */
+.flutter {
+  transform-box: fill-box;
+  transform-origin: var(--ox, 50%) var(--oy, 100%);
+  will-change: transform;
+  transform: rotate(calc(var(--gust, 0) * var(--flex, 1) * var(--amp, 4deg)));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sway, .flutter { transform: none !important; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { padding: 130px 0 60px; min-height: auto; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { min-height: 320px; order: -1; }
+  .callout { display: none; }
+  .origin-header, .origin-body, .founders-header { grid-template-columns: 1fr; gap: 24px; }
+  .origin-sprig svg { width: 80px; }
+  .products-grid { grid-template-columns: 1fr; }
+  .founders-grid { grid-template-columns: 1fr; }
+  .founder-panel:first-child { border-right: none; border-bottom: 0.5px solid var(--ink-10); }
+  .values-grid { grid-template-columns: 1fr; }
+  .cta-panel { padding: 56px 28px; }
+  .nav-inner { padding: 0 20px; }
+  .wrap, .wrap-tight { padding: 0 20px; }
+}
+
+/* ════════════════════════════════════════════════
+   DIAGNÓSTICO — sección interactiva (de Ynera-scene)
+   ════════════════════════════════════════════════ */
+.diagnostico-section { padding: 90px 0 100px; position: relative; }
+.diag-wrap { max-width: 880px; margin: 0 auto; padding: 0 32px; }
+.diag-header { text-align: center; margin-bottom: 48px; }
+.diag-lead { font-size: 17px; color: var(--ink-60); max-width: 560px; margin: 0 auto; line-height: 1.6; }
+/* Container ("plate") */
+.diag-plate {
+  border: .5px solid var(--ink-10); border-radius: 12px;
+  background: var(--paper); padding: 44px 40px;
+  position: relative;
+}
+.diag-plate-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .16em; color: var(--ink-45); text-transform: uppercase;
+  margin-bottom: 32px;
+  padding-bottom: 16px; border-bottom: .5px solid var(--ink-10);
+}
+.diag-plate-head em { font-family: 'Fraunces', serif; color: var(--clay); font-style: italic; font-size: 12px; }
+.diag-plate-head .live {
+  display: inline-flex; align-items: center; gap: 6px; color: var(--moss);
+}
+.live-dot {
+  width: 6px; height: 6px; background: var(--moss); border-radius: 50%;
+  animation: livepulse 1.8s ease-in-out infinite;
+}
+@keyframes livepulse {
+  0%, 100% { opacity: .35; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* The prompt area */
+.prompt-section {
+  margin-bottom: 0;
+}
+.prompt-label {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 17px; color: var(--ink); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.prompt-label::before {
+  content: '';
+  width: 18px; height: 1px; background: var(--clay);
+}
+.prompt-input-wrap {
+  position: relative;
+  margin-bottom: 18px;
+}
+.prompt-input {
+  width: 100%;
+  background: var(--cream);
+  border: .5px solid var(--ink-20);
+  border-radius: 8px;
+  padding: 16px 60px 16px 18px;
+  font-family: 'Geist', sans-serif;
+  font-size: 16px; color: var(--ink);
+  line-height: 1.5;
+  outline: none;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.prompt-input::placeholder {
+  color: var(--ink-45);
+  font-style: italic;
+}
+.prompt-input:focus {
+  border-color: var(--clay);
+  box-shadow: 0 0 0 3px rgba(217, 96, 63, 0.08);
+}
+.prompt-submit {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px;
+  background: var(--ink); color: var(--cream);
+  border: none; border-radius: 6px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s ease, transform .2s ease;
+}
+.prompt-submit:hover:not(:disabled) {
+  background: var(--clay);
+  transform: translateY(-50%) translateX(2px);
+}
+.prompt-submit:disabled {
+  opacity: .35; cursor: not-allowed;
+}
+.prompt-submit svg { width: 16px; height: 16px; }
+
+/* Suggestion chips */
+.chips-label {
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .14em; color: var(--ink-45);
+  text-transform: uppercase; margin: 16px 0 12px;
+}
+.chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.chip {
+  background: transparent;
+  border: .5px solid var(--ink-20);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: 'Geist', sans-serif; font-size: 13px;
+  color: var(--ink-60);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.chip:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+  background: rgba(217, 96, 63, 0.04);
+}
+.chip.selected {
+  background: var(--ink); color: var(--cream); border-color: var(--ink);
+}
+
+/* Output area */
+.output {
+  margin-top: 40px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity .6s ease, max-height .8s ease;
+}
+.output.visible {
+  opacity: 1;
+  max-height: 2000px;
+}
+
+/* Thinking state — la plantita crece mientras "piensa" */
+.thinking {
+  display: flex; align-items: center; gap: 18px;
+  padding: 32px 0;
+  font-family: 'Fraunces', serif; font-style: italic;
+  color: var(--ink-60); font-size: 16px;
+}
+.thinking-plant {
+  width: 48px; height: 64px;
+  flex-shrink: 0;
+}
+.thinking-text {
+  display: inline-block;
+}
+.thinking-text::after {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  text-align: left;
+  animation: dots 1.6s steps(4, end) infinite;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+/* Plant growth: stem first, then branches, leaves, bud — looped */
+.tp-stem {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  animation: tpStemGrow 3.2s cubic-bezier(.3,.6,.3,1) infinite;
+}
+.tp-branch {
+  stroke-dasharray: 25;
+  stroke-dashoffset: 25;
+}
+.tp-b1 {
+  animation: tpBranchGrow 3.2s cubic-bezier(.3,.6,.3,1) infinite;
+  animation-delay: .9s;
+}
+.tp-b2 {
+  animation: tpBranchGrow 3.2s cubic-bezier(.3,.6,.3,1) infinite;
+  animation-delay: 1.4s;
+}
+.tp-leaf {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.tp-l1 {
+  animation: tpLeafBloom 3.2s cubic-bezier(.25,1.5,.5,1) infinite;
+  animation-delay: 1.1s;
+}
+.tp-l2 {
+  animation: tpLeafBloom 3.2s cubic-bezier(.25,1.5,.5,1) infinite;
+  animation-delay: 1.6s;
+}
+.tp-bud {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: tpBudBloom 3.2s cubic-bezier(.25,1.5,.5,1) infinite;
+  animation-delay: 2.1s;
+}
+@keyframes tpStemGrow {
+  0% { stroke-dashoffset: 90; }
+  35%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes tpBranchGrow {
+  0% { stroke-dashoffset: 25; }
+  20%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes tpLeafBloom {
+  0% { opacity: 0; transform: scale(.2); }
+  15% { opacity: .8; transform: scale(1.1); }
+  25%, 100% { opacity: .8; transform: scale(1); }
+}
+@keyframes tpBudBloom {
+  0% { opacity: 0; transform: scale(0); }
+  15% { opacity: 1; transform: scale(1.2); }
+  25%, 100% { opacity: 1; transform: scale(1); }
+}
+
+/* Diagnosis output */
+.diagnosis {
+  display: none;
+}
+.diagnosis.visible { display: block; }
+
+.diagnosis-intro {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 19px; line-height: 1.5; color: var(--ink);
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: .5px solid var(--ink-10);
+}
+.diagnosis-intro .stream-cursor {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--clay);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.opportunities-label {
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .16em; color: var(--moss);
+  text-transform: uppercase; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.opportunities-label::before {
+  content: ''; width: 14px; height: 1px; background: var(--moss);
+}
+
+.opportunity {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: .5px solid var(--ink-10);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.opportunity.shown { opacity: 1; transform: translateY(0); }
+.opportunity:last-child { border-bottom: none; }
+
+.opportunity-num {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 22px; color: var(--clay); font-weight: 500;
+  line-height: 1; padding-top: 4px;
+}
+.opportunity-content h4 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: 18px; color: var(--ink); letter-spacing: -.015em;
+  margin-bottom: 6px;
+}
+.opportunity-content p {
+  font-size: 14px; color: var(--ink-60); line-height: 1.55;
+}
+.opportunity-content .impact {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--moss); margin-top: 8px;
+  padding: 3px 8px; border-radius: 3px;
+  background: rgba(61, 92, 74, 0.08);
+}
+
+/* Honesty disclaimer */
+.honesty {
+  margin-top: 28px; padding: 16px 18px;
+  background: rgba(217, 96, 63, 0.06);
+  border-left: 2px solid var(--clay);
+  border-radius: 0 6px 6px 0;
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 13px; color: var(--ink-60); line-height: 1.5;
+  opacity: 0;
+  transition: opacity .6s ease .3s;
+}
+.honesty.shown { opacity: 1; }
+
+/* CTA */
+.cta-area {
+  margin-top: 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+  opacity: 0; transition: opacity .6s ease .5s;
+}
+.cta-area.shown { opacity: 1; }
+.cta-text {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 15px; color: var(--ink-60);
+}
+.cta-buttons { display: flex; gap: 10px; }
+.diag-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 500;
+  padding: 12px 22px; border-radius: 999px; border: none;
+  cursor: pointer; text-decoration: none;
+  transition: all .25s ease;
+}
+.diag-btn-primary { background: var(--ink); color: var(--cream); }
+.diag-btn-primary:hover { background: var(--clay); transform: translateY(-1px); }
+.diag-btn-ghost {
+  background: transparent; color: var(--ink);
+  border: .5px solid var(--ink-20);
+}
+.diag-btn-ghost:hover { border-color: var(--ink); }
+
+/* The mini-garden: each diagnosis generates a sprig in this collection */
+.garden-collection {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: .5px solid var(--ink-10);
+}
+.garden-label {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 13px; color: var(--ink-45); margin-bottom: 12px;
+}
+.garden-sprigs {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
+  min-height: 60px;
+}
+.garden-sprig {
+  width: 32px; height: 56px;
+  opacity: 0;
+  animation: sprigGrow .9s cubic-bezier(.25,1.3,.5,1) forwards;
+}
+@keyframes sprigGrow {
+  from { opacity: 0; transform: translateY(8px) scale(.6); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.garden-sprig svg { width: 100%; height: 100%; }
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { padding: 56px 16px 48px; }
+  .diag-plate { padding: 28px 22px; }
+  .opportunity { grid-template-columns: 28px 1fr; gap: 12px; }
+  .cta-area { flex-direction: column; align-items: stretch; }
+  .cta-buttons { flex-direction: column; }
+  .diag-btn { justify-content: center; }
+}
+
+
+/* ── Performance ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .lamina-svg .dp { stroke-dashoffset: 0 !important; }
+  .lamina-svg .fp { opacity: var(--op,1) !important; }
+}
+.voices, .founders, .values, .cta { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+
+
+/* ── Oportunidades por rubro (contenido indexable) ── */
+.rubros-seo { padding: 90px 0; }
+.rubros-seo-header { margin-bottom: 40px; max-width: 640px; }
+.rubros-seo-lead { font-size: 16px; color: var(--ink-60); line-height: 1.65; margin-top: 14px; }
+.seo-rubro { border-top: .5px solid var(--ink-10); }
+.seo-rubro:last-of-type { border-bottom: .5px solid var(--ink-10); }
+.seo-rubro summary { list-style: none; cursor: pointer; padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+.seo-rubro summary::-webkit-details-marker { display: none; }
+.seo-rubro summary::after { content: '+'; font-family: 'Geist Mono', monospace; font-size: 18px; color: var(--clay); transition: transform .25s; }
+.seo-rubro[open] summary::after { transform: rotate(45deg); }
+.seo-rubro summary h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -.02em; color: var(--ink); }
+.seo-rubro summary:hover h3 { color: var(--clay); }
+.seo-intro { font-size: 15px; color: var(--ink-60); line-height: 1.65; margin-bottom: 22px; max-width: 620px; }
+.seo-opp { margin-bottom: 22px; max-width: 620px; }
+.seo-opp h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 16.5px; color: var(--ink); margin-bottom: 6px; }
+.seo-opp p { font-size: 14.5px; color: var(--ink-60); line-height: 1.65; }
+.seo-impact { font-family: 'Geist Mono', monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--moss) !important; margin-top: 6px; }
+.seo-rubro[open] { padding-bottom: 16px; }
+
+/* ═══════════════ PREMIUM LAYER ═══════════════ */
+
+/* 1. Grano de papel: textura editorial sutil sobre toda la página */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none; opacity: .032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 2. Scrollbar fina y de marca */
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: rgba(61,92,74,.32); border-radius: 99px; border: 2px solid var(--cream); }
+::-webkit-scrollbar-thumb:hover { background: rgba(61,92,74,.55); }
+html { scrollbar-width: thin; scrollbar-color: rgba(61,92,74,.35) var(--cream); }
+
+/* 3. Tipografía fina: ligaduras + kerning óptico en serif */
+.serif, h1, h2, h3 { font-feature-settings: "liga" 1, "kern" 1, "calt" 1; text-rendering: optimizeLegibility; }
+.hero h1 { font-variation-settings: "opsz" 144; }
+
+/* 4. Hero: revelado por líneas con máscara (premium type motion) */
+.line-mask { display: block; overflow: hidden; }
+.line-mask > span {
+  display: block; transform: translateY(110%);
+  transition: transform 1.05s cubic-bezier(.22,.9,.24,1);
+}
+.lines-in .line-mask > span { transform: translateY(0); }
+.line-mask:nth-child(2) > span { transition-delay: .12s; }
+
+/* 5. Tallo de progreso de scroll (en vez de barra genérica) */
+.scroll-stem {
+  position: fixed; left: 22px; top: 0; bottom: 0; width: 14px;
+  z-index: 90; pointer-events: none; opacity: 0; transition: opacity .6s ease .4s;
+}
+.scroll-stem.on { opacity: 1; }
+.scroll-stem svg { width: 100%; height: 100%; overflow: visible; }
+.scroll-stem .stem-track { stroke: var(--ink-10); stroke-width: 1; }
+.scroll-stem .stem-line { stroke: var(--moss); stroke-width: 1.4; stroke-linecap: round; }
+.scroll-stem .stem-tip { fill: var(--moss); opacity: .85; transition: transform .2s ease; transform-box: fill-box; transform-origin: center; }
+@media (max-width: 1100px) { .scroll-stem { display: none; } }
+
+/* 6. Botones magnéticos + sheen */
+.btn-primary, .btn-cta {
+  position: relative; overflow: hidden;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+  will-change: transform;
+}
+.btn-primary::before, .btn-cta::before {
+  content: ''; position: absolute; top: 0; left: -80%;
+  width: 60%; height: 100%; transform: skewX(-22deg);
+  background: linear-gradient(90deg, transparent, rgba(250,247,238,.22), transparent);
+  transition: left .6s ease;
+}
+.btn-primary:hover::before, .btn-cta:hover::before { left: 130%; }
+.btn-primary:hover, .btn-cta:hover {
+  box-shadow: 0 8px 28px -10px rgba(217,96,63,.5), 0 2px 8px -2px rgba(26,26,31,.15);
+}
+
+/* 7. Cards con elevación táctil en capas */
+.product-card, .diag-plate, .voice {
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 2px rgba(26,26,31,.04), 0 6px 16px -6px rgba(26,26,31,.08), 0 20px 44px -18px rgba(61,92,74,.14);
+}
+
+/* 8. Cinta editorial (marquee) entre secciones */
+.ticker { border-top: .5px solid var(--ink-10); border-bottom: .5px solid var(--ink-10);
+  overflow: hidden; padding: 16px 0; background: var(--cream); }
+.ticker-track { display: flex; gap: 0; width: max-content; animation: tickerMove 38s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker span { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ink-45); padding: 0 28px; white-space: nowrap; }
+.ticker span em { font-style: normal; color: var(--clay); padding-right: 28px; }
+@keyframes tickerMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* 9. Focus visible refinado (premium = también accesible) */
+:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; border-radius: 2px; }
+
+/* 10. Anchor scrolling con offset */
+section[id] { scroll-margin-top: 40px; }
+
+/* reduced-motion cubre lo nuevo */
+@media (prefers-reduced-motion: reduce) {
+  .line-mask > span { transform: none !important; transition: none !important; }
+  .ticker-track { animation: none !important; }
+  .scroll-stem { display: none; }
+}
+
+/* Mobile: las ilustraciones flotantes no pelean con el texto */
+@media (max-width: 760px) {
+  .marginalia { display: none !important; }
+  .origin-sprig { width: 54px; opacity: .55; margin-bottom: 8px; }
+  .origin-sprig svg { width: 54px; height: auto; }
+}
+
+/* CTA editorial intermedio */
+.mid-cta { margin-top: 48px; padding-top: 28px; border-top: .5px solid var(--ink-10); }
+.mid-cta p { font-family: 'Fraunces', serif; font-size: 19px; font-style: italic;
+  color: var(--ink-60); margin-bottom: 14px; letter-spacing: -.01em; }
+.mid-cta a { font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--clay-dark, #BE4D2E); text-decoration: none;
+  border-bottom: 1px solid rgba(217,96,63,.35); padding-bottom: 3px; transition: border-color .25s; }
+.mid-cta a:hover { border-color: var(--clay); }
+
+/* Micro-línea que baja la barrera del CTA */
+.cta-note { display: block; margin-top: 12px; font-family: 'Geist Mono', monospace;
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-45); }
+.cta-note b { color: var(--moss); font-weight: 500; }
+
+/* ── Detalles creativos ── */
+
+/* Logo: el punto clay brota dos hojitas al hover */
+.logo { position: relative; }
+.logo .logo-sprout { position: absolute; top: -14px; left: 2px; width: 16px; height: 16px;
+  opacity: 0; transform: translateY(4px) scale(.6); transform-origin: bottom center;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
+.logo:hover .logo-sprout { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Skip to content (a11y pro: invisible hasta que tabuleás) */
+.skip-link { position: absolute; left: -9999px; top: 12px; z-index: 999;
+  background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: 99px;
+  font-family: 'Geist', sans-serif; font-size: 13px; text-decoration: none; }
+.skip-link:focus { left: 12px; }
+
+/* Footer: hora de Buenos Aires + promesa de privacidad */
+.footer-ba { font-family: 'Geist Mono', monospace; font-size: 10.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-45); }
+.footer-ba b { color: var(--moss); font-weight: 500; }
+.footer-privacy { font-size: 12px; color: var(--ink-45); margin-top: 6px; }
+
+/* Tallo de scroll: la punta florece al llegar al final */
+.scroll-stem .stem-bloom { opacity: 0; transform: scale(.3); transform-box: fill-box;
+  transform-origin: center; transition: opacity .5s ease, transform .6s cubic-bezier(.34,1.56,.64,1); }
+.scroll-stem.bloomed .stem-tip { opacity: 0; }
+.scroll-stem.bloomed .stem-bloom { opacity: 1; transform: scale(1); }
+
+/* Impresión limpia (alguien guarda PDF para mostrarle al socio) */
+@media print {
+  .scroll-stem, .ticker, nav, .mid-cta, .cta-note, body::after { display: none !important; }
+  body { background: white; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .lamina-svg .dp { stroke-dashoffset: 0 !important; }
+  .lamina-svg .fp { opacity: var(--op,1) !important; }
+  section { page-break-inside: avoid; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Ynera",
+  "description": "Ynera es una consultora de inteligencia artificial y formación para PyMEs argentinas, con base en Buenos Aires. Fundada por dos desarrolladores con tres productos SaaS en producción: Aira (gestión clínica), CDI (comercio exterior y aduanas) y ReservaYá (hotelería). Servicios: auditorías de oportunidades de IA, automatización de procesos, workshops in-company y mentorías.",
+  "url": "https://ynera.com",
+  "slogan": "Construimos antes de aconsejar",
+  "areaServed": {"@type": "Country", "name": "Argentina"},
+  "address": {"@type": "PostalAddress", "addressLocality": "Buenos Aires", "addressCountry": "AR"},
+  "knowsAbout": ["Inteligencia Artificial", "Consultoría IA", "Automatización", "PyMEs"],
+  "email": "hola@ynera.com"
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué hace exactamente una consultora de IA como Ynera?", "acceptedAnswer": {"@type": "Answer", "text": "Te ayudamos a decidir qué hacer con inteligencia artificial en tu negocio: auditamos dónde hay oportunidades reales, armamos un roadmap con prioridades honestas, implementamos las soluciones (o te acompañamos mientras las implementa tu equipo) y capacitamos a tu gente. La diferencia con otras consultoras: nosotros construimos tres SaaS que están en producción. No te recomendamos nada que no hayamos hecho funcionar antes."}}, {"@type": "Question", "name": "¿Cuánto cuesta implementar IA en una PyME?", "acceptedAnswer": {"@type": "Answer", "text": "Depende del problema, pero te damos órdenes de magnitud honestos: muchas automatizaciones útiles (respuestas a clientes, resúmenes de reuniones, análisis de reseñas) cuestan entre 20 y 200 dólares por mes de herramientas, más la implementación inicial. Lo caro no suele ser la tecnología — es implementar lo equivocado. Por eso empezamos siempre por un diagnóstico, no por una propuesta."}}, {"@type": "Question", "name": "¿Mi negocio es muy chico para usar IA?", "acceptedAnswer": {"@type": "Answer", "text": "No. De hecho, las PyMEs suelen sacarle más provecho relativo que las empresas grandes, porque cada hora ahorrada pesa más cuando el equipo es de tres personas. Nuestros tres productos nacieron para profesionales independientes y negocios chicos: psicólogos solos, despachantes, hoteles de pocas habitaciones."}}, {"@type": "Question", "name": "¿Necesito tener mis datos ordenados antes de arrancar?", "acceptedAnswer": {"@type": "Answer", "text": "Para algunas cosas sí, para muchas no. Un asistente que responde consultas de clientes necesita tu información comercial (precios, políticas, horarios) — eso lo ordenamos juntos en días, no meses. Análisis más profundos sí piden datos más prolijos, y si ese es tu caso, te lo decimos antes de cobrarte nada."}}, {"@type": "Question", "name": "¿La IA va a reemplazar a mi equipo?", "acceptedAnswer": {"@type": "Answer", "text": "En nuestra experiencia, no: reemplaza tareas, no personas. Lo que vimos en producción es que la IA le saca a tu equipo lo repetitivo (responder lo mismo veinte veces, transcribir, resumir, cargar datos) y les deja el trabajo donde aportan criterio. Si alguien te promete \"reducir headcount\", desconfiá del diagnóstico."}}, {"@type": "Question", "name": "¿Cómo es trabajar con ustedes?", "acceptedAnswer": {"@type": "Answer", "text": "Directo con los dos founders, sin intermediarios ni juniors. Empezamos con una llamada de 30 minutos sin compromiso donde te decimos honestamente si podemos ayudarte — y si no, por qué. Trabajamos con PyMEs de cualquier rubro en Argentina, con una excepción: nada que dañe a la gente."}}]}</script>
+</head>
+<body>
+<a class="skip-link" href="#origen">Saltar al contenido</a>
+<!-- Tallo de progreso de scroll -->
+<div class="scroll-stem" id="scrollStem" aria-hidden="true">
+  <svg viewBox="0 0 14 1000" preserveAspectRatio="none">
+    <line class="stem-track" x1="7" y1="0" x2="7" y2="1000"/>
+    <line class="stem-line" id="stemLine" x1="7" y1="0" x2="7" y2="0"/>
+  </svg>
+  <svg viewBox="0 0 14 14" style="position:absolute;width:14px;height:14px;left:0;top:0" id="stemTipWrap">
+    <ellipse class="stem-tip" cx="7" cy="7" rx="2.6" ry="4.4" transform="rotate(-32 7 7)"/>
+    <g class="stem-bloom"><circle cx="7" cy="7" r="3.2" fill="#D9603F"/><circle cx="7" cy="7" r="1.2" fill="#FAF7EE"/></g>
+  </svg>
+</div>
+
+
+<!-- ——— Red orgánica Voronoi: fondo estructural ———
+     Composición manual de nodos + celdas irregulares + acentos clay/ochre.
+     ViewBox fijo, se estira para cubrir viewport. Se relee en cada sección
+     porque position: fixed; los nodos se quedan mientras scrolleás. -->
+<div class="bg-net" aria-hidden="true">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <!-- Celdas irregulares: líneas orgánicas que dividen el plano -->
+    <g class="cell">
+      <!-- Arco superior izq → diagonales al centro -->
+      <path d="M -50 180 Q 120 170 240 210 L 380 160 L 520 230 L 640 180"/>
+      <path d="M 240 210 L 310 320 L 200 400"/>
+      <path d="M 380 160 L 310 320"/>
+      <path d="M 520 230 L 580 350 L 480 430"/>
+      <path d="M 310 320 L 480 430"/>
+      <path d="M 200 400 L 280 520"/>
+      <path d="M 480 430 L 420 560 L 280 520"/>
+      <path d="M 280 520 L 180 640"/>
+      <path d="M 420 560 L 540 680"/>
+      <path d="M 180 640 L 260 780 L -50 820"/>
+      <path d="M 260 780 L 540 680 L 620 810"/>
+      <path d="M 540 680 L 700 580"/>
+      <path d="M 580 350 L 700 580"/>
+      <!-- Cuadrante medio-derecho -->
+      <path d="M 640 180 L 780 230 L 900 170 L 1020 220"/>
+      <path d="M 780 230 L 820 360"/>
+      <path d="M 900 170 L 820 360"/>
+      <path d="M 1020 220 L 1120 310 L 1260 260 L 1490 290"/>
+      <path d="M 820 360 L 960 420 L 1120 310"/>
+      <path d="M 960 420 L 1080 530"/>
+      <path d="M 1120 310 L 1080 530"/>
+      <path d="M 700 580 L 820 500 L 960 420"/>
+      <path d="M 820 500 L 880 640 L 1080 530"/>
+      <path d="M 700 580 L 880 640"/>
+      <path d="M 880 640 L 1000 780 L 1140 720"/>
+      <path d="M 1080 530 L 1220 600 L 1140 720"/>
+      <path d="M 620 810 L 1000 780"/>
+      <path d="M 1140 720 L 1260 820 L 1490 780"/>
+      <path d="M 1220 600 L 1360 640 L 1490 540"/>
+      <path d="M 1260 260 L 1380 400 L 1490 420"/>
+      <path d="M 1380 400 L 1360 640"/>
+      <path d="M 1360 640 L 1490 700"/>
+    </g>
+
+    <!-- Nodos: puntos donde convergen las líneas. Tamaños variados,
+         algunos con acento de color como si fueran floraciones/datos. -->
+    <g>
+      <circle class="node" cx="240" cy="210" r="2.2"/>
+      <circle class="node" cx="380" cy="160" r="1.8"/>
+      <circle class="node" cx="520" cy="230" r="2"/>
+      <circle class="node" cx="640" cy="180" r="2.5"/>
+      <circle class="node" cx="310" cy="320" r="2.8"/>
+      <circle class="node-accent-clay" cx="480" cy="430" r="3"/>
+      <circle class="node" cx="200" cy="400" r="1.9"/>
+      <circle class="node" cx="580" cy="350" r="2.1"/>
+      <circle class="node" cx="280" cy="520" r="2.4"/>
+      <circle class="node" cx="420" cy="560" r="2"/>
+      <circle class="node-accent-ochre" cx="180" cy="640" r="2.4"/>
+      <circle class="node" cx="540" cy="680" r="2.2"/>
+      <circle class="node" cx="260" cy="780" r="1.9"/>
+      <circle class="node" cx="620" cy="810" r="1.8"/>
+      <circle class="node" cx="700" cy="580" r="2.5"/>
+
+      <circle class="node" cx="780" cy="230" r="2.1"/>
+      <circle class="node" cx="900" cy="170" r="2.3"/>
+      <circle class="node" cx="820" cy="360" r="2.6"/>
+      <circle class="node" cx="1020" cy="220" r="1.9"/>
+      <circle class="node-accent-clay" cx="960" cy="420" r="2.8"/>
+      <circle class="node" cx="1120" cy="310" r="2.2"/>
+      <circle class="node" cx="1260" cy="260" r="2"/>
+      <circle class="node" cx="820" cy="500" r="2.1"/>
+      <circle class="node" cx="1080" cy="530" r="2.4"/>
+      <circle class="node" cx="880" cy="640" r="2.6"/>
+      <circle class="node-accent-ochre" cx="1000" cy="780" r="2.2"/>
+      <circle class="node" cx="1140" cy="720" r="2"/>
+      <circle class="node" cx="1220" cy="600" r="2.3"/>
+      <circle class="node" cx="1260" cy="820" r="1.9"/>
+      <circle class="node" cx="1380" cy="400" r="2.5"/>
+      <circle class="node" cx="1360" cy="640" r="2.1"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ——— Red orgánica Voronoi: fondo estructural (end) ——— -->
+
+<!-- ——— Campo de partículas botánicas ———
+     Generadas por JS. Son semillas/esporas muy pequeñas que flotan
+     despacio, como polen visto a contraluz. Le da al fondo una
+     sensación de estar vivo sin que el ojo lo note conscientemente. -->
+<div class="particle-field" id="particleField" aria-hidden="true"></div>
+
+<!-- ——— Tallo vertical narrativo ———
+     Una línea fina vegetal fijada al lado izquierdo que crece con el
+     scroll. En cada sección florece un pequeño nodo (hoja, bayita, flor).
+     El path crece via stroke-dashoffset según progreso de scroll; los
+     nodos individuales aparecen cuando su sección entra al viewport. -->
+<div class="stem-track" aria-hidden="true">
+  <svg viewBox="0 0 40 1000" preserveAspectRatio="none">
+    <!-- El tallo principal, orgánico, no perfectamente recto -->
+    <path class="stem-line"
+          d="M 20 990 Q 14 900 22 800 Q 30 700 18 600 Q 10 500 24 400 Q 32 300 18 200 Q 12 100 20 20"
+          pathLength="1000"/>
+
+    <!-- Indicador: pequeño punto clay que viaja con el scroll -->
+    <circle class="stem-head" cx="20" cy="990" r="4"/>
+
+    <!-- Nodos en cada hito (coordenadas aproximadas en el path) -->
+    <!-- Origen -->
+    <g class="stem-node" data-section="origen" transform="translate(22 800)">
+      <circle r="3" fill="#3D5C4A"/>
+      <path d="M 0 0 Q -10 -4 -14 -10" fill="none" stroke="#3D5C4A" stroke-width="1" stroke-linecap="round"/>
+      <ellipse cx="-14" cy="-10" rx="2" ry="4" fill="#3D5C4A" transform="rotate(-30 -14 -10)"/>
+    </g>
+    <!-- Productos -->
+    <g class="stem-node" data-section="productos" transform="translate(18 600)">
+      <circle r="3.5" fill="#D9603F"/>
+      <circle cx="-6" cy="-4" r="2" fill="#D9603F" opacity="0.85"/>
+      <circle cx="-4" cy="-10" r="1.8" fill="#E3A02F"/>
+      <path d="M 0 0 Q -8 -3 -10 -10" fill="none" stroke="#3D5C4A" stroke-width="1" stroke-linecap="round"/>
+    </g>
+    <!-- Nosotros -->
+    <g class="stem-node" data-section="nosotros" transform="translate(24 400)">
+      <ellipse rx="3" ry="5" fill="#3D5C4A" opacity="0.9" transform="rotate(25)"/>
+      <path d="M 0 0 Q 10 -4 14 -10" fill="none" stroke="#3D5C4A" stroke-width="1" stroke-linecap="round"/>
+      <ellipse cx="14" cy="-10" rx="2" ry="4" fill="#7b5da3" transform="rotate(35 14 -10)"/>
+    </g>
+    <!-- Valores -->
+    <g class="stem-node" data-section="valores" transform="translate(18 200)">
+      <g transform="scale(1.1)">
+        <circle r="2.5" fill="#E3A02F"/>
+        <circle cx="5" cy="-3" r="2" fill="#E3A02F" opacity="0.75"/>
+        <circle cx="-5" cy="-3" r="2" fill="#E3A02F" opacity="0.75"/>
+      </g>
+    </g>
+    <!-- CTA / Final (flor grande) -->
+    <g class="stem-node" data-section="contacto" transform="translate(20 20)">
+      <path d="M 0 -8 Q -3 -3 0 0 Q 3 -3 0 -8" fill="#D9603F"/>
+      <path d="M 0 8 Q -3 3 0 0 Q 3 3 0 8" fill="#D9603F"/>
+      <path d="M -8 0 Q -3 -3 0 0 Q -3 3 -8 0" fill="#D9603F"/>
+      <path d="M 8 0 Q 3 -3 0 0 Q 3 3 8 0" fill="#D9603F"/>
+      <circle r="2" fill="#E3A02F"/>
+    </g>
+  </svg>
+</div>
+
+<!-- Reusable sprig for dividers; each instance wrapped in .sway at use site -->
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo"><svg class="logo-sprout" viewBox="0 0 16 16" fill="none" stroke="#3D5C4A" stroke-width="1.1" stroke-linecap="round" aria-hidden="true"><path d="M 8 15 Q 8 10 8 6"/><path fill="#3D5C4A" fill-opacity=".55" stroke="none" d="M 8 9 Q 4.5 7.5 4 4 Q 7.5 5 8 9 Z"/><path fill="#3D5C4A" fill-opacity=".55" stroke="none" d="M 8 7.5 Q 11.5 6 12 2.5 Q 8.5 3.5 8 7.5 Z"/></svg><span class="logo-dot"></span>Ynera</a>
+    <a href="https://cal.com/ynera/30min" target="_blank" rel="noopener" class="btn btn-primary">Agendá una llamada<span class="arrow">↗</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow reveal">Consultoría &amp; formación en IA</div>
+        <h1 class="serif" id="heroTitle"><span class="line-mask"><span>Construimos</span></span><span class="line-mask"><span>antes de <em>aconsejar</em>.</span></span></h1>
+        <p class="hero-sub reveal delay-2">
+          Dos builders. Tres SaaS en tres industrias distintas. Ahora ayudamos a PyMEs a decidir qué hacer con IA — con experiencia real, no con slides.
+        </p>
+        <div class="hero-ctas reveal delay-3">
+          <a href="https://cal.com/ynera/30min" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+            Agendá una llamada<span class="arrow">↗</span>
+          </a>
+          <a href="#productos" class="text-link">Ver lo que construimos<span>↓</span></a>
+        </div>
+          <span class="cta-note"><b>30 minutos</b> · sin compromiso · te decimos honestamente si podemos ayudarte</span>
+      </div>
+
+      <div class="hero-visual">
+
+        <!-- Tooltip botánico: aparece al hover sobre cada planta -->
+        <div class="plant-tooltip" id="plantTooltip">
+          <span class="common">Ceibo</span>
+          <span class="species">Erythrina crista-galli</span>
+        </div>
+
+        <!-- Garden of 4 iconic Argentine plants, L→R:
+             Cortadera (pampas grass), Ceibo (flor nacional),
+             Calafate (Patagonian berry), Jacarandá (violet blooms).
+             Each plant has layered classes (.layer-root, -stem, -branch,
+             -leaf, -bloom) that animate in sequence, so growth reads as
+             germination → trunk → branches → foliage → flowers. -->
+        <svg class="garden" viewBox="0 0 500 560" xmlns="http://www.w3.org/2000/svg" data-wind-x="250">
+          <g class="plants-group" fill="none" stroke="#3D5C4A" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Ground line -->
+            <path class="layer-ground" d="M 40 520 Q 250 515 460 520" stroke-width="0.8"/>
+
+            <!-- ============ ROOTS LAYER ============ -->
+            <g class="roots" stroke-width="0.7" opacity="0.45">
+              <!-- Cortadera @ x=110 -->
+              <path class="layer-root plant-1" d="M 110 520 Q 108 535 106 548"/>
+              <path class="layer-root plant-1" d="M 110 522 Q 98 532 90 544"/>
+              <path class="layer-root plant-1" d="M 110 522 Q 122 532 130 544"/>
+              <!-- Ceibo @ x=210 — woody spread -->
+              <path class="layer-root plant-2" d="M 210 520 Q 210 538 210 552"/>
+              <path class="layer-root plant-2" d="M 210 522 Q 195 532 186 548"/>
+              <path class="layer-root plant-2" d="M 210 522 Q 225 532 234 548"/>
+              <path class="layer-root plant-2" d="M 210 524 Q 203 536 199 550"/>
+              <path class="layer-root plant-2" d="M 210 524 Q 217 536 221 550"/>
+              <!-- Calafate @ x=320 -->
+              <path class="layer-root plant-3" d="M 320 520 Q 318 535 316 548"/>
+              <path class="layer-root plant-3" d="M 320 522 Q 308 532 302 544"/>
+              <path class="layer-root plant-3" d="M 320 522 Q 332 530 338 542"/>
+              <path class="layer-root plant-3" d="M 320 524 Q 324 536 326 548"/>
+              <!-- Jacarandá @ x=420 -->
+              <path class="layer-root plant-4" d="M 420 520 Q 420 536 420 552"/>
+              <path class="layer-root plant-4" d="M 420 522 Q 406 532 398 546"/>
+              <path class="layer-root plant-4" d="M 420 522 Q 434 532 442 546"/>
+              <path class="layer-root plant-4" d="M 420 524 Q 412 536 408 548"/>
+            </g>
+
+            <!-- ============ CORTADERA (Pampas Grass) @ x=110 ============
+                 Iconic tall grass of the pampas. Arching blades fountain out
+                 from the base. Single tall stem topped with a feathery
+                 cream-colored plume. -->
+            <g class="plant-1 sway" style="--ox:110px; --oy:520px; --flex:0.6; --amp:2.2deg; --phase:0.0;" data-wx="110" data-name="Cortadera" data-species="Cortaderia selloana">
+              <!-- Invisible hover zone -->
+              <rect class="hit-area" x="40" y="110" width="150" height="415"/>
+              <!-- Main flower stem (single tall reed carrying the plume) -->
+              <path class="layer-stem" d="M 110 520 Q 108 450 111 370 Q 114 290 112 210 Q 111 170 110 140"/>
+              <!-- Arching grass blades fanning from base (pampas signature) -->
+              <path class="layer-branch" d="M 110 520 Q 85 460 70 420 Q 58 380 52 360"/>
+              <path class="layer-branch" d="M 110 520 Q 135 460 152 420 Q 164 380 170 360"/>
+              <path class="layer-branch" d="M 110 520 Q 92 470 82 440 Q 74 410 68 390"/>
+              <path class="layer-branch" d="M 110 520 Q 128 470 140 440 Q 150 410 156 390"/>
+              <path class="layer-branch" d="M 110 520 Q 100 470 94 430 Q 89 395 86 375"/>
+              <path class="layer-branch" d="M 110 520 Q 120 470 126 430 Q 132 395 135 375"/>
+              <!-- Tiny leaf barbs along blades -->
+              <g class="layer-leaf" stroke="none">
+                <ellipse cx="52" cy="360" rx="2" ry="4" fill="#3D5C4A" opacity="0.7"/>
+                <ellipse cx="170" cy="360" rx="2" ry="4" fill="#3D5C4A" opacity="0.7"/>
+                <ellipse cx="68" cy="390" rx="1.8" ry="3.5" fill="#3D5C4A" opacity="0.7"/>
+                <ellipse cx="156" cy="390" rx="1.8" ry="3.5" fill="#3D5C4A" opacity="0.7"/>
+                <ellipse cx="86" cy="375" rx="1.6" ry="3" fill="#3D5C4A" opacity="0.7"/>
+                <ellipse cx="135" cy="375" rx="1.6" ry="3" fill="#3D5C4A" opacity="0.7"/>
+              </g>
+              <!-- Feathery plume: cluster of overlapping tan ellipses + radiating barbs -->
+              <g class="flutter" style="--ox:110px; --oy:150px; --flex:1.5; --amp:5deg;">
+                <g class="layer-bloom" stroke="none">
+                  <ellipse cx="110" cy="148" rx="16" ry="32" fill="#E3D1A8" opacity="0.45"/>
+                  <ellipse cx="110" cy="142" rx="11" ry="26" fill="#EFDEBC" opacity="0.7"/>
+                  <ellipse cx="104" cy="154" rx="3.5" ry="18" fill="#E3D1A8" opacity="0.55"/>
+                  <ellipse cx="116" cy="154" rx="3.5" ry="18" fill="#E3D1A8" opacity="0.55"/>
+                  <ellipse cx="98" cy="162" rx="2.2" ry="12" fill="#E3D1A8" opacity="0.5"/>
+                  <ellipse cx="122" cy="162" rx="2.2" ry="12" fill="#E3D1A8" opacity="0.5"/>
+                  <ellipse cx="110" cy="128" rx="2.5" ry="10" fill="#EFDEBC" opacity="0.75"/>
+                </g>
+                <!-- Radiating feather-like strokes -->
+                <g class="layer-plume" stroke="#E3D1A8" stroke-width="0.7" stroke-linecap="round" fill="none">
+                  <path d="M 110 130 L 100 110"/>
+                  <path d="M 110 130 L 120 110"/>
+                  <path d="M 110 130 L 110 106"/>
+                  <path d="M 110 130 L 94 118"/>
+                  <path d="M 110 130 L 126 118"/>
+                  <path d="M 110 134 L 92 128"/>
+                  <path d="M 110 134 L 128 128"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ============ CEIBO (Erythrina crista-galli) @ x=210 ============
+                 Argentina's national flower. Woody gnarly trunk, oval leaves
+                 in compound clusters, distinctive red crested flowers. -->
+            <g class="plant-2 sway" style="--ox:210px; --oy:520px; --flex:0.85; --amp:1.6deg; --phase:0.25;" data-wx="210" data-name="Ceibo" data-species="Erythrina crista-galli · Flor nacional">
+              <rect class="hit-area" x="160" y="205" width="110" height="320"/>
+              <!-- Gnarled woody trunk, slightly thicker -->
+              <path class="layer-stem" stroke-width="1.8" d="M 210 520 Q 207 460 213 400 Q 219 340 215 290 Q 213 260 216 240"/>
+              <!-- Main branches spreading -->
+              <path class="layer-branch" stroke-width="1.3" d="M 213 350 Q 188 335 168 320"/>
+              <path class="layer-branch" stroke-width="1.3" d="M 215 340 Q 236 320 258 305"/>
+              <path class="layer-branch" stroke-width="1.3" d="M 215 295 Q 194 280 178 268"/>
+              <path class="layer-branch" stroke-width="1.3" d="M 215 285 Q 236 268 252 252"/>
+              <path class="layer-branch" stroke-width="1" d="M 216 255 Q 204 245 196 236"/>
+              <path class="layer-branch" stroke-width="1" d="M 216 250 Q 228 240 238 230"/>
+              <!-- Compound leaves: trifoliate clusters -->
+              <g class="layer-leaf" stroke="none">
+                <ellipse cx="170" cy="318" rx="4" ry="6" fill="#3D5C4A" opacity="0.85" transform="rotate(-15 170 318)"/>
+                <ellipse cx="178" cy="324" rx="3.5" ry="5.5" fill="#3D5C4A" opacity="0.85" transform="rotate(10 178 324)"/>
+                <ellipse cx="166" cy="308" rx="3.5" ry="5.5" fill="#3D5C4A" opacity="0.85" transform="rotate(-30 166 308)"/>
+                <ellipse cx="258" cy="304" rx="4" ry="6" fill="#3D5C4A" opacity="0.85" transform="rotate(20 258 304)"/>
+                <ellipse cx="250" cy="310" rx="3.5" ry="5.5" fill="#3D5C4A" opacity="0.85" transform="rotate(-5 250 310)"/>
+                <ellipse cx="262" cy="296" rx="3.5" ry="5.5" fill="#3D5C4A" opacity="0.85" transform="rotate(35 262 296)"/>
+                <ellipse cx="178" cy="268" rx="3.5" ry="5.5" fill="#3D5C4A" opacity="0.85" transform="rotate(-20 178 268)"/>
+                <ellipse cx="185" cy="274" rx="3" ry="4.5" fill="#3D5C4A" opacity="0.85" transform="rotate(5 185 274)"/>
+                <ellipse cx="252" cy="252" rx="3.5" ry="5.5" fill="#3D5C4A" opacity="0.85" transform="rotate(25 252 252)"/>
+                <ellipse cx="245" cy="258" rx="3" ry="4.5" fill="#3D5C4A" opacity="0.85" transform="rotate(-10 245 258)"/>
+              </g>
+              <!-- Red ceibo flowers: crested curved shapes in clusters -->
+              <g class="layer-bloom" stroke="none">
+                <g class="flutter" style="--ox:216px; --oy:235px; --flex:1.1; --amp:3.5deg;">
+                  <path d="M 216 240 Q 210 228 214 218 Q 222 228 220 238 Z" fill="#B83A2C"/>
+                  <path d="M 216 240 Q 224 228 220 218 Q 212 228 214 238 Z" fill="#D9603F"/>
+                  <path d="M 216 232 Q 210 220 214 212 Q 220 220 218 230 Z" fill="#C1422F"/>
+                </g>
+                <g class="flutter" style="--ox:238px; --oy:228px; --flex:1.2; --amp:4deg;">
+                  <path d="M 238 230 Q 233 220 238 212 Q 244 220 242 228 Z" fill="#B83A2C"/>
+                  <path d="M 238 230 Q 244 220 240 212 Q 236 220 236 228 Z" fill="#D9603F"/>
+                </g>
+                <g class="flutter" style="--ox:196px; --oy:234px; --flex:1.2; --amp:4deg;">
+                  <path d="M 196 236 Q 192 226 196 218 Q 202 226 200 234 Z" fill="#B83A2C"/>
+                  <path d="M 196 236 Q 202 226 198 218 Q 194 226 194 234 Z" fill="#D9603F"/>
+                </g>
+                <g class="flutter" style="--ox:258px; --oy:300px; --flex:1.0; --amp:3deg;">
+                  <path d="M 258 302 Q 253 292 257 284 Q 263 292 261 300 Z" fill="#C1422F"/>
+                </g>
+                <g class="flutter" style="--ox:168px; --oy:316px; --flex:1.0; --amp:3deg;">
+                  <path d="M 168 318 Q 163 308 167 300 Q 173 308 171 316 Z" fill="#C1422F"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ============ CALAFATE (Berberis microphylla) @ x=320 ============
+                 Patagonian thorny shrub. Small rounded leaves, yellow flowers,
+                 dark purple berries. Compact bushy shape. -->
+            <g class="plant-3 sway" style="--ox:320px; --oy:520px; --flex:0.75; --amp:1.8deg; --phase:0.5;" data-wx="320" data-name="Calafate" data-species="Berberis microphylla">
+              <rect class="hit-area" x="280" y="395" width="80" height="130"/>
+              <path class="layer-stem" d="M 320 520 Q 319 495 321 470 Q 322 445 320 420"/>
+              <path class="layer-branch" d="M 321 470 Q 305 462 292 452"/>
+              <path class="layer-branch" d="M 321 470 Q 337 462 350 452"/>
+              <path class="layer-branch" d="M 321 450 Q 302 442 290 430"/>
+              <path class="layer-branch" d="M 321 450 Q 340 442 352 430"/>
+              <path class="layer-branch" d="M 321 430 Q 307 424 298 416"/>
+              <path class="layer-branch" d="M 321 430 Q 335 424 344 416"/>
+              <path class="layer-branch" d="M 320 420 Q 312 410 306 402"/>
+              <path class="layer-branch" d="M 320 420 Q 328 410 334 402"/>
+              <!-- Small rounded leaves -->
+              <g class="layer-leaf" stroke="none">
+                <ellipse cx="295" cy="454" rx="2.5" ry="3" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="347" cy="454" rx="2.5" ry="3" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="293" cy="432" rx="2.3" ry="2.8" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="349" cy="432" rx="2.3" ry="2.8" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="301" cy="418" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="341" cy="418" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="308" cy="404" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="332" cy="404" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="314" cy="440" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="328" cy="440" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+                <ellipse cx="320" cy="415" rx="2" ry="2.5" fill="#3D5C4A" opacity="0.8"/>
+              </g>
+              <!-- Yellow flowers + purple berries -->
+              <g class="layer-bloom" stroke="none">
+                <g class="flutter" style="--ox:292px; --oy:452px; --flex:1.0; --amp:2.5deg;">
+                  <circle cx="292" cy="452" r="2.6" fill="#4a2d66"/>
+                  <circle cx="288" cy="455" r="2.2" fill="#5b3a78"/>
+                  <circle cx="296" cy="456" r="2" fill="#5b3a78"/>
+                </g>
+                <g class="flutter" style="--ox:350px; --oy:452px; --flex:1.0; --amp:2.5deg;">
+                  <circle cx="350" cy="452" r="2.6" fill="#4a2d66"/>
+                  <circle cx="354" cy="455" r="2.2" fill="#5b3a78"/>
+                  <circle cx="346" cy="456" r="2" fill="#5b3a78"/>
+                </g>
+                <g class="flutter" style="--ox:306px; --oy:402px; --flex:1.1; --amp:3deg;">
+                  <circle cx="306" cy="402" r="2.4" fill="#4a2d66"/>
+                  <circle cx="310" cy="400" r="2" fill="#5b3a78"/>
+                </g>
+                <g class="flutter" style="--ox:334px; --oy:402px; --flex:1.1; --amp:3deg;">
+                  <circle cx="334" cy="402" r="2.4" fill="#4a2d66"/>
+                  <circle cx="330" cy="400" r="2" fill="#5b3a78"/>
+                </g>
+                <g class="flutter" style="--ox:298px; --oy:416px; --flex:1.1; --amp:3deg;">
+                  <circle cx="298" cy="416" r="2.2" fill="#E3A02F"/>
+                </g>
+                <g class="flutter" style="--ox:344px; --oy:416px; --flex:1.1; --amp:3deg;">
+                  <circle cx="344" cy="416" r="2.2" fill="#E3A02F"/>
+                </g>
+                <g class="flutter" style="--ox:321px; --oy:412px; --flex:1.2; --amp:3.5deg;">
+                  <circle cx="321" cy="412" r="2" fill="#E3A02F"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- ============ JACARANDÁ @ x=420 ============
+                 The violet-blooming tree of Buenos Aires. Mature flowering
+                 branch: arching limb with feathery compound leaves and
+                 cascading lilac bell-shaped flower panicles. -->
+            <g class="plant-4 sway" style="--ox:420px; --oy:520px; --flex:0.7; --amp:2deg; --phase:0.75;" data-wx="420" data-name="Jacarandá" data-species="Jacaranda mimosifolia">
+              <rect class="hit-area" x="395" y="270" width="85" height="255"/>
+              <path class="layer-stem" stroke-width="1.4" d="M 420 520 Q 422 470 427 420 Q 434 370 440 330 Q 445 300 450 280"/>
+              <!-- Feathery compound leaf sub-branches -->
+              <path class="layer-branch" stroke-width="0.9" d="M 428 410 Q 444 405 458 400"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 428 410 Q 412 405 398 400"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 432 380 Q 448 375 462 372"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 432 380 Q 418 376 405 374"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 438 350 Q 453 346 466 344"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 438 350 Q 424 348 412 348"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 444 320 Q 458 316 470 314"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 444 320 Q 432 318 420 318"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 448 295 Q 460 292 470 292"/>
+              <path class="layer-branch" stroke-width="0.9" d="M 448 295 Q 436 293 426 294"/>
+              <!-- Tiny leaflets -->
+              <g class="layer-leaf" stroke="none">
+                <ellipse cx="438" cy="403" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="448" cy="401" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="458" cy="400" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="418" cy="403" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="408" cy="401" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="442" cy="375" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="452" cy="373" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="462" cy="372" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="422" cy="376" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="412" cy="374" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="447" cy="346" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="457" cy="345" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="466" cy="344" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="428" cy="348" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="418" cy="348" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="452" cy="317" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="462" cy="315" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="432" cy="319" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+                <ellipse cx="422" cy="318" rx="1" ry="2" fill="#3D5C4A" opacity="0.75"/>
+              </g>
+              <!-- Cascading violet flower clusters -->
+              <g class="layer-bloom" stroke="none">
+                <g class="flutter" style="--ox:450px; --oy:278px; --flex:1.3; --amp:4.5deg;">
+                  <circle cx="450" cy="278" r="2.4" fill="#7b5da3"/>
+                  <circle cx="446" cy="282" r="2" fill="#9179b8"/>
+                  <circle cx="454" cy="282" r="2" fill="#9179b8"/>
+                  <circle cx="450" cy="285" r="1.8" fill="#7b5da3"/>
+                  <circle cx="448" cy="275" r="1.6" fill="#9179b8"/>
+                  <circle cx="452" cy="275" r="1.6" fill="#9179b8"/>
+                </g>
+                <g class="flutter" style="--ox:470px; --oy:314px; --flex:1.2; --amp:4deg;">
+                  <circle cx="470" cy="314" r="2.2" fill="#7b5da3"/>
+                  <circle cx="466" cy="317" r="1.8" fill="#9179b8"/>
+                  <circle cx="474" cy="317" r="1.8" fill="#9179b8"/>
+                  <circle cx="470" cy="320" r="1.6" fill="#7b5da3"/>
+                </g>
+                <g class="flutter" style="--ox:420px; --oy:318px; --flex:1.2; --amp:4deg;">
+                  <circle cx="420" cy="318" r="2" fill="#7b5da3"/>
+                  <circle cx="417" cy="321" r="1.6" fill="#9179b8"/>
+                  <circle cx="423" cy="321" r="1.6" fill="#9179b8"/>
+                </g>
+                <g class="flutter" style="--ox:466px; --oy:344px; --flex:1.1; --amp:3.5deg;">
+                  <circle cx="466" cy="344" r="2" fill="#7b5da3"/>
+                  <circle cx="463" cy="347" r="1.5" fill="#9179b8"/>
+                  <circle cx="469" cy="347" r="1.5" fill="#9179b8"/>
+                </g>
+                <g class="flutter" style="--ox:470px; --oy:292px; --flex:1.3; --amp:4.5deg;">
+                  <circle cx="470" cy="292" r="1.8" fill="#9179b8"/>
+                  <circle cx="467" cy="295" r="1.4" fill="#a88fcc"/>
+                  <circle cx="473" cy="295" r="1.4" fill="#a88fcc"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- Ground flora — small scattered flowers between plants -->
+            <g stroke="none" class="layer-bloom">
+              <g class="flutter" style="--ox:160px; --oy:510px; --flex:0.6; --amp:2deg;"><circle cx="160" cy="510" r="2.5" fill="#E3A02F"/></g>
+              <g class="flutter" style="--ox:265px; --oy:512px; --flex:0.6; --amp:2deg;"><circle cx="265" cy="512" r="2" fill="#D9603F"/></g>
+              <g class="flutter" style="--ox:372px; --oy:510px; --flex:0.6; --amp:2deg;"><circle cx="372" cy="510" r="2.3" fill="#7b5da3"/></g>
+              <g class="flutter" style="--ox:470px; --oy:512px; --flex:0.6; --amp:2deg;"><circle cx="470" cy="512" r="2" fill="#E3A02F"/></g>
+            </g>
+
+          </g>
+
+          <!-- INTRO overlay: seeds fall, then watering can pans + drops.
+               Lives outside .plants-group so it's not affected by grow-clip. -->
+          <g id="intro-seed">
+            <ellipse class="seed s1" cx="110" cy="0" rx="2.8" ry="4.2" fill="#6b4a2a"/>
+            <ellipse class="seed s2" cx="210" cy="0" rx="3.2" ry="4.8" fill="#6b4a2a"/>
+            <ellipse class="seed s3" cx="320" cy="0" rx="2.9" ry="4.4" fill="#6b4a2a"/>
+            <ellipse class="seed s4" cx="420" cy="0" rx="3.0" ry="4.5" fill="#6b4a2a"/>
+          </g>
+          <g id="intro-can" opacity="0">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 0 20 L 0 46 Q 0 53 7 53 L 40 53 Q 47 53 47 46 L 47 20 Z" fill="#FAF7EE"/>
+              <path d="M 8 20 Q 8 12 16 12 L 31 12 Q 39 12 39 20"/>
+              <path d="M 47 28 L 68 22 L 74 30 L 60 38 Z" fill="#FAF7EE"/>
+              <line x1="10" y1="18" x2="37" y2="18"/>
+              <path d="M 5 26 Q 23 32 42 26" opacity="0.35"/>
+            </g>
+          </g>
+          <!-- Water drops: populated by JS particle system. Lives at top level
+               of the garden SVG so drops are in world coords, not can-local. -->
+          <g id="water-drops"></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider wrap reveal">
+  <svg viewBox="0 0 120 40" class="sprig-svg" data-wind-x="250">
+    <g fill="none" stroke="#3D5C4A" stroke-width="1" stroke-linecap="round">
+      <path d="M 10 20 Q 40 18 60 20 Q 80 22 110 20"/>
+      <g class="sway" style="--ox:25px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.1;">
+        <path d="M 25 20 Q 22 13 18 10"/>
+        <ellipse cx="18" cy="10" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:25px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.15;">
+        <path d="M 25 20 Q 22 27 18 30"/>
+        <ellipse cx="18" cy="30" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:45px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.3;">
+        <path d="M 45 20 Q 42 12 37 8"/>
+        <ellipse cx="37" cy="8" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:45px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.35;">
+        <path d="M 45 20 Q 42 28 37 32"/>
+        <ellipse cx="37" cy="32" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:75px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.55;">
+        <path d="M 75 20 Q 72 13 67 10"/>
+        <ellipse cx="67" cy="10" rx="1.5" ry="3" fill="#D9603F"/>
+      </g>
+      <g class="sway" style="--ox:95px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.75;">
+        <path d="M 95 20 Q 92 12 87 8"/>
+        <ellipse cx="87" cy="8" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:95px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.8;">
+        <path d="M 95 20 Q 92 28 87 32"/>
+        <ellipse cx="87" cy="32" rx="1.5" ry="3" fill="#E3A02F"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<!-- ORIGIN -->
+<section class="origin" id="origen">
+  <!-- Marginalia: mariposa tipo herbario en esquina superior derecha. -->
+  <div class="marginalia" style="top: 120px; right: 60px; width: 70px; height: 70px;" aria-hidden="true">
+    <svg viewBox="0 0 80 80">
+      <g fill="none" stroke="#3D5C4A" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Cuerpo -->
+        <path d="M 40 28 L 40 56" stroke-width="1"/>
+        <!-- Antenas -->
+        <path d="M 40 28 Q 37 22 33 20"/>
+        <path d="M 40 28 Q 43 22 47 20"/>
+        <circle cx="33" cy="20" r="1" fill="#3D5C4A"/>
+        <circle cx="47" cy="20" r="1" fill="#3D5C4A"/>
+        <!-- Ala superior izq -->
+        <path d="M 40 32 Q 20 26 12 38 Q 14 48 28 50 Q 36 48 40 42" fill="#3D5C4A" fill-opacity="0.15"/>
+        <!-- Ala superior der -->
+        <path d="M 40 32 Q 60 26 68 38 Q 66 48 52 50 Q 44 48 40 42" fill="#3D5C4A" fill-opacity="0.15"/>
+        <!-- Ala inferior izq -->
+        <path d="M 40 45 Q 28 48 22 58 Q 26 66 36 62 Q 40 58 40 52" fill="#D9603F" fill-opacity="0.3"/>
+        <!-- Ala inferior der -->
+        <path d="M 40 45 Q 52 48 58 58 Q 54 66 44 62 Q 40 58 40 52" fill="#D9603F" fill-opacity="0.3"/>
+        <!-- Detalles ala -->
+        <circle cx="20" cy="38" r="1.5" fill="#E3A02F" stroke="none"/>
+        <circle cx="60" cy="38" r="1.5" fill="#E3A02F" stroke="none"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap-tight">
+    <div class="origin-header">
+      <div class="label-col"><span class="eyebrow reveal">Origen</span></div>
+      <h2 class="serif reveal delay-1">Empezamos porque alguien <em>necesitaba algo</em>.</h2>
+    </div>
+
+    <div class="origin-body">
+      <div class="origin-sprig">
+        <svg viewBox="0 0 80 190" class="lamina-svg"
+             fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <!-- tallo: se dibuja de abajo hacia arriba -->
+          <path class="dp" style="--d:0s;--dur:1.1s"
+                stroke="#3D5C4A" stroke-width="1.8"
+                d="M 40 185 Q 40 105 40 22"/>
+          <!-- hojas: brotan alternadas, de abajo hacia arriba, y respiran en loop -->
+          <g transform="rotate(-25 26 150)"><ellipse class="fp tat-leaf" style="--fdd:.45s;--fd:.3s;--op:1;transform-origin:35px 150px;animation-delay:.0s" cx="26" cy="150" rx="9" ry="6" fill="#3D5C4A" fill-opacity=".4"/></g>
+          <g transform="rotate(25 54 130)"><ellipse class="fp tat-leaf" style="--fdd:.58s;--fd:.3s;--op:1;transform-origin:45px 130px;animation-delay:.5s" cx="54" cy="130" rx="9" ry="6" fill="#3D5C4A" fill-opacity=".42"/></g>
+          <g transform="rotate(-25 26 111)"><ellipse class="fp tat-leaf" style="--fdd:.71s;--fd:.3s;--op:1;transform-origin:35px 111px;animation-delay:1s" cx="26" cy="111" rx="9" ry="6" fill="#3D5C4A" fill-opacity=".44"/></g>
+          <g transform="rotate(25 54 92)"><ellipse class="fp tat-leaf" style="--fdd:.84s;--fd:.3s;--op:1;transform-origin:45px 92px;animation-delay:1.5s" cx="54" cy="92" rx="9" ry="6" fill="#3D5C4A" fill-opacity=".46"/></g>
+          <g transform="rotate(-25 26 73)"><ellipse class="fp tat-leaf" style="--fdd:.97s;--fd:.3s;--op:1;transform-origin:35px 73px;animation-delay:2s" cx="26" cy="73" rx="9" ry="6" fill="#3D5C4A" fill-opacity=".48"/></g>
+          <g transform="rotate(25 54 54)"><ellipse class="fp tat-leaf" style="--fdd:1.10s;--fd:.3s;--op:1;transform-origin:45px 54px;animation-delay:2.5s" cx="54" cy="54" rx="9" ry="6" fill="#3D5C4A" fill-opacity=".5"/></g>
+          <g transform="rotate(-25 29 36)"><ellipse class="fp tat-leaf" style="--fdd:1.23s;--fd:.3s;--op:1;transform-origin:37px 36px;animation-delay:3s" cx="29" cy="36" rx="8" ry="5.5" fill="#3D5C4A" fill-opacity=".52"/></g>
+          <!-- brote clay: aparece último y pulsa en loop -->
+          <circle class="clay-dot fp" style="--fdd:1.45s;--fd:.25s;--op:1"
+                  cx="40" cy="16" r="4.5" fill="#D9603F"/>
+        </svg>
+      </div>
+
+      <div class="origin-prose">
+        <p class="reveal delay-1">
+          Uno de nosotros hizo un sitio para psicólogos y psiquiatras porque no encontraban herramientas pensadas para ellos. Después hicimos una plataforma para despachantes de aduana, porque los trámites los seguían haciendo en papel. Mi socio tuvo una mala experiencia en un hotel y me dijo "esto tiene que estar mejor hecho" — y lo construimos.
+        </p>
+        <p class="reveal delay-2">
+          <strong>Ninguno de los tres arrancó con un pitch deck.</strong> Arrancaron con una conversación, una pregunta, y muchas horas de código.
+        </p>
+
+        <div class="pull-quote reveal delay-2">La tecnología tiene que entender el negocio, no al revés.</div>
+
+        <p class="reveal delay-3">
+          Ahora somos dos. Uno construye, el otro detecta. Y lo que aprendimos construyendo tres productos para tres industrias muy distintas es algo simple: <strong>antes de aconsejarte sobre IA, preferimos haber pasado por el barro de producción.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider wrap reveal">
+  <svg viewBox="0 0 120 40" class="sprig-svg" data-wind-x="250">
+    <g fill="none" stroke="#3D5C4A" stroke-width="1" stroke-linecap="round">
+      <path d="M 10 20 Q 40 18 60 20 Q 80 22 110 20"/>
+      <g class="sway" style="--ox:25px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.1;">
+        <path d="M 25 20 Q 22 13 18 10"/><ellipse cx="18" cy="10" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:25px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.15;">
+        <path d="M 25 20 Q 22 27 18 30"/><ellipse cx="18" cy="30" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:45px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.3;">
+        <path d="M 45 20 Q 42 12 37 8"/><ellipse cx="37" cy="8" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:45px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.35;">
+        <path d="M 45 20 Q 42 28 37 32"/><ellipse cx="37" cy="32" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:75px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.55;">
+        <path d="M 75 20 Q 72 13 67 10"/><ellipse cx="67" cy="10" rx="1.5" ry="3" fill="#D9603F"/>
+      </g>
+      <g class="sway" style="--ox:95px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.75;">
+        <path d="M 95 20 Q 92 12 87 8"/><ellipse cx="87" cy="8" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:95px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.8;">
+        <path d="M 95 20 Q 92 28 87 32"/><ellipse cx="87" cy="32" rx="1.5" ry="3" fill="#E3A02F"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+
+<!-- Cinta editorial -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track"><span>Auditoría de oportunidades <em>·</em></span><span>Automatización de procesos <em>·</em></span><span>Workshops in-company <em>·</em></span><span>Mentorías técnicas <em>·</em></span><span>Tres SaaS en producción <em>·</em></span><span>Buenos Aires, Argentina <em>·</em></span><span>Auditoría de oportunidades <em>·</em></span><span>Automatización de procesos <em>·</em></span><span>Workshops in-company <em>·</em></span><span>Mentorías técnicas <em>·</em></span><span>Tres SaaS en producción <em>·</em></span><span>Buenos Aires, Argentina <em>·</em></span></div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="productos">
+  <!-- Marginalia: ramita con bayas en esquina superior derecha -->
+  <div class="marginalia" style="top: 80px; right: 50px; width: 80px; height: 100px;" aria-hidden="true">
+    <svg viewBox="0 0 80 100">
+      <g fill="none" stroke="#3D5C4A" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Rama principal en diagonal -->
+        <path d="M 10 8 Q 35 30 45 60 Q 52 80 62 92"/>
+        <!-- Hojitas alternadas -->
+        <path d="M 20 18 Q 8 18 4 26 Q 14 28 20 18 Z" fill="#3D5C4A" fill-opacity="0.22"/>
+        <path d="M 28 30 Q 42 28 46 36 Q 36 40 28 30 Z" fill="#3D5C4A" fill-opacity="0.22"/>
+        <path d="M 38 48 Q 26 48 22 56 Q 32 60 38 48 Z" fill="#3D5C4A" fill-opacity="0.22"/>
+        <path d="M 48 68 Q 62 66 66 74 Q 56 78 48 68 Z" fill="#3D5C4A" fill-opacity="0.22"/>
+        <!-- Bayas al final -->
+        <circle cx="58" cy="88" r="2.5" fill="#D9603F" stroke="none"/>
+        <circle cx="62" cy="92" r="2" fill="#D9603F" stroke="none"/>
+        <circle cx="64" cy="86" r="1.8" fill="#E3A02F" stroke="none"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="products-header">
+      <span class="eyebrow reveal">Prueba</span>
+      <h2 class="serif reveal delay-1">Antes de aconsejar, <em>construimos</em>.</h2>
+      <p class="products-intro reveal delay-2">
+        Tres productos en tres industrias. No son casos de clientes — son nuestros. Cada uno empezó con una pregunta y terminó en producción.
+      </p>
+    </div>
+
+    <div class="products-grid">
+      <!-- Aira -->
+      <div class="product-card reveal delay-1">
+        <div class="product-number serif italic">01 · Producto propio</div>
+        <div class="product-illustration">
+          <!-- Aira: balanza orgánica. Dos hojas contrapesadas desde un
+               tallo central. La idea: escuchar vs hablar, síntoma vs causa,
+               el ejercicio de equilibrio del profesional de salud mental. -->
+          <svg viewBox="0 0 140 105" class="saas-logo">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="35" y="18" width="70" height="76" rx="5"/>
+              <path d="M 58 18 L 58 12 Q 58 8 62 8 L 78 8 Q 82 8 82 12 L 82 18"/>
+              <path d="M 47 36 L 93 36" opacity=".55"/>
+              <path d="M 47 46 L 86 46" opacity=".45"/>
+              <path d="M 47 56 L 90 56" opacity=".45"/>
+              <path d="M 70 94 Q 70 80 70 68" stroke-width="1.2"/>
+              <path d="M 70 78 Q 63 75 59 70" stroke-width="1.1"/>
+              <path d="M 70 75 Q 77 72 81 67" stroke-width="1.1"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 59 70 Q 54 67 55 61 Q 60 63 59 70 Z"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 81 67 Q 86 64 85 58 Q 80 60 81 67 Z"/>
+              <circle cx="70" cy="66" r="2.4" fill="#D9603F" stroke="none"/>
+            </g>
+          </svg>
+        </div>
+        <div class="product-name serif">Aira</div>
+        <div class="product-industry">Salud · Gestión clínica</div>
+        <p class="product-desc">
+          Sistema de gestión de pacientes para psicólogos y psiquiatras independientes. Nació porque las herramientas del mercado estaban pensadas para clínicas grandes, no para profesionales solos.
+        </p>
+          <span class="product-live">En producción</span>
+          <a class="product-visit" href="https://CAMBIAR-aira.com" target="_blank" rel="noopener">Ver producto ↗</a>
+      </div>
+
+      <!-- CDI -->
+      <div class="product-card reveal delay-2">
+        <div class="product-number serif italic">02 · Producto propio</div>
+        <div class="product-illustration">
+          <!-- CDI: brújula. La rosa de los vientos gira buscando orientarse;
+               la aguja clay queda siempre apuntando al norte. Metáfora:
+               el negocio del cliente es el norte, nosotros nos orientamos. -->
+          <svg viewBox="0 0 140 105" class="saas-logo">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="30" y="34" width="80" height="38" rx="3"/>
+              <path d="M 44 34 L 44 72 M 58 34 L 58 72 M 72 34 L 72 72 M 86 34 L 86 72 M 100 34 L 100 72" opacity=".4" stroke-width="1"/>
+              <path d="M 22 84 Q 34 78 46 84 Q 58 90 70 84 Q 82 78 94 84 Q 106 90 118 84" stroke-width="1.2"/>
+              <circle cx="98" cy="46" r="5" stroke="#D9603F" stroke-width="1.4"/>
+              <circle cx="98" cy="46" r="1.4" fill="#D9603F" stroke="none"/>
+              <path d="M 70 34 Q 70 26 70 20" stroke-width="1.1"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 70 24 Q 65 21 66 15 Q 71 17 70 24 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div class="product-name serif">CDI</div>
+        <div class="product-industry">Comercio exterior · Aduanas</div>
+        <p class="product-desc">
+          Plataforma para despachantes de aduana. Automatiza los trámites que el sector todavía hacía en papel y en carpetas compartidas. Porque sí, en 2026 sigue pasando.
+        </p>
+          <span class="product-live">En producción</span>
+          <a class="product-visit" href="https://CAMBIAR-cdi.com" target="_blank" rel="noopener">Ver producto ↗</a>
+      </div>
+
+      <!-- ReservaYá -->
+      <div class="product-card reveal delay-3">
+        <div class="product-number serif italic">03 · Producto propio</div>
+        <div class="product-illustration">
+          <!-- ReservaYá: llave de recepción clásica. Ojal circular arriba,
+               barra con dientes abajo. Ícono hotelero universal. Detalle
+               clay en el ojal para atraer el ojo. -->
+          <svg viewBox="0 0 140 105" class="saas-logo">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 38 72 Q 38 42 70 42 Q 102 42 102 72"/>
+              <path d="M 70 42 L 70 34"/>
+              <circle cx="70" cy="30" r="4.5" stroke="#D9603F" stroke-width="1.5"/>
+              <circle cx="70" cy="30" r="1.3" fill="#D9603F" stroke="none"/>
+              <path d="M 30 72 L 110 72" stroke-width="1.4"/>
+              <path d="M 36 80 L 104 80" stroke-width="1.2"/>
+              <path d="M 36 72 Q 34 77 36 80 M 104 72 Q 106 77 104 80" stroke-width="1.1"/>
+              <path d="M 48 56 Q 52 48 60 46" opacity=".4" stroke-width="1"/>
+              <path d="M 108 38 Q 114 44 114 52" opacity=".55" stroke-width="1.1"/>
+              <path d="M 114 32 Q 122 40 122 52" opacity=".35" stroke-width="1.1"/>
+              <path d="M 26 80 Q 26 70 26 62" stroke-width="1.1"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 26 66 Q 21 63 22 57 Q 27 59 26 66 Z"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 26 73 Q 31 70 30 64 Q 25 66 26 73 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div class="product-name serif">ReservaYá</div>
+        <div class="product-industry">Hotelería · Gestión</div>
+        <p class="product-desc">
+          Sistema de reservas y gestión para hoteles chicos. Nació de una mala experiencia como huéspedes y se volvió una herramienta para que los dueños no le hagan pasar a otros lo que nos pasó a nosotros.
+        </p>
+          <span class="product-live">En producción</span>
+          <a class="product-visit" href="https://CAMBIAR-reservaya.com" target="_blank" rel="noopener">Ver producto ↗</a>
+      </div>
+    </div>
+    <div class="mid-cta reveal">
+      <p>¿Querés algo así funcionando en tu negocio?</p>
+      <a href="https://cal.com/ynera/30min" target="_blank" rel="noopener">Agendá 30 minutos, sin compromiso ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider wrap reveal">
+  <svg viewBox="0 0 120 40" class="sprig-svg" data-wind-x="250">
+    <g fill="none" stroke="#3D5C4A" stroke-width="1" stroke-linecap="round">
+      <path d="M 10 20 Q 40 18 60 20 Q 80 22 110 20"/>
+      <g class="sway" style="--ox:25px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.1;">
+        <path d="M 25 20 Q 22 13 18 10"/><ellipse cx="18" cy="10" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:25px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.15;">
+        <path d="M 25 20 Q 22 27 18 30"/><ellipse cx="18" cy="30" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:45px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.3;">
+        <path d="M 45 20 Q 42 12 37 8"/><ellipse cx="37" cy="8" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:45px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.35;">
+        <path d="M 45 20 Q 42 28 37 32"/><ellipse cx="37" cy="32" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:75px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.55;">
+        <path d="M 75 20 Q 72 13 67 10"/><ellipse cx="67" cy="10" rx="1.5" ry="3" fill="#D9603F"/>
+      </g>
+      <g class="sway" style="--ox:95px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.75;">
+        <path d="M 95 20 Q 92 12 87 8"/><ellipse cx="87" cy="8" rx="1.5" ry="3" fill="#3D5C4A"/>
+      </g>
+      <g class="sway" style="--ox:95px; --oy:20px; --flex:1.2; --amp:4deg; --phase:0.8;">
+        <path d="M 95 20 Q 92 28 87 32"/><ellipse cx="87" cy="32" rx="1.5" ry="3" fill="#E3A02F"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<!-- FOUNDERS -->
+
+
+
+<!-- SECCIÓN VOCES — desactivada hasta tener 3 quotes reales.
+     Para activar: descomentar este bloque y reemplazar los CAMBIAR.
+< VOCES: testimonios de usuarios reales de los SaaS.
+     ⚠ REEMPLAZAR los 3 quotes por testimonios reales antes de publicar,
+     o comentar la sección entera si todavía no los tienen. >
+<section class="voices" id="voces">
+  <div class="wrap">
+    <div class="voices-header">
+      <span class="eyebrow reveal">Voces</span>
+      <h2 class="serif reveal delay-1">Lo dicen los que <em>lo usan</em>.</h2>
+    </div>
+    <div class="voices-grid">
+      <div class="voice reveal delay-1">
+        <p class="voice-quote">CAMBIAR — quote real de un profesional que usa Aira. Corto, concreto, con su voz.</p>
+        <div class="voice-who"><strong>CAMBIAR Nombre</strong>Psicólogo · usa Aira</div>
+      </div>
+      <div class="voice reveal delay-2">
+        <p class="voice-quote">CAMBIAR — quote real de un despachante que usa CDI.</p>
+        <div class="voice-who"><strong>CAMBIAR Nombre</strong>Despachante de aduana · usa CDI</div>
+      </div>
+      <div class="voice reveal delay-3">
+        <p class="voice-quote">CAMBIAR — quote real de un hotelero que usa ReservaYá.</p>
+        <div class="voice-who"><strong>CAMBIAR Nombre</strong>Hotelero · usa ReservaYá</div>
+      </div>
+    </div>
+  </div>
+</section>
+-->
+
+<section class="founders" id="nosotros">
+  <!-- Marginalia: escarabajo pequeño en esquina inferior izquierda -->
+  <div class="marginalia" style="bottom: 80px; left: 40px; width: 56px; height: 56px;" aria-hidden="true">
+    <svg viewBox="0 0 60 60">
+      <g fill="none" stroke="#3D5C4A" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Cuerpo: óvalo -->
+        <ellipse cx="30" cy="34" rx="11" ry="16" fill="#3D5C4A" fill-opacity="0.18"/>
+        <!-- Partición dorsal -->
+        <path d="M 30 20 L 30 48"/>
+        <!-- Cabeza -->
+        <ellipse cx="30" cy="18" rx="5" ry="4" fill="#3D5C4A" fill-opacity="0.3"/>
+        <!-- Antenas -->
+        <path d="M 27 15 Q 24 10 22 8"/>
+        <path d="M 33 15 Q 36 10 38 8"/>
+        <!-- Patitas -->
+        <path d="M 20 28 L 14 26"/>
+        <path d="M 20 34 L 12 34"/>
+        <path d="M 20 40 L 14 44"/>
+        <path d="M 40 28 L 46 26"/>
+        <path d="M 40 34 L 48 34"/>
+        <path d="M 40 40 L 46 44"/>
+        <!-- Ojo -->
+        <circle cx="30" cy="18" r="1.2" fill="#E3A02F" stroke="none"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="founders-header">
+      <div><span class="eyebrow reveal">Nosotros</span></div>
+      <div>
+        <h2 class="serif reveal delay-1">Dos builders, <em>un estudio</em>.</h2>
+        <p class="founders-sub reveal delay-2">
+          Somos dos. Trabajás directo con nosotros desde la primera reunión hasta la última. Sin intermediarios, sin juniors, sin "te paso con el equipo".
+        </p>
+      </div>
+    </div>
+
+
+    <!-- Lámina: los dos founders, ilustración animada -->
+    <div class="founders-lamina reveal delay-1">
+      <svg class="lamina-svg" viewBox="0 0 380 280"
+           fill="none" stroke-linecap="round" stroke-linejoin="round"
+           xmlns="http://www.w3.org/2000/svg" aria-label="Ilustración de los dos founders de Ynera">
+
+        <!-- MARIANO atrás -->
+        <g transform="translate(152,28) scale(0.82)">
+          <path class="dp" style="--d:.15s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.6" d="M 86 136 L 86 156"/>
+          <path class="dp" style="--d:.15s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.6" d="M 114 136 L 114 156"/>
+          <path class="dp" style="--d:.3s;--dur:.65s" stroke="#3D5C4A" stroke-width="1.7" d="M 86 156 Q 70 162 56 172 Q 36 186 30 214 Q 26 234 26 256"/>
+          <path class="dp" style="--d:.3s;--dur:.75s" stroke="#3D5C4A" stroke-width="1.7" d="M 114 156 Q 132 162 146 174 Q 162 188 166 210 Q 169 230 168 252 Q 167 268 164 282"/>
+    <path class="dp" style="--d:.55s;--dur:.3s" stroke="#3D5C4A" stroke-width="1.45" d="M 86 158 Q 100 170 114 158"/>
+    <path class="dp" style="--d:.62s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.0" opacity=".5" d="M 88 163 Q 100 173 112 163"/>
+    <path class="dp" style="--d:.75s;--dur:.3s" stroke="#3D5C4A" stroke-width="1.0" opacity=".45" d="M 70 200 Q 72 220 70 240"/>
+          <path class="dp" style="--d:.6s;--dur:.55s" stroke="#3D5C4A" stroke-width="1.5" d="M 138 188 Q 145 210 146 232 Q 147 256 145 276 Q 144 282 142 288"/>
+          <path class="dp" style="--d:.85s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.35" d="M 146 222 Q 156 219 166 223"/>
+          <path class="dp" style="--d:.88s;--dur:.2s" stroke="#3D5C4A" stroke-width="0.8" opacity=".5" d="M 146 226 Q 156 223 166 227"/>
+          <path class="dp" style="--d:1.35s;--dur:.5s" stroke="#3D5C4A" stroke-width="1.15" d="M 156 272 Q 157 258 156 244"/>
+          <path class="dp" style="--d:1.55s;--dur:.3s" stroke="#3D5C4A" stroke-width="1.05" d="M 156 256 Q 151 253 148 248"/>
+          <path class="dp" style="--d:1.57s;--dur:.3s" stroke="#3D5C4A" stroke-width="1.05" d="M 156 254 Q 161 251 164 246"/>
+          <path class="tat-leaf fp" style="--fdd:1.75s;--fd:.2s;--op:.55;transform-origin:148px 243px" fill="#3D5C4A" d="M 148 248 Q 144 245 145 240 Q 149 242 148 248 Z"/>
+          <path class="tat-leaf fp" style="--fdd:1.77s;--fd:.2s;--op:.55;transform-origin:164px 241px" fill="#3D5C4A" d="M 164 246 Q 168 243 167 238 Q 163 240 164 246 Z"/>
+          <path class="fp" style="--fdd:1.8s;--fd:.18s;--op:.45" fill="#3D5C4A" d="M 151 264 Q 147 262 148 257 Q 152 259 151 264 Z"/>
+          <path class="fp" style="--fdd:1.82s;--fd:.18s;--op:.45" fill="#3D5C4A" d="M 161 262 Q 165 260 164 255 Q 160 257 161 262 Z"/>
+          <ellipse class="dp" style="--d:0s;--dur:.95s" stroke="#3D5C4A" stroke-width="1.7" cx="100" cy="88" rx="42" ry="50"/>
+          <path class="fp" style="--fdd:.3s;--fd:.3s;--op:1" fill="#1A1A1F" fill-opacity=".88" d="M 58 78 Q 56 44 78 35 Q 100 28 122 35 Q 144 44 142 78 Q 136 52 100 50 Q 64 52 58 78 Z"/>
+          <path class="dp" style="--d:.12s;--dur:.22s" stroke="#3D5C4A" stroke-width="1.25" d="M 57 88 Q 49 92 49 102 Q 49 112 57 115"/>
+          <path class="dp" style="--d:.12s;--dur:.22s" stroke="#3D5C4A" stroke-width="1.25" d="M 143 88 Q 151 92 151 102 Q 151 112 143 115"/>
+          <path class="dp" style="--d:.55s;--dur:.2s" stroke="#1A1A1F" stroke-width="1.7" d="M 64 74 Q 74 69 84 72"/>
+          <path class="dp" style="--d:.55s;--dur:.2s" stroke="#1A1A1F" stroke-width="1.7" d="M 116 72 Q 126 69 136 74"/>
+          <path class="dp" style="--d:.6s;--dur:.18s" stroke="#1A1A1F" stroke-width="1.1" d="M 70 85 Q 78 82 86 85"/>
+          <path class="dp" style="--d:.6s;--dur:.18s" stroke="#1A1A1F" stroke-width="1.1" d="M 114 85 Q 122 82 130 85"/>
+          <circle class="fp" style="--fdd:.72s;--fd:.16s;--op:1" cx="78" cy="88" r="2.8" fill="#1A1A1F"/>
+          <circle class="fp" style="--fdd:.72s;--fd:.16s;--op:1" cx="122" cy="88" r="2.8" fill="#1A1A1F"/>
+          <path class="dp" style="--d:.65s;--dur:.22s" stroke="#3D5C4A" stroke-width="1.2" d="M 100 94 Q 97 106 99 111 Q 100 113 101 111 Q 103 106 100 94"/>
+          <path class="dp" style="--d:.68s;--dur:.15s" stroke="#3D5C4A" stroke-width="1.2" d="M 92 112 Q 96 116 100 112"/>
+          <path class="dp" style="--d:.68s;--dur:.15s" stroke="#3D5C4A" stroke-width="1.2" d="M 108 112 Q 104 116 100 112"/>
+          <path class="dp" style="--d:.74s;--dur:.2s" stroke="#3D5C4A" stroke-width="1.3" d="M 88 125 Q 100 132 112 125"/>
+          <ellipse class="dp" style="--d:.95s;--dur:.55s" stroke="#D9603F" stroke-width="2.3" cx="78" cy="88" rx="16" ry="12"/>
+          <ellipse class="dp" style="--d:1.05s;--dur:.55s" stroke="#D9603F" stroke-width="2.3" cx="122" cy="88" rx="16" ry="12"/>
+          <path class="dp" style="--d:1.18s;--dur:.15s" stroke="#D9603F" stroke-width="1.8" d="M 94 88 L 106 88"/>
+          <path class="dp" style="--d:1.22s;--dur:.18s" stroke="#D9603F" stroke-width="1.4" opacity=".7" d="M 62 88 Q 52 89 46 87"/>
+          <path class="dp" style="--d:1.22s;--dur:.18s" stroke="#D9603F" stroke-width="1.4" opacity=".7" d="M 138 88 Q 148 89 154 87"/>
+          <path class="lens-shine" stroke="white" stroke-width="1.4" d="M 70 83 Q 74 80 80 82"/>
+          <path class="lens-shine" stroke="white" stroke-width="1.4" d="M 114 83 Q 118 80 124 82"/>
+        </g>
+
+        <!-- máscara crema de Emiliano -->
+        <path fill="#FAF7EE" transform="translate(18,34)"
+              d="M 16 246 Q 22 204 50 188 Q 70 178 84 174 L 86 142 L 86 132
+                 Q 68 132 58 112 Q 50 96 58 76 Q 56 38 100 28 Q 144 38 142 76
+                 Q 150 96 142 112 Q 132 132 114 132 L 114 142 L 116 174
+                 Q 130 178 150 188 Q 178 204 184 246 Z"/>
+
+        <!-- EMILIANO adelante -->
+        <g transform="translate(18,34)">
+          <path class="dp" style="--d:.95s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.35" d="M 86 132 L 86 144"/>
+          <path class="dp" style="--d:.95s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.35" d="M 114 132 L 114 144"/>
+          <path class="dp" style="--d:1.05s;--dur:.7s" stroke="#3D5C4A" stroke-width="1.45" d="M 86 144 Q 70 150 54 160 Q 32 174 24 204 Q 18 226 18 246"/>
+          <path class="dp" style="--d:1.05s;--dur:.7s" stroke="#3D5C4A" stroke-width="1.45" d="M 114 144 Q 130 150 146 160 Q 168 174 176 204 Q 182 226 182 246"/>
+    <!-- cuerpo: cuello de remera, costuras, pliegues, bolsillo con lapicera -->
+    <path class="dp" style="--d:1.35s;--dur:.3s" stroke="#3D5C4A" stroke-width="1.25" d="M 84 146 Q 100 158 116 146"/>
+    <path class="dp" style="--d:1.42s;--dur:.25s" stroke="#3D5C4A" stroke-width="0.9" opacity=".55" d="M 86 150 Q 100 161 114 150"/>
+    <path class="dp" style="--d:1.5s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.0" opacity=".6" d="M 56 162 Q 60 176 58 192"/>
+    <path class="dp" style="--d:1.5s;--dur:.25s" stroke="#3D5C4A" stroke-width="1.0" opacity=".6" d="M 144 162 Q 140 176 142 192"/>
+    <path class="dp" style="--d:1.62s;--dur:.3s" stroke="#3D5C4A" stroke-width="0.85" opacity=".45" d="M 76 196 Q 78 214 76 232"/>
+    <path class="dp" style="--d:1.62s;--dur:.3s" stroke="#3D5C4A" stroke-width="0.85" opacity=".45" d="M 124 196 Q 122 214 124 232"/>
+    <path class="dp" style="--d:1.85s;--dur:.35s" stroke="#3D5C4A" stroke-width="1.05" d="M 112 200 L 136 200 L 136 220 L 112 220 Z"/>
+    <path class="dp" style="--d:2.0s;--dur:.15s" stroke="#3D5C4A" stroke-width="0.8" opacity=".5" d="M 112 205 L 136 205"/>
+    <path class="dp" style="--d:2.55s;--dur:.2s" stroke="#D9603F" stroke-width="2.2" d="M 129 201 L 127 192"/>
+    <path class="dp" style="--d:2.62s;--dur:.12s" stroke="#D9603F" stroke-width="1.0" opacity=".55" d="M 125.5 197 L 130.5 196"/>
+          <ellipse class="dp" style="--d:.85s;--dur:1.0s" stroke="#3D5C4A" stroke-width="1.35" cx="100" cy="84" rx="42" ry="50"/>
+          <path class="fp" style="--fdd:1.15s;--fd:.3s;--op:1" fill="#1A1A1F" fill-opacity=".9" d="M 58 76 Q 56 42 78 33 Q 100 26 122 33 Q 144 42 142 76 Q 136 50 100 48 Q 64 50 58 76 Z"/>
+          <path class="dp" style="--d:.92s;--dur:.22s" stroke="#3D5C4A" stroke-width="1.0" d="M 57 84 Q 49 88 49 98 Q 49 108 57 111"/>
+          <path class="dp" style="--d:.92s;--dur:.22s" stroke="#3D5C4A" stroke-width="1.0" d="M 143 84 Q 151 88 151 98 Q 151 108 143 111"/>
+          <path class="fp" style="--fdd:1.7s;--fd:.35s;--op:1" fill="#3D5C4A" fill-opacity=".16" d="M 67 112 Q 76 130 100 134 Q 124 130 133 112 Q 126 122 100 125 Q 74 122 67 112 Z"/>
+          <path class="fp" style="--fdd:1.78s;--fd:.35s;--op:1" fill="#3D5C4A" fill-opacity=".09" d="M 62 100 Q 68 122 88 131 Q 100 135 112 131 Q 132 122 138 100 Q 130 120 100 127 Q 70 120 62 100 Z"/>
+          <g class="fp" style="--fdd:1.95s;--fd:.25s;--op:.4" stroke="#3D5C4A" stroke-width="0.5">
+            <path d="M 78 119 Q 80 124 83 127"/><path d="M 90 125 Q 91 128 93 131"/>
+            <path d="M 100 127 L 100 132"/><path d="M 110 125 Q 109 128 107 131"/>
+            <path d="M 122 119 Q 120 124 117 127"/>
+          </g>
+          <path class="dp" style="--d:1.5s;--dur:.2s" stroke="#1A1A1F" stroke-width="1.4" d="M 64 70 Q 74 65 84 68"/>
+          <path class="dp" style="--d:1.5s;--dur:.2s" stroke="#1A1A1F" stroke-width="1.4" d="M 116 68 Q 126 65 136 70"/>
+          <path class="dp" style="--d:1.55s;--dur:.18s" stroke="#1A1A1F" stroke-width="0.9" d="M 70 81 Q 78 78 86 81"/>
+          <path class="dp" style="--d:1.55s;--dur:.18s" stroke="#1A1A1F" stroke-width="0.9" d="M 114 81 Q 122 78 130 81"/>
+          <circle class="fp" style="--fdd:1.68s;--fd:.16s;--op:1" cx="78" cy="84" r="2.4" fill="#1A1A1F"/>
+          <circle class="fp" style="--fdd:1.68s;--fd:.16s;--op:1" cx="122" cy="84" r="2.4" fill="#1A1A1F"/>
+          <path class="dp" style="--d:1.6s;--dur:.22s" stroke="#3D5C4A" stroke-width="1.0" d="M 100 90 Q 97 102 99 107 Q 100 109 101 107 Q 103 102 100 90"/>
+          <path class="dp" style="--d:1.62s;--dur:.15s" stroke="#3D5C4A" stroke-width="1.0" d="M 92 108 Q 96 112 100 108"/>
+          <path class="dp" style="--d:1.62s;--dur:.15s" stroke="#3D5C4A" stroke-width="1.0" d="M 108 108 Q 104 112 100 108"/>
+          <path class="dp" style="--d:1.72s;--dur:.18s" stroke="#3D5C4A" stroke-width="0.9" opacity=".6" d="M 87 116 Q 94 112 100 114"/>
+          <path class="dp" style="--d:1.72s;--dur:.18s" stroke="#3D5C4A" stroke-width="0.9" opacity=".6" d="M 113 116 Q 106 112 100 114"/>
+          <path class="dp" style="--d:1.78s;--dur:.2s" stroke="#3D5C4A" stroke-width="1.1" d="M 89 121 Q 100 127 111 121"/>
+          <ellipse class="dp" style="--d:2.1s;--dur:.6s" stroke="#D9603F" stroke-width="1.9" cx="78" cy="84" rx="16" ry="12"/>
+          <ellipse class="dp" style="--d:2.22s;--dur:.6s" stroke="#D9603F" stroke-width="1.9" cx="122" cy="84" rx="16" ry="12"/>
+          <path class="dp" style="--d:2.36s;--dur:.16s" stroke="#D9603F" stroke-width="1.5" d="M 94 84 L 106 84"/>
+          <path class="dp" style="--d:2.4s;--dur:.2s" stroke="#D9603F" stroke-width="1.2" opacity=".7" d="M 62 84 Q 52 85 46 83"/>
+          <path class="dp" style="--d:2.4s;--dur:.2s" stroke="#D9603F" stroke-width="1.2" opacity=".7" d="M 138 84 Q 148 85 154 83"/>
+          <path class="lens-shine" stroke="white" stroke-width="1.5" d="M 70 79 Q 74 76 80 78"/>
+          <path class="lens-shine" stroke="white" stroke-width="1.5" d="M 114 79 Q 118 76 124 78"/>
+        </g>
+
+        <circle class="clay-dot fp" style="--fdd:2.65s;--fd:.2s;--op:1" cx="190" cy="272" r="2.5" fill="#D9603F"/>
+      </svg>
+    </div>
+
+    <div class="founders-grid">
+      <div class="founder-panel reveal delay-1">
+        <div class="founder-role serif">El que <em>construye</em></div>
+        <div class="founder-tag">Código · Producto</div>
+        <p class="founder-desc">
+          Toma las ideas y las lleva a producción. Obsesionado con el detalle del output, con que las cosas se usen — no que se vean bien en una demo. Puso las manos en los tres SaaS.
+        </p>
+      </div>
+
+      <div class="founder-panel reveal delay-2">
+        <div class="founder-role serif">El que <em>detecta</em></div>
+        <div class="founder-tag">Ideas · Negocio</div>
+        <p class="founder-desc">
+          Escucha a la gente y encuentra el problema debajo del problema. De ahí salieron los tres productos — ninguno nació de una estrategia de mercado; todos de una conversación atenta.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OPORTUNIDADES POR RUBRO — contenido indexable de los 8 diagnósticos -->
+<section class="rubros-seo" id="oportunidades">
+  <div class="wrap">
+    <div class="rubros-seo-header">
+      <span class="eyebrow reveal">Por rubro</span>
+      <h2 class="serif reveal delay-1">Oportunidades de IA, <em>rubro por rubro</em>.</h2>
+      <p class="rubros-seo-lead reveal delay-2">Lo que vimos construyendo en cada industria. Tres oportunidades concretas por rubro, para leer con calma y llevarte a la llamada.</p>
+    </div>
+      <details class="seo-rubro">
+        <summary><h3>IA para hotelería y alojamientos</h3></summary>
+        <p class="seo-intro">Si gestionás hospedaje en Argentina, hay tres cosas que la IA puede sacarte de encima sin reemplazar tu trato humano —que es lo que tu huésped paga.</p>
+        <div class="seo-opp"><h4>Respuestas instantáneas a consultas previas a la reserva</h4><p>Un asistente entrenado con tu información (precios, políticas, cómo llegar, qué hacer cerca) que responde en WhatsApp e Instagram en segundos. Cierra reservas que antes perdías por no contestar a las 11 de la noche.</p><p class="seo-impact">+15-30% conversión de consulta a reserva</p></div><div class="seo-opp"><h4>Personalización pre-arrival sin trabajo manual</h4><p>Al confirmar la reserva, el sistema arma un mensaje único con recomendaciones según el perfil del huésped (familia, pareja, business). Te diferencia de Booking sin que tengas que escribir un mail por cada uno.</p><p class="seo-impact">experiencia premium · cero overhead</p></div><div class="seo-opp"><h4>Análisis automático de reseñas con tickets accionables</h4><p>Toma tus reviews de Booking, Google y TripAdvisor y te devuelve cada semana qué se rompió, qué elogiaron y qué mejorar. No otro dashboard: un mail corto con tres acciones.</p><p class="seo-impact">ahorro: 4-6 horas/semana</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para salud y consultorios</h3></summary>
+        <p class="seo-intro">En consultorios independientes, la IA bien aplicada te devuelve tiempo clínico —no te reemplaza ni te convierte en data scientist.</p>
+        <div class="seo-opp"><h4>Resumen automático de consultas (con tu consentimiento y el del paciente)</h4><p>Mientras hablás con el paciente, un sistema graba y te devuelve la nota clínica estructurada en tu formato. Vos editás 2 minutos en vez de escribir 15.</p><p class="seo-impact">-60% tiempo en notas · +3 pacientes/día</p></div><div class="seo-opp"><h4>Recordatorios inteligentes que reducen no-shows</h4><p>Mensajes a los pacientes en el momento óptimo, con confirmación automática y reagendamiento por chat. Sin que vos toques la agenda.</p><p class="seo-impact">-40% inasistencias</p></div><div class="seo-opp"><h4>Búsqueda en tu propia historia clínica acumulada</h4><p>Preguntale a tu base 'mostrame todos los pacientes con síntoma X que respondieron al tratamiento Y'. Tu experiencia clínica se vuelve searchable. Sin migrar a otro software.</p><p class="seo-impact">tu conocimiento, indexado</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para comercio exterior y aduanas</h3></summary>
+        <p class="seo-intro">Comercio exterior está lleno de fricción documental que la IA disuelve sin que pierdas el control. La clave: automatizar lo repetitivo, no las decisiones.</p>
+        <div class="seo-opp"><h4>Extracción automática de datos desde facturas, BL y packing lists</h4><p>Subís el PDF, el sistema te devuelve los campos cargados en el formato que necesitás. Funciona con documentos en español, inglés, portugués y mandarín mal escaneados. No más tipear NCM uno por uno.</p><p class="seo-impact">-70% tiempo de carga manual</p></div><div class="seo-opp"><h4>Clasificación arancelaria asistida con justificación</h4><p>Le pegás la descripción del producto y te sugiere posiciones arancelarias con la justificación legal. Vos validás. La IA hace lo aburrido, vos hacés el juicio.</p><p class="seo-impact">menos errores · auditoría más fácil</p></div><div class="seo-opp"><h4>Monitoreo automático de cambios normativos</h4><p>Te avisa cuando cambia una resolución que afecta a tus clientes activos, con un resumen de impacto en lenguaje claro. Antes de que tu cliente se entere por un noticiero.</p><p class="seo-impact">ventaja competitiva real</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para estudios contables y jurídicos</h3></summary>
+        <p class="seo-intro">Si llevás varios clientes pyme, el problema no es trabajo —es operación. La IA te ordena la operación para que vuelvas a trabajar en lo que cobraste.</p>
+        <div class="seo-opp"><h4>Asistente que responde dudas básicas de tus clientes 24/7</h4><p>Entrenado con tu manera de explicar las cosas y con la situación de cada cliente. Responde sobre vencimientos, retenciones, qué documentación enviar. Sólo te derivan lo que requiere tu criterio.</p><p class="seo-impact">-50% consultas operativas vía mail</p></div><div class="seo-opp"><h4>Conciliación bancaria y carga de comprobantes automatizadas</h4><p>Lee extractos, comprobantes y facturas, los matchea, marca discrepancias. Vos revisás solo las dudosas. Lo que antes era una mañana entera se convierte en 30 minutos.</p><p class="seo-impact">-80% tiempo administrativo</p></div><div class="seo-opp"><h4>Generación de informes ejecutivos para clientes en lenguaje claro</h4><p>Convertís el balance mensual en un mail de 3 párrafos que tu cliente sí lee. La IA traduce 'situación tributaria' a 'qué hago la semana que viene'.</p><p class="seo-impact">clientes más informados · menos rotación</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para comercios y e-commerce</h3></summary>
+        <p class="seo-intro">En retail y e-commerce el margen está en los detalles. Tres cosas donde la IA mueve la aguja sin necesidad de migrar todo tu stack.</p>
+        <div class="seo-opp"><h4>Atención al cliente que recupera carritos abandonados</h4><p>Detecta dudas reales (no solo 'están cerrando la pestaña') y responde por chat con info de stock, talles, demoras. Si no resuelve en 3 mensajes, te deriva con contexto.</p><p class="seo-impact">+18-25% recupero de carritos</p></div><div class="seo-opp"><h4>Descripciones de productos consistentes y SEO en escala</h4><p>Subís 200 productos nuevos, el sistema arma descripciones con tu tono, optimizadas para búsqueda, sin sonar a IA genérica. Editás los 10 que importan.</p><p class="seo-impact">ahorro: 1 día por catálogo</p></div><div class="seo-opp"><h4>Predicción de quiebre de stock con foco en lo que duele</h4><p>No otro dashboard: un mensaje semanal con 'estos 5 productos te van a faltar en 10 días, este te va a sobrar'. Decisión, no data.</p><p class="seo-impact">-25% capital atrapado en stock</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para empresas de servicios</h3></summary>
+        <p class="seo-intro">Si vendés tu cabeza, el cuello de botella siempre es el mismo: tareas que no son tu cabeza pero te roban su tiempo. Tres maneras de devolvértelas.</p>
+        <div class="seo-opp"><h4>Investigación previa a reuniones automatizada</h4><p>Antes de cada llamada, recibís un brief de 1 página con quién es la persona, qué hace su empresa, noticias recientes y posibles ángulos. Listo cuando entrás al Zoom.</p><p class="seo-impact">+30 min de preparación recuperada por reunión</p></div><div class="seo-opp"><h4>Propuestas comerciales generadas desde tu última conversación</h4><p>Tu llamada con un prospecto se convierte automáticamente en un draft de propuesta con el lenguaje que usaste, los puntos que importaron y un precio sugerido basado en tu histórico.</p><p class="seo-impact">-70% tiempo de armado · más propuestas/mes</p></div><div class="seo-opp"><h4>Seguimiento automatizado sin sonar a robot</h4><p>Mails de follow-up que respetan el tono de la conversación previa, se mandan en el momento óptimo, y se cortan si la persona ya respondió. Vos ya no tenés que recordar a quién retomar.</p><p class="seo-impact">+40% propuestas que llegan a cierre</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para educación y capacitación</h3></summary>
+        <p class="seo-intro">En educación la IA bien usada no reemplaza al docente —le devuelve tiempo para enseñar. Mal usada, automatiza la mediocridad.</p>
+        <div class="seo-opp"><h4>Corrección asistida con feedback personalizado</h4><p>Subís 60 trabajos, el sistema te propone correcciones con el feedback alineado a tu rúbrica. Vos validás y ajustás. Lo que antes te tomaba un fin de semana, dos horas.</p><p class="seo-impact">-75% tiempo de corrección</p></div><div class="seo-opp"><h4>Tutor 24/7 entrenado con tu material</h4><p>Tus alumnos preguntan a las 11 de la noche y reciben respuestas basadas en tus apuntes y tu manera de enseñar —no en internet random. Vos ves qué temas no quedaron claros.</p><p class="seo-impact">menos consultas repetidas · más aprendizaje</p></div><div class="seo-opp"><h4>Generación de ejercicios personalizados por nivel</h4><p>El sistema arma versiones distintas de un mismo examen, o ejercicios adaptados al nivel de cada grupo. Cero copia, cero esfuerzo manual.</p><p class="seo-impact">diferenciación pedagógica real</p></div>
+      </details>
+      <details class="seo-rubro">
+        <summary><h3>IA para industria y producción</h3></summary>
+        <p class="seo-intro">En pymes industriales hay un mito: 'IA es para empresas grandes'. La realidad: las herramientas más útiles son las menos sofisticadas.</p>
+        <div class="seo-opp"><h4>Pedidos por WhatsApp interpretados automáticamente</h4><p>Tus clientes te mandan pedidos en mensajes desordenados. El sistema los convierte en órdenes estructuradas en tu ERP, te marca dudas, no inventa. Funciona con audios.</p><p class="seo-impact">-90% errores de carga · tiempo recuperado</p></div><div class="seo-opp"><h4>Inspección visual de producto con foto</h4><p>El operario saca una foto al final de la línea, el sistema marca defectos típicos antes de que salga el lote. No reemplaza al control humano: lo asiste.</p><p class="seo-impact">-40% defectos que llegan al cliente</p></div><div class="seo-opp"><h4>Documentación técnica viva y consultable</h4><p>Tus manuales, planos, especificaciones, todo lo que está en PDFs y carpetas, se vuelve preguntable. 'Cómo se calibra X máquina' devuelve la respuesta sin abrir 4 archivos.</p><p class="seo-impact">conocimiento del equipo, indexado</p></div>
+      </details>
+    <div class="mid-cta reveal">
+      <p>¿Viste tu rubro acá arriba? Hablemos de tu caso concreto.</p>
+      <a href="https://cal.com/ynera/30min" target="_blank" rel="noopener">Agendá una llamada ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values" id="valores">
+  <div class="wrap">
+    <div class="values-header">
+      <span class="eyebrow reveal">Cómo trabajamos</span>
+      <h2 class="serif reveal delay-1">Principios que nos <em>ordenan</em>.</h2>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-tile reveal delay-1">
+        <div class="value-icon" aria-hidden="true">
+          <!-- Qué hacemos: brotecito germinando de una semilla (educar, cultivar) -->
+          <svg viewBox="0 0 80 80">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="40" cy="42" r="26"/>
+              <circle cx="40" cy="42" r="2" fill="#3D5C4A" stroke="none"/>
+              <path d="M 40 42 L 52 26" stroke="#D9603F" stroke-width="1.6"/>
+              <path d="M 40 42 L 31 54" opacity=".5"/>
+              <path d="M 40 16 L 40 20 M 40 64 L 40 68 M 14 42 L 18 42 M 62 42 L 66 42" opacity=".5" stroke-width="1.1"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 40 14 Q 35 10 36 4 Q 42 7 40 14 Z"/>
+            </g>
+          </svg>
+        </div>
+        <span class="eyebrow">Qué hacemos</span>
+        <h3 class="serif">Consultoría y <em>formación en IA</em>.</h3>
+        <p>Para PyMEs de cualquier industria. Auditorías de oportunidades, roadmaps realistas, workshops in-company, y mentorías que no terminan el viernes.</p>
+      </div>
+
+      <div class="value-tile reveal delay-2">
+        <div class="value-icon" aria-hidden="true">
+          <!-- Qué no: círculo con línea diagonal sobre dados (apuestas) —
+               pero tratado con paleta de herbario, no icono de "prohibido" típico -->
+          <svg viewBox="0 0 80 80">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 22 26 L 22 64 M 58 26 L 58 64" stroke-width="1.4"/>
+              <path d="M 14 36 L 66 36 M 14 50 L 66 50" stroke-width="1.2"/>
+              <path d="M 19 26 Q 22 22 25 26 M 55 26 Q 58 22 61 26" stroke-width="1.1"/>
+              <path d="M 10 66 L 70 66" opacity=".5" stroke-width="1"/>
+              <path d="M 12 66 Q 12 56 12 49" stroke-width="1.1"/>
+              <path fill="#3D5C4A" fill-opacity=".5" stroke="none" d="M 12 53 Q 7 50 8 44 Q 13 46 12 53 Z"/>
+              <circle cx="40" cy="43" r="3.5" stroke="#D9603F" stroke-width="1.4"/>
+              <path d="M 37.5 45.5 L 42.5 40.5" stroke="#D9603F" stroke-width="1.3"/>
+            </g>
+          </svg>
+        </div>
+        <span class="eyebrow">Qué no</span>
+        <h3 class="serif">Apuestas online. <em>Ni nada que dañe a la gente</em>.</h3>
+        <p>Creemos que la tecnología tiene que mejorar vidas, no empeorarlas. Si tu negocio no cumple ese mínimo, no somos para vos. Es una línea, no una sugerencia.</p>
+      </div>
+
+      <div class="value-tile reveal delay-3">
+        <div class="value-icon" aria-hidden="true">
+          <!-- Cómo trabajamos: apretón de manos simplificado / dos nodos
+               unidos directamente por una línea (dos founders, sin capas) -->
+          <svg viewBox="0 0 80 80">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 12 40 L 12 52 Q 12 58 18 58 L 28 58 Q 34 58 34 52 L 34 40 Z"/>
+              <path d="M 34 43 Q 41 43 41 48 Q 41 53 34 53" stroke-width="1.1"/>
+              <path d="M 46 40 L 46 52 Q 46 58 52 58 L 62 58 Q 68 58 68 52 L 68 40 Z"/>
+              <path d="M 68 43 Q 75 43 75 48 Q 75 53 68 53" stroke-width="1.1"/>
+              <path d="M 20 34 Q 18 29 20 24" stroke="#D9603F" stroke-width="1.2" opacity=".75"/>
+              <path d="M 27 34 Q 29 29 27 24" opacity=".55" stroke-width="1.1"/>
+              <path d="M 54 34 Q 52 29 54 24" opacity=".55" stroke-width="1.1"/>
+              <path d="M 61 34 Q 63 29 61 24" stroke="#D9603F" stroke-width="1.2" opacity=".75"/>
+              <path d="M 6 62 L 74 62" opacity=".5" stroke-width="1"/>
+            </g>
+          </svg>
+        </div>
+        <span class="eyebrow">Cómo trabajamos</span>
+        <h3 class="serif">Directo con los <em>founders</em>.</h3>
+        <p>No hay capas intermedias. Hablás con nosotros desde la primera reunión hasta la última. Si hay un error, lo vemos. Si hay una idea, también.</p>
+      </div>
+
+      <div class="value-tile reveal delay-4">
+        <div class="value-icon" aria-hidden="true">
+          <!-- Con qué prueba: tres frutos/bayas en una misma rama,
+               representando los 3 SaaS vivos -->
+          <svg viewBox="0 0 80 80">
+            <g fill="none" stroke="#3D5C4A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 40 68 L 40 20" stroke-width="1.35"/>
+              <path d="M 40 56 Q 30 52 24 45" stroke-width="1.15"/>
+              <circle cx="22" cy="43" r="4" fill="#7A8C5A" stroke="none"/>
+              <path d="M 40 44 Q 50 40 56 33" stroke-width="1.15"/>
+              <circle cx="58" cy="31" r="4" fill="#D9603F" stroke="none"/>
+              <path d="M 40 32 Q 32 27 28 20" stroke-width="1.15"/>
+              <circle cx="26" cy="18" r="4" fill="#E3A02F" stroke="none"/>
+              <path d="M 40 68 Q 34 74 28 76 M 40 68 Q 46 74 52 76" opacity=".45" stroke-width="1"/>
+            </g>
+          </svg>
+        </div>
+        <span class="eyebrow">Con qué prueba</span>
+        <h3 class="serif">Tres productos <em>vivos</em>.</h3>
+        <p>Salud, hotelería, comercio exterior. No venimos del PowerPoint ni del paper. Venimos de mirar logs a las tres de la mañana cuando algo falla en producción.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+
+<!-- FAQ — preguntas frecuentes con schema para buscadores de IA -->
+<section class="rubros-seo faq" id="preguntas">
+  <div class="wrap">
+    <div class="rubros-seo-header">
+      <span class="eyebrow reveal">Preguntas frecuentes</span>
+      <h2 class="serif reveal delay-1">Lo que nos preguntan <em>antes de la llamada</em>.</h2>
+    </div>
+      <details class="seo-rubro faq-item">
+        <summary><h3>¿Qué hace exactamente una consultora de IA como Ynera?</h3></summary>
+        <p class="seo-intro">Te ayudamos a decidir qué hacer con inteligencia artificial en tu negocio: auditamos dónde hay oportunidades reales, armamos un roadmap con prioridades honestas, implementamos las soluciones (o te acompañamos mientras las implementa tu equipo) y capacitamos a tu gente. La diferencia con otras consultoras: nosotros construimos tres SaaS que están en producción. No te recomendamos nada que no hayamos hecho funcionar antes.</p>
+      </details>
+      <details class="seo-rubro faq-item">
+        <summary><h3>¿Cuánto cuesta implementar IA en una PyME?</h3></summary>
+        <p class="seo-intro">Depende del problema, pero te damos órdenes de magnitud honestos: muchas automatizaciones útiles (respuestas a clientes, resúmenes de reuniones, análisis de reseñas) cuestan entre 20 y 200 dólares por mes de herramientas, más la implementación inicial. Lo caro no suele ser la tecnología — es implementar lo equivocado. Por eso empezamos siempre por un diagnóstico, no por una propuesta.</p>
+      </details>
+      <details class="seo-rubro faq-item">
+        <summary><h3>¿Mi negocio es muy chico para usar IA?</h3></summary>
+        <p class="seo-intro">No. De hecho, las PyMEs suelen sacarle más provecho relativo que las empresas grandes, porque cada hora ahorrada pesa más cuando el equipo es de tres personas. Nuestros tres productos nacieron para profesionales independientes y negocios chicos: psicólogos solos, despachantes, hoteles de pocas habitaciones.</p>
+      </details>
+      <details class="seo-rubro faq-item">
+        <summary><h3>¿Necesito tener mis datos ordenados antes de arrancar?</h3></summary>
+        <p class="seo-intro">Para algunas cosas sí, para muchas no. Un asistente que responde consultas de clientes necesita tu información comercial (precios, políticas, horarios) — eso lo ordenamos juntos en días, no meses. Análisis más profundos sí piden datos más prolijos, y si ese es tu caso, te lo decimos antes de cobrarte nada.</p>
+      </details>
+      <details class="seo-rubro faq-item">
+        <summary><h3>¿La IA va a reemplazar a mi equipo?</h3></summary>
+        <p class="seo-intro">En nuestra experiencia, no: reemplaza tareas, no personas. Lo que vimos en producción es que la IA le saca a tu equipo lo repetitivo (responder lo mismo veinte veces, transcribir, resumir, cargar datos) y les deja el trabajo donde aportan criterio. Si alguien te promete "reducir headcount", desconfiá del diagnóstico.</p>
+      </details>
+      <details class="seo-rubro faq-item">
+        <summary><h3>¿Cómo es trabajar con ustedes?</h3></summary>
+        <p class="seo-intro">Directo con los dos founders, sin intermediarios ni juniors. Empezamos con una llamada de 30 minutos sin compromiso donde te decimos honestamente si podemos ayudarte — y si no, por qué. Trabajamos con PyMEs de cualquier rubro en Argentina, con una excepción: nada que dañe a la gente.</p>
+      </details>
+
+  </div>
+</section>
+
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <div class="cta-panel reveal">
+      <!-- botanicals as inline SVG so they can sway with the wind system -->
+      <div class="cta-botanical left">
+        <svg viewBox="0 0 200 200" data-wind-x="100">
+          <g fill="none" stroke="#7A8C5A" stroke-width="0.8" opacity="0.42" stroke-linecap="round" stroke-linejoin="round">
+            <g class="sway" style="--ox:100px; --oy:190px; --flex:1.0; --amp:2.5deg; --phase:0.2;">
+              <path d="M 100 190 Q 95 130 100 60"/>
+              <path d="M 100 150 Q 80 130 70 115"/>
+              <path d="M 100 140 Q 120 125 128 112"/>
+              <path d="M 100 120 Q 85 108 78 98"/>
+              <path d="M 100 110 Q 115 100 122 88"/>
+              <path d="M 100 90 Q 92 80 88 68"/>
+              <g class="flutter" style="--ox:100px; --oy:55px; --flex:1.3; --amp:4.5deg;"><ellipse cx="100" cy="55" rx="3" ry="8" fill="#7A8C5A"/></g>
+              <g class="flutter" style="--ox:70px; --oy:112px; --flex:1.0; --amp:3.5deg;"><ellipse cx="70" cy="112" rx="3" ry="6" fill="#7A8C5A"/></g>
+              <g class="flutter" style="--ox:128px; --oy:109px; --flex:1.0; --amp:3.5deg;"><ellipse cx="128" cy="109" rx="3" ry="6" fill="#7A8C5A"/></g>
+              <g class="flutter" style="--ox:78px; --oy:95px; --flex:1.1; --amp:4deg;"><ellipse cx="78" cy="95" rx="2.5" ry="5" fill="#7A8C5A"/></g>
+              <g class="flutter" style="--ox:122px; --oy:85px; --flex:1.1; --amp:4deg;"><ellipse cx="122" cy="85" rx="2.5" ry="5" fill="#7A8C5A"/></g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="cta-botanical right">
+        <svg viewBox="0 0 200 200" data-wind-x="100">
+          <g fill="none" stroke="#E3A02F" stroke-width="0.8" opacity="0.36" stroke-linecap="round" stroke-linejoin="round">
+            <g class="sway" style="--ox:100px; --oy:200px; --flex:0.9; --amp:2deg; --phase:0.7;">
+              <circle cx="100" cy="100" r="6"/>
+              <circle cx="100" cy="100" r="18"/>
+              <circle cx="100" cy="100" r="35"/>
+              <path d="M100 50 Q120 70 118 95"/>
+              <path d="M100 50 Q80 70 82 95"/>
+              <path d="M100 150 Q120 130 118 105"/>
+              <path d="M100 150 Q80 130 82 105"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <h2 class="serif">Si tenés una PyME y estás pensando <em>en IA</em>, empecemos por una charla.</h2>
+      <p>Sin compromiso. 30 minutos. Te decimos honestamente si podemos ayudarte — y si no, te decimos por qué.</p>
+      <a href="https://cal.com/ynera/30min" target="_blank" rel="noopener" class="btn btn-cta">Agendá una llamada<span class="arrow">↗</span></a>
+      <span class="cta-note">¿Preferís escribir? <a href="mailto:hola@ynera.com" style="color:var(--moss);text-decoration:none;border-bottom:1px solid rgba(61,92,74,.3)">hola@ynera.com</a></span>
+      <!-- WHATSAPP — activar: poner número real (54911XXXXXXXX) y descomentar. En Argentina B2B convierte más que email.
+      <a href="https://wa.me/54911XXXXXXXX?text=Hola%2C%20vengo%20del%20sitio%20de%20Ynera" target="_blank" rel="noopener" class="btn btn-ghost">Escribinos por WhatsApp</a>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo"><span class="logo-dot"></span>Ynera</a>
+        <span class="footer-tagline">Construimos antes de aconsejar.</span>
+      </div>
+      <div class="footer-links">
+        <a href="#origen">Origen</a>
+        <a href="#productos">Productos</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="mailto:hola@ynera.com">Contacto</a>
+      </div>
+      <div class="footer-meta">© 2026 · Hecho en Buenos Aires</div>
+    </div>
+  </div>
+
+    <p class="footer-ba">Buenos Aires · <b id="baTime">--:--</b> hora local</p>
+    <p class="footer-privacy">Este sitio no usa cookies ni te trackea. Como debe ser.</p>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal, .draw');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => io.observe(el));
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+
+  // ————— INTRO orchestration —————
+  // Full JS-driven intro: seed falls (CSS), can flies in → tips → pans across
+  // the whole garden while spraying water particles, untips, exits. Particles
+  // are real physics (gravity + per-drop velocity) so it reads as a watering
+  // can rose, not a decal.
+  window.addEventListener('load', () => {
+    const can = document.getElementById('intro-can');
+    const dropsContainer = document.getElementById('water-drops');
+    const garden = document.querySelector('.garden');
+    if (!can || !dropsContainer || !garden) return;
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    // Timeline (ms from load)
+    const T = {
+      canIn_s:  1400, canIn_e:  2200,
+      tip_s:    2200, tip_e:    2600,
+      pan_s:    2600, pan_e:    5600,
+      untip_s:  5600, untip_e:  5900,
+      exit_s:   5900, exit_e:   6500,
+      grow_s:   4200,
+    };
+
+    // Can path positions (SVG coords)
+    const X_START = -80, Y_START = 40;
+    const X_LEFT  = 40,  Y_OVER = 55;   // tipping position, left side of garden
+    const X_RIGHT = 400;                // end of pan, right side of garden
+    const X_EXIT  = 540;
+    const TIP_RAD = 28 * Math.PI / 180;
+
+    const drops = [];
+    const GRAV = 0.32;   // per-frame² velocity delta
+    const GROUND = 520;
+
+    const lerp  = (a, b, u) => a + (b - a) * u;
+    const clamp = u => Math.min(1, Math.max(0, u));
+    const ease  = u => (u = clamp(u), u < 0.5 ? 2*u*u : 1 - Math.pow(-2*u+2, 2)/2);
+
+    // Spout tip world position given can translate (tx,ty) and rotation rot
+    // (pivot is 12,46 in can-local coords; spout tip at ~72,26)
+    function spoutTip(tx, ty, rot) {
+      const c = Math.cos(rot), s = Math.sin(rot);
+      const lx = 72 - 12, ly = 26 - 46;
+      return { x: tx + c*lx - s*ly + 12, y: ty + s*lx + c*ly + 46 };
+    }
+
+    const colors = ['#6FA8C9', '#7FB5D1', '#8CC0D9', '#A4D0E0'];
+    const t0 = performance.now();
+    let lastNow = t0;
+
+    function frame(now) {
+      const t  = now - t0;
+      const dt = Math.min(50, now - lastNow) / 16.6667;  // frames at 60fps
+      lastNow = now;
+
+      // —— Compute can pose ——
+      let tx = X_START, ty = Y_START, rot = 0, op = 0;
+      if (t < T.canIn_s) {
+        // offscreen, hidden
+      } else if (t < T.canIn_e) {
+        const u = ease((t - T.canIn_s) / (T.canIn_e - T.canIn_s));
+        tx = lerp(X_START, X_LEFT, u);
+        ty = lerp(Y_START, Y_OVER, u);
+        op = clamp(u * 1.6);
+      } else if (t < T.tip_e) {
+        tx = X_LEFT; ty = Y_OVER; op = 1;
+        rot = ease((t - T.tip_s) / (T.tip_e - T.tip_s)) * TIP_RAD;
+      } else if (t < T.pan_e) {
+        tx = lerp(X_LEFT, X_RIGHT, ease((t - T.pan_s) / (T.pan_e - T.pan_s)));
+        ty = Y_OVER; rot = TIP_RAD; op = 1;
+      } else if (t < T.untip_e) {
+        tx = X_RIGHT; ty = Y_OVER; op = 1;
+        rot = (1 - ease((t - T.untip_s) / (T.untip_e - T.untip_s))) * TIP_RAD;
+      } else if (t < T.exit_e) {
+        const u = ease((t - T.exit_s) / (T.exit_e - T.exit_s));
+        tx = lerp(X_RIGHT, X_EXIT, u);
+        ty = Y_OVER;
+        op = clamp(1 - u * 1.3);
+      } else {
+        op = 0;
+      }
+
+      can.style.opacity = op;
+      can.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot * 180 / Math.PI}deg)`;
+
+      // —— Spawn water drops while tipped enough ——
+      const pouring = rot > TIP_RAD * 0.45 && t < T.untip_e;
+      if (pouring) {
+        const sp = spoutTip(tx, ty, rot);
+        // Mimic can's horizontal motion imparting drop direction
+        const canMoving = t > T.pan_s && t < T.pan_e;
+        const canVx = canMoving
+          ? ((X_RIGHT - X_LEFT) / (T.pan_e - T.pan_s)) * 16 * 0.25  // scaled
+          : 0;
+        const count = 2 + Math.floor(Math.random() * 3);  // 2–4 drops/frame
+        for (let i = 0; i < count; i++) {
+          // Fan spread from spout: angles from straight down ±35°
+          const ang = (Math.random() - 0.5) * 1.2;   // rad
+          const speed = 1.6 + Math.random() * 1.4;
+          const vx = Math.sin(ang) * speed + canVx + (Math.random() - 0.5) * 0.6;
+          const vy = Math.cos(ang) * speed * 0.6 + 0.3;  // softer initial vy; gravity takes over
+          const el = document.createElementNS(SVG_NS, 'ellipse');
+          el.setAttribute('cx', 0); el.setAttribute('cy', 0);
+          el.setAttribute('rx', 1.0 + Math.random() * 0.6);
+          el.setAttribute('ry', 1.8 + Math.random() * 0.9);
+          el.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
+          el.setAttribute('opacity', (0.7 + Math.random() * 0.25).toFixed(2));
+          dropsContainer.appendChild(el);
+          drops.push({
+            x: sp.x + (Math.random() - 0.5) * 5,
+            y: sp.y + (Math.random() - 0.5) * 2,
+            vx, vy, life: 0, el
+          });
+        }
+      }
+
+      // —— Integrate drops ——
+      for (let i = drops.length - 1; i >= 0; i--) {
+        const d = drops[i];
+        d.vy += GRAV * dt;
+        d.x  += d.vx * dt;
+        d.y  += d.vy * dt;
+        d.life += dt;
+        const angDeg = Math.atan2(d.vx, d.vy) * 180 / Math.PI; // rotate so ellipse aligns with velocity
+        d.el.setAttribute('transform', `translate(${d.x.toFixed(1)} ${d.y.toFixed(1)}) rotate(${-angDeg.toFixed(1)})`);
+        if (d.y > GROUND || d.x < -20 || d.x > 520 || d.life > 240) {
+          d.el.remove();
+          drops.splice(i, 1);
+        }
+      }
+
+      // —— Trigger plant growth ——
+      if (t >= T.grow_s && !garden.classList.contains('grown')) {
+        garden.classList.add('grown');
+      }
+
+      if (t < 9000 || drops.length > 0) {
+        requestAnimationFrame(frame);
+      } else {
+        can.style.opacity = 0;
+      }
+    }
+    requestAnimationFrame(frame);
+  });
+
+  // ————— WIND SIMULATION —————
+  // A single global wind field sweeps across the viewport. Every plant
+  // samples the field at its own on-screen x, so the gust visibly travels
+  // left→right across the page. On top of the base wind we add turbulence,
+  // a spring-mass response per plant (so stiff plants lag and overshoot),
+  // and a high-frequency flutter for small leaves/petals/berries.
+  (() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    // Collect all sway/flutter elements with their absolute viewport X
+    // (measured fresh on each resize).
+    let sways = [];
+    let flutters = [];
+
+    function measure() {
+      sways = Array.from(document.querySelectorAll('.sway')).map(el => {
+        const r = el.getBoundingClientRect();
+        return {
+          el,
+          cx: r.left + r.width / 2,
+          // Spring state (rotational-ish, simplified as scalar wind coupling).
+          v: 0,
+          a: 0,
+          theta: 0,
+          phase: parseFloat(el.style.getPropertyValue('--phase') || 0),
+          flex: parseFloat(el.style.getPropertyValue('--flex') || 1),
+        };
+      });
+      flutters = Array.from(document.querySelectorAll('.flutter')).map(el => {
+        const r = el.getBoundingClientRect();
+        return {
+          el,
+          cx: r.left + r.width / 2,
+          flex: parseFloat(el.style.getPropertyValue('--flex') || 1),
+        };
+      });
+    }
+    measure();
+    window.addEventListener('resize', () => { measure(); }, { passive: true });
+    window.addEventListener('scroll', () => { measure(); }, { passive: true });
+
+    // Wind "field": a slow base + gust packets that travel across viewport
+    // at a set speed. We accumulate in `windAt(x, t)` which is what plants
+    // sample. Units are normalized -1..1.
+    const gusts = [];
+    let lastGustSpawn = 0;
+
+    // ——— Mouse como soplido: si el cursor se mueve rápido sobre el jardín,
+    // genera viento local. Velocidad y dirección se convierten en empuje.
+    let mouseX = 0;
+    let lastMouseX = 0;
+    let lastMouseT = 0;
+    let mouseGust = 0;      // -1..1, decae con el tiempo
+    let mouseActive = false;
+    let mouseDecayTimer = 0;
+
+    const garden = document.querySelector('.garden');
+    if (garden) {
+      garden.addEventListener('mousemove', (e) => {
+        const now = performance.now();
+        const dt = Math.max(16, now - lastMouseT);
+        const dx = e.clientX - lastMouseX;
+        // Velocidad horizontal en px/ms, convertida a signal -1..1
+        const vx = dx / dt;
+        // Mapear velocidad a gust: velocidades típicas hasta ~3 px/ms
+        const impulse = Math.max(-1, Math.min(1, vx / 2.5));
+        // Integrar con decay suave: el viento del mouse persiste un momento
+        mouseGust = mouseGust * 0.55 + impulse * 0.6;
+        mouseX = e.clientX;
+        lastMouseX = e.clientX;
+        lastMouseT = now;
+        mouseActive = true;
+        mouseDecayTimer = now;
+      }, { passive: true });
+      garden.addEventListener('mouseleave', () => {
+        mouseActive = false;
+      }, { passive: true });
+    }
+
+    function spawnGust(t) {
+      const vw = window.innerWidth;
+      gusts.push({
+        x0: -200,
+        t0: t,
+        speed: 200 + Math.random() * 140,         // slower travel
+        amp: 0.12 + Math.random() * 0.14,         // much gentler
+        sigma: 260 + Math.random() * 160,         // wider, softer envelope
+        vw
+      });
+    }
+
+    function windAt(x, t) {
+      // Very subtle base breathing
+      let w = 0.05 * Math.sin(t * 0.0005) + 0.03 * Math.sin(t * 0.0013 + 1.3);
+      // Tiny local turbulence
+      w += 0.015 * Math.sin(t * 0.003 + x * 0.01);
+
+      for (let i = gusts.length - 1; i >= 0; i--) {
+        const g = gusts[i];
+        const elapsed = (t - g.t0) / 1000;
+        const cx = g.x0 + g.speed * elapsed;
+        const dx = x - cx;
+        const env = Math.exp(-(dx * dx) / (2 * g.sigma * g.sigma));
+        w += g.amp * env;
+        if (cx > g.vw + 400) gusts.splice(i, 1);
+      }
+
+      // Mouse "breath": contribución del mouse cuando se mueve rápido
+      // sobre el jardín. mouseGust está en -1..1 con signo según dirección.
+      // Se aplica con envolvente gaussiana alrededor del mouseX.
+      if (mouseActive && mouseGust !== 0) {
+        const dx = x - mouseX;
+        const env = Math.exp(-(dx * dx) / (2 * 180 * 180));
+        w += mouseGust * 0.35 * env;
+      }
+
+      return Math.max(-0.7, Math.min(0.7, w));
+    }
+
+    // Flutter: very small, only a light shimmer on leaves
+    function flutterAt(x, t, baseWind) {
+      const hf = Math.sin(t * 0.008 + x * 0.02)
+               + 0.5 * Math.sin(t * 0.013 + x * 0.011 + 1.1);
+      const coupling = 0.08 + 0.25 * Math.abs(baseWind);
+      return (hf / 2) * coupling;
+    }
+
+    let start = performance.now();
+    const WIND_START_MS = 8500; // After full layered growth sequence
+    function frame(now) {
+      const t = now - start;
+
+      // During intro: keep everything at rest (--wind=0 → no rotation).
+      if (t < WIND_START_MS) {
+        for (let i = 0; i < sways.length; i++) sways[i].el.style.setProperty('--wind', '0');
+        for (let i = 0; i < flutters.length; i++) flutters[i].el.style.setProperty('--wind', '0');
+        requestAnimationFrame(frame);
+        return;
+      }
+
+      // Spawn gusts rarely — every 6–11s
+      if (t - lastGustSpawn > 6000 + Math.random() * 5000) {
+        spawnGust(t);
+        lastGustSpawn = t;
+      }
+
+      // Update each sway via simple spring physics:
+      //   theta_target = wind(x) * amp(per-element via CSS)
+      //   theta += spring toward target with damping
+      const dt = 1 / 60;
+
+      // Decaer el impulso del mouse naturalmente (como el aire calmándose)
+      mouseGust *= 0.92;
+      if (Math.abs(mouseGust) < 0.005) mouseGust = 0;
+      if (t - mouseDecayTimer > 600) mouseActive = false;
+      for (let i = 0; i < sways.length; i++) {
+        const s = sways[i];
+        // Phase shifts the SAMPLING TIME, not position — so wind visibly
+        // travels across plants (the one on the left reacts before the one on
+        // the right, not just differently).
+        const sampleT = t - s.phase * 900;
+        const w = windAt(s.cx, sampleT);
+        // Underdamped spring: stiffer plants resist more AND ring longer.
+        const k = 55 + (1 - s.flex) * 60;
+        const c = 4.5 + (1 - s.flex) * 2.5;
+        const accel = k * (w - s.theta) - c * s.v;
+        s.v += accel * dt;
+        s.theta += s.v * dt;
+        if (s.theta > 1.6) { s.theta = 1.6; s.v *= 0.4; }
+        if (s.theta < -1.6) { s.theta = -1.6; s.v *= 0.4; }
+        s.el.style.setProperty('--wind', s.theta.toFixed(4));
+      }
+
+      // Flutter: leaves trail behind their stem. We compute an effective
+      // wind that's the sampled wind MINUS a fraction of the nearest stem's
+      // angular velocity — so when the stem whips one way, leaves briefly
+      // lag in the opposite direction then catch up. Feels like fabric.
+      for (let i = 0; i < flutters.length; i++) {
+        const f = flutters[i];
+        const baseW = windAt(f.cx, t);
+        // Find nearest sway stem (by x) to borrow its velocity for lag
+        let lag = 0;
+        if (sways.length) {
+          let best = sways[0], bestD = Math.abs(sways[0].cx - f.cx);
+          for (let j = 1; j < sways.length; j++) {
+            const d = Math.abs(sways[j].cx - f.cx);
+            if (d < bestD) { best = sways[j]; bestD = d; }
+          }
+          // Leaf lag: proportional to stem angular velocity, inverted
+          lag = -best.v * 0.015;
+        }
+        const hf = flutterAt(f.cx, t, baseW);
+        const g = baseW * 0.8 + hf + lag;
+        f.el.style.setProperty('--gust', g.toFixed(4));
+      }
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  // ————— TOOLTIPS BOTÁNICOS —————
+  // Al pasar el mouse sobre una planta, aparece un cartel tipo etiqueta
+  // de herbario con su nombre común y nombre científico. Se posiciona
+  // siguiendo la planta en coordenadas del viewport.
+  (() => {
+    const tooltip = document.getElementById('plantTooltip');
+    const visual = document.querySelector('.hero-visual');
+    if (!tooltip || !visual) return;
+
+    const plants = document.querySelectorAll('.garden g[data-name]');
+    let activePlant = null;
+
+    function updateTooltipPos(plant) {
+      const plantBox = plant.getBoundingClientRect();
+      const visualBox = visual.getBoundingClientRect();
+      // Centrar arriba de la planta
+      const x = plantBox.left + plantBox.width / 2 - visualBox.left;
+      const y = plantBox.top - visualBox.top;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+
+    plants.forEach(plant => {
+      plant.addEventListener('mouseenter', () => {
+        // Solo mostrar después de que la intro haya terminado (5.5s)
+        if (performance.now() < 5500) return;
+        activePlant = plant;
+        tooltip.querySelector('.common').textContent = plant.dataset.name;
+        tooltip.querySelector('.species').textContent = plant.dataset.species;
+        updateTooltipPos(plant);
+        tooltip.classList.add('show');
+      });
+      plant.addEventListener('mouseleave', () => {
+        activePlant = null;
+        tooltip.classList.remove('show');
+      });
+    });
+
+    // Reajustar posición si hay viento/sway (el bounding box cambia)
+    function track() {
+      if (activePlant) updateTooltipPos(activePlant);
+      requestAnimationFrame(track);
+    }
+    track();
+  })();
+  // ————— KONAMI CODE EASTER EGG —————
+  // ↑↑↓↓←→←→BA revela una planta secreta en el jardín (omombé, un
+  // arbusto medicinal guaraní) con una notificación sutil.
+  (() => {
+    const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let idx = 0;
+    let triggered = false;
+
+    window.addEventListener('keydown', (e) => {
+      if (triggered) return;
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      if (key === code[idx]) {
+        idx++;
+        if (idx === code.length) {
+          triggered = true;
+          revealSecret();
+        }
+      } else {
+        idx = (key === code[0]) ? 1 : 0;
+      }
+    });
+
+    function revealSecret() {
+      const garden = document.querySelector('.garden');
+      if (!garden) return;
+      const plantsGroup = garden.querySelector('.plants-group');
+      if (!plantsGroup) return;
+
+      // Crear la planta secreta: ombú estilizado (árbol emblema rioplatense)
+      const SVG_NS = 'http://www.w3.org/2000/svg';
+      const g = document.createElementNS(SVG_NS, 'g');
+      g.setAttribute('class', 'plant-secret');
+      g.setAttribute('data-name', 'Ombú');
+      g.setAttribute('data-species', 'Phytolacca dioica · árbol pampeano');
+      g.innerHTML = `
+        <rect class="hit-area" x="380" y="380" width="90" height="145" fill="transparent"/>
+        <g fill="none" stroke="#3D5C4A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 425 520 Q 420 480 428 440 Q 432 420 430 400" stroke-width="1.8"/>
+          <path d="M 428 440 Q 410 430 398 420"/>
+          <path d="M 428 440 Q 446 430 458 420"/>
+          <path d="M 430 410 Q 420 402 414 395"/>
+          <path d="M 430 410 Q 440 402 446 395"/>
+        </g>
+        <g stroke="none">
+          <ellipse cx="428" cy="395" rx="28" ry="18" fill="#3D5C4A" opacity="0.28"/>
+          <ellipse cx="422" cy="388" rx="22" ry="14" fill="#3D5C4A" opacity="0.35"/>
+          <ellipse cx="434" cy="400" rx="20" ry="12" fill="#3D5C4A" opacity="0.3"/>
+          <circle cx="418" cy="385" r="2.5" fill="#E3A02F"/>
+          <circle cx="440" cy="392" r="2" fill="#E3A02F"/>
+          <circle cx="428" cy="378" r="1.8" fill="#D9603F"/>
+        </g>
+      `;
+      g.style.opacity = '0';
+      g.style.transition = 'opacity 1.8s ease';
+      plantsGroup.appendChild(g);
+      requestAnimationFrame(() => { g.style.opacity = '1'; });
+
+      // Notificación flotante (toast)
+      const toast = document.createElement('div');
+      toast.className = 'konami-toast';
+      toast.innerHTML = '<span class="k-spark">✦</span> Encontraste el ombú · planta secreta #01';
+      toast.style.cssText = `
+        position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+        background: var(--ink); color: var(--cream);
+        padding: 12px 22px; border-radius: 999px; font-family: 'Fraunces', serif;
+        font-style: italic; font-size: 14px; letter-spacing: -0.01em;
+        z-index: 1000; opacity: 0; transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.3,1.3,.5,1);
+        box-shadow: 0 8px 32px rgba(26,26,31,0.25);
+      `;
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+      });
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(-10px)';
+        setTimeout(() => toast.remove(), 700);
+      }, 4500);
+    }
+  })();
+
+  // ————— MARGINALIA: fade-in al llegar a la sección —————
+  (() => {
+    const marginalias = document.querySelectorAll('.marginalia');
+    if (!marginalias.length) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    marginalias.forEach(m => io.observe(m));
+  })();
+
+  // ————— TALLO VERTICAL NARRATIVO —————
+  // Crece con el scroll via stroke-dashoffset. El punto clay (stem-head)
+  // desliza a lo largo del path. Los nodos de cada sección florecen
+  // cuando su sección cruza el medio del viewport.
+  (() => {
+    const stem = document.querySelector('.stem-line');
+    const head = document.querySelector('.stem-head');
+    const nodes = document.querySelectorAll('.stem-node');
+    if (!stem || !head || !nodes.length) return;
+
+    // Sample puntos a lo largo del path para mover el head
+    const pathLen = stem.getTotalLength();
+
+    function onScroll() {
+      const doc = document.documentElement;
+      const scrolled = (doc.scrollTop || document.body.scrollTop);
+      const max = doc.scrollHeight - doc.clientHeight;
+      const p = Math.max(0, Math.min(1, scrolled / Math.max(1, max)));
+
+      // Crecer el tallo: pathLength=1000, offset va de 1000 a 0
+      stem.style.strokeDashoffset = (1000 * (1 - p)).toFixed(1);
+
+      // Mover el head a lo largo del path
+      const pt = stem.getPointAtLength(pathLen * p);
+      // El path está en viewBox 40x1000; lo mapeamos a las coords visuales
+      head.setAttribute('cx', pt.x);
+      head.setAttribute('cy', pt.y);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    // Florecer cada nodo cuando su sección correspondiente es visible
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          const node = document.querySelector(`.stem-node[data-section="${id}"]`);
+          if (node) node.classList.add('reached');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -30% 0px' });
+
+    ['origen', 'productos', 'nosotros', 'valores', 'contacto'].forEach(id => {
+      const s = document.getElementById(id);
+      if (s) io.observe(s);
+    });
+  })();
+
+  // ————— PARTÍCULAS BOTÁNICAS FLOTANTES —————
+  // Genera 8 partículas con parámetros aleatorios (tamaño, duración,
+  // posición inicial, dirección de drift, rotación). Cada una tiene
+  // una SVG diferente — semillas, esporas, pelusa, etc. Flotan hacia
+  // arriba con un leve sway lateral que ese sale gratis del --drift.
+  (() => {
+    const field = document.getElementById('particleField');
+    if (!field) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Variantes de partículas — cada una es un SVG chiquito
+    const variants = [
+      // Semilla de diente de león
+      `<svg viewBox="0 0 20 20"><g fill="none" stroke="#3D5C4A" stroke-width="0.6" stroke-linecap="round" opacity="0.7">
+        <line x1="10" y1="3" x2="10" y2="13"/>
+        <line x1="10" y1="3" x2="6" y2="1"/>
+        <line x1="10" y1="3" x2="14" y2="1"/>
+        <line x1="10" y1="3" x2="7" y2="2"/>
+        <line x1="10" y1="3" x2="13" y2="2"/>
+        <ellipse cx="10" cy="15" rx="1.2" ry="2.5" fill="#6b4a2a" stroke="none"/>
+      </g></svg>`,
+      // Espora redonda suave
+      `<svg viewBox="0 0 20 20"><g>
+        <circle cx="10" cy="10" r="3" fill="#7A8C5A" opacity="0.5"/>
+        <circle cx="10" cy="10" r="1.5" fill="#3D5C4A" opacity="0.6"/>
+      </g></svg>`,
+      // Pelusa tipo algodón
+      `<svg viewBox="0 0 20 20"><g fill="#D9603F" opacity="0.35">
+        <circle cx="8" cy="9" r="2"/>
+        <circle cx="12" cy="8" r="2.2"/>
+        <circle cx="10" cy="12" r="2"/>
+      </g></svg>`,
+      // Punto pequeño ochre (polen)
+      `<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="2.2" fill="#E3A02F" opacity="0.55"/></svg>`,
+      // Petalito minúsculo
+      `<svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="1.8" ry="4.5" fill="#D9603F" opacity="0.4" transform="rotate(25 10 10)"/></svg>`,
+    ];
+
+    const rand = (min, max) => min + Math.random() * (max - min);
+
+    function spawn(i) {
+      const el = document.createElement('div');
+      el.className = 'particle';
+      const size = rand(5, 11);
+      const startX = rand(0, 100);      // vw
+      const drift = rand(-60, 60);      // px horizontal drift across the climb
+      const dur = rand(24, 44);         // seconds
+      const delay = rand(-40, 0);       // negative = start mid-animation, staggered
+      const rot = rand(-180, 180);
+      const op = rand(0.2, 0.4);
+      el.style.cssText = `
+        left: ${startX}vw;
+        top: 105vh;
+        width: ${size}px;
+        height: ${size * 1.3}px;
+        --drift: ${drift}px;
+        --dur: ${dur}s;
+        --delay: ${delay}s;
+        --rot: ${rot}deg;
+        --op: ${op};
+      `;
+      el.innerHTML = variants[Math.floor(Math.random() * variants.length)];
+      field.appendChild(el);
+      // Trigger animation en el siguiente frame
+      requestAnimationFrame(() => el.classList.add('active'));
+    }
+
+    // 8 partículas — suficientes para sentir vida, pocas para no distraer
+    for (let i = 0; i < 8; i++) spawn(i);
+  })();
+
+  // ————— MODO DÍA / NOCHE AUTOMÁTICO —————
+  // Reglas: noche = >= 19hs o < 7hs (hora local del visitante).
+  // Aplica clase .night al <html>. La transición es CSS, suave (1.2s).
+  // Se chequea al cargar y cada minuto, por si el usuario deja el
+  // tab abierto cruzando el umbral.
+  (() => {
+    function isNight() {
+      const h = new Date().getHours();
+      return h >= 19 || h < 7;
+    }
+    function apply() {
+      document.documentElement.classList.toggle('night', isNight());
+    }
+    apply();
+    setInterval(apply, 60000);
+  })();
+</script>
+
+<script>
+/* ── Lámina founders: draw-on + loop ── */
+(function(){
+  const svgs = document.querySelectorAll('.lamina-svg');
+  if (!svgs.length) return;
+  svgs.forEach(svg => {
+    svg.querySelectorAll('.dp').forEach(p => {
+      try { const l = Math.ceil(p.getTotalLength()) + 4; p.style.strokeDasharray = l; p.style.strokeDashoffset = l; }
+      catch(e) { p.style.strokeDasharray = 400; p.style.strokeDashoffset = 400; }
+    });
+  });
+  function activate(svg){
+    if (svg.classList.contains('drawn')) return;
+    svg.classList.add('drawn');
+    let max = 0;
+    svg.querySelectorAll('.dp').forEach(p => {
+      const d = parseFloat(getComputedStyle(p).getPropertyValue('--d') || 0);
+      const dur = parseFloat(getComputedStyle(p).getPropertyValue('--dur') || 1);
+      max = Math.max(max, d + dur);
+    });
+    setTimeout(() => svg.classList.add('looping'), (max + 0.2) * 1000);
+  }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { activate(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.3, rootMargin: '0px 0px -40px 0px' });
+  svgs.forEach(s => io.observe(s));
+  window.addEventListener('load', () => {
+    svgs.forEach(s => { if (s.getBoundingClientRect().top < window.innerHeight * 0.92) activate(s); });
+  });
+})();
+</script>
+
+
+<script>
+/* ── Premium layer ── */
+(function(){
+  /* Hero line reveal al cargar */
+  requestAnimationFrame(() => {
+    setTimeout(() => document.getElementById('heroTitle')?.classList.add('lines-in'), 80);
+    document.getElementById('heroTitle')?.parentElement?.classList.add('lines-in');
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('heroTitle')?.classList.add('lines-in');
+  });
+
+  /* Tallo de scroll */
+  const stem = document.getElementById('scrollStem');
+  const line = document.getElementById('stemLine');
+  const tip  = document.getElementById('stemTipWrap');
+  if (stem && line && tip) {
+    let ticking = false;
+    function update() {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const p = max > 0 ? h.scrollTop / max : 0;
+      const y = p * h.clientHeight;
+      line.setAttribute('y2', String(p * 1000));
+      tip.style.top = (y - 7) + 'px';
+      stem.classList.toggle('on', h.scrollTop > 200);
+      ticking = false;
+    }
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+
+  /* Botones magnéticos (sutil: 6px máx) */
+  if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.btn-primary, .btn-cta').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width / 2) / r.width;
+        const y = (e.clientY - r.top - r.height / 2) / r.height;
+        btn.style.transform = `translate(${x * 6}px, ${y * 5}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+  }
+
+  /* Título de pestaña cuando se van */
+  let origTitle = document.title;
+  document.addEventListener('visibilitychange', () => {
+    document.title = document.hidden ? 'El jardín sigue creciendo — Ynera' : origTitle;
+  });
+})();
+</script>
+
+<script>
+/* ── Detalles vivos ── */
+(function(){
+  /* Mensaje para el que inspecciona (sabemos que lo vas a hacer) */
+  console.log([
+    '',
+    '  \u{1F331} Ynera \u2014 construimos antes de aconsejar',
+    '  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500',
+    '',
+    '  \u00BFMirando el c\u00F3digo? As\u00ED trabajamos:',
+    '  a mano, sin frameworks, ~48KB.',
+    '',
+    '  Si te gusta lo que ves \u2192 hola@ynera.com',
+    ''
+  ].join('\n'));
+
+  /* Favicon que germina cuando te vas de la pestaña */
+  const fav = document.querySelector('link[rel="icon"][sizes="32x32"]');
+  const orig = fav ? fav.href : null;
+  const sprout = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#FAF7EE"/><path d="M16 26V12" stroke="#3D5C4A" stroke-width="1.6" stroke-linecap="round"/><path d="M16 17Q9 15 8 8q7 1 8 9z" fill="#3D5C4A" opacity=".6"/><path d="M16 14q7-2 8-9-7 1-8 9z" fill="#3D5C4A" opacity=".6"/><circle cx="16" cy="11" r="2.6" fill="#D9603F"/></svg>');
+  document.addEventListener('visibilitychange', () => {
+    if (fav && orig) fav.href = document.hidden ? sprout : orig;
+  });
+
+  /* Hora de Buenos Aires en vivo */
+  const ba = document.getElementById('baTime');
+  if (ba) {
+    const tick = () => { ba.textContent = new Intl.DateTimeFormat('es-AR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Argentina/Buenos_Aires'}).format(new Date()); };
+    tick(); setInterval(tick, 30000);
+  }
+
+  /* El tallo florece al llegar al final */
+  const stem = document.getElementById('scrollStem');
+  if (stem) {
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const done = h.scrollTop / (h.scrollHeight - h.clientHeight) > 0.985;
+      stem.classList.toggle('bloomed', done);
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
