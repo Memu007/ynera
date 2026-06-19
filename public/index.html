@@ -1939,7 +1939,7 @@ section[id] { scroll-margin-top: 40px; }
   .voice { padding: 24px 20px !important; }
   .value-tile { padding: 24px 20px !important; }
   .product-card { padding: 24px 20px !important; min-height: 280px; }
-  .founder-panel { padding: 32px 24px !important; }
+  .founder-panel { padding: 20px 0 !important; } /* Compactos y sin forma de tarjeta */
 
   /* Compactar el Hero */
   .hero h1 { font-size: clamp(32px, 10vw, 104px) !important; }
@@ -1954,7 +1954,7 @@ section[id] { scroll-margin-top: 40px; }
 
 @media (max-width: 800px) {
   /* Carruseles horizontales mejorados (Scroll-snap nativo) */
-  .products-grid, .values-grid, .voices-grid, .founders-grid { 
+  .products-grid, .values-grid, .voices-grid { 
     display: flex !important; 
     overflow-x: auto; 
     scroll-snap-type: x mandatory; 
@@ -1965,20 +1965,20 @@ section[id] { scroll-margin-top: 40px; }
     scroll-padding-left: 20px; /* Asegura que el snap deje el margen lateral */
     -ms-overflow-style: none; scrollbar-width: none;
   }
-  .products-grid::-webkit-scrollbar, .values-grid::-webkit-scrollbar, .voices-grid::-webkit-scrollbar, .founders-grid::-webkit-scrollbar { display: none; }
+  .products-grid::-webkit-scrollbar, .values-grid::-webkit-scrollbar, .voices-grid::-webkit-scrollbar { display: none; }
   
   /* Espaciador fantasma para el margen derecho del último ítem */
-  .products-grid::after, .values-grid::after, .voices-grid::after, .founders-grid::after {
+  .products-grid::after, .values-grid::after, .voices-grid::after {
     content: ''; flex: 0 0 20px;
   }
   
   @media (max-width: 600px) {
-    .products-grid, .values-grid, .voices-grid, .founders-grid {
+    .products-grid, .values-grid, .voices-grid {
       margin: 0 -16px;
       padding: 0 16px 24px 16px;
       scroll-padding-left: 16px;
     }
-    .products-grid::after, .values-grid::after, .voices-grid::after, .founders-grid::after {
+    .products-grid::after, .values-grid::after, .voices-grid::after {
       flex: 0 0 16px;
     }
   }
@@ -2003,14 +2003,6 @@ section[id] { scroll-margin-top: 40px; }
     min-width: 260px; width: 80vw; max-width: 300px;
     scroll-snap-align: start; flex: 0 0 auto;
   }
-
-  .founders-grid { gap: 0 !important; }
-  .founder-panel { 
-    min-width: 280px; width: 85vw; max-width: 320px;
-    scroll-snap-align: start; flex: 0 0 auto;
-    border-bottom: none !important; /* overrides stacked mobile rule */
-  }
-  .founder-panel:first-child { border-right: 0.5px solid var(--ink-10) !important; }
 }
 </style>
 <script type="application/ld+json">
