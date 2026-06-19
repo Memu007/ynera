@@ -1923,38 +1923,48 @@ section[id] { scroll-margin-top: 40px; }
 }
 
 @media (max-width: 800px) {
-  /* Transformar grillas apiladas en Carruseles horizontales (Swipe) para ahorrar scroll vertical */
+  /* Carruseles horizontales mejorados (Scroll-snap nativo) */
   .products-grid, .values-grid, .voices-grid { 
     display: flex !important; 
     overflow-x: auto; 
     scroll-snap-type: x mandatory; 
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    gap: 16px !important;
-    padding-bottom: 12px;
-    margin: 0 -20px; /* Compensa el padding de .wrap para que el scroll use toda la pantalla */
-    padding: 0 20px 16px 20px;
+    margin: 0 -20px; 
+    padding: 0 20px 24px 20px; /* 24px bottom para sombras */
+    scroll-padding-left: 20px; /* Asegura que el snap deje el margen lateral */
+    -ms-overflow-style: none; scrollbar-width: none;
   }
+  .products-grid::-webkit-scrollbar, .values-grid::-webkit-scrollbar, .voices-grid::-webkit-scrollbar { display: none; }
+  
   @media (max-width: 600px) {
     .products-grid, .values-grid, .voices-grid {
       margin: 0 -16px;
-      padding: 0 16px 16px 16px;
+      padding: 0 16px 24px 16px;
+      scroll-padding-left: 16px;
     }
   }
-  .products-grid::-webkit-scrollbar, .values-grid::-webkit-scrollbar, .voices-grid::-webkit-scrollbar {
-    display: none; /* Ocultar barra de scroll para un look de app nativa */
-  }
-  .products-grid { -ms-overflow-style: none; scrollbar-width: none; }
-  .values-grid { -ms-overflow-style: none; scrollbar-width: none; }
-  .voices-grid { -ms-overflow-style: none; scrollbar-width: none; }
 
-  .product-card, .value-tile, .voice { 
-    min-width: 85%; /* Deja asomar la siguiente tarjeta como pista (affordance) */
-    scroll-snap-align: center; 
-    flex: 0 0 auto;
+  /* Específicos por diseño de cada grilla */
+  .products-grid { gap: 16px !important; }
+  .product-card { 
+    min-width: 280px; width: 85vw; max-width: 320px;
+    min-height: auto !important; /* que el contenido mande */
+    scroll-snap-align: start; flex: 0 0 auto;
   }
-  /* En Testimonios (.voice) y Valores, quitar los bordes que servían para la grilla desktop */
+
+  .voices-grid { gap: 0 !important; }
+  .voice { 
+    min-width: 280px; width: 85vw; max-width: 320px;
+    scroll-snap-align: start; flex: 0 0 auto;
+  }
   .voice + .voice { border-top: none !important; border-left: .5px solid var(--ink-10) !important; }
+
+  .values-grid { gap: 1px !important; } /* Mantiene la línea divisoria fina */
+  .value-tile { 
+    min-width: 260px; width: 80vw; max-width: 300px;
+    scroll-snap-align: start; flex: 0 0 auto;
+  }
 }
 </style>
 <script type="application/ld+json">
