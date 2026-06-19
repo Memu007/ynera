@@ -158,8 +158,7 @@ body::before {
   z-index: 1;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23g)' opacity='0.4'/></svg>");
   background-size: 180px 180px;
-  opacity: 0.08;
-  mix-blend-mode: overlay;
+  opacity: 0.04;
 }
 
 /* ——— Red orgánica Voronoi ———
@@ -3366,11 +3365,13 @@ section[id] { scroll-margin-top: 40px; }
     let flutters = [];
 
     function measure() {
+      const scrollY = window.scrollY || window.pageYOffset;
       sways = Array.from(document.querySelectorAll('.sway')).map(el => {
         const r = el.getBoundingClientRect();
         return {
           el,
           cx: r.left + r.width / 2,
+          y: r.top + scrollY,
           // Spring state (rotational-ish, simplified as scalar wind coupling).
           v: 0,
           a: 0,
@@ -3384,13 +3385,13 @@ section[id] { scroll-margin-top: 40px; }
         return {
           el,
           cx: r.left + r.width / 2,
+          y: r.top + scrollY,
           flex: parseFloat(el.style.getPropertyValue('--flex') || 1),
         };
       });
     }
     measure();
     window.addEventListener('resize', () => { measure(); }, { passive: true });
-    window.addEventListener('scroll', () => { measure(); }, { passive: true });
 
     // Wind "field": a slow base + gust packets that travel across viewport
     // at a set speed. We accumulate in `windAt(x, t)` which is what plants
@@ -3482,6 +3483,8 @@ section[id] { scroll-margin-top: 40px; }
     const WIND_START_MS = 8500; // After full layered growth sequence
     function frame(now) {
       const t = now - start;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const wh = window.innerHeight;
 
       // During intro: keep everything at rest (--wind=0 → no rotation).
       if (t < WIND_START_MS) {
@@ -3521,7 +3524,9 @@ section[id] { scroll-margin-top: 40px; }
         s.theta += s.v * dt;
         if (s.theta > 1.6) { s.theta = 1.6; s.v *= 0.4; }
         if (s.theta < -1.6) { s.theta = -1.6; s.v *= 0.4; }
-        s.el.style.setProperty('--wind', s.theta.toFixed(4));
+        if (s.y > scrollY - 500 && s.y < scrollY + wh + 500) {
+          s.el.style.setProperty('--wind', s.theta.toFixed(4));
+        }
       }
 
       // Flutter: leaves trail behind their stem. We compute an effective
@@ -3544,7 +3549,9 @@ section[id] { scroll-margin-top: 40px; }
         }
         const hf = flutterAt(f.cx, t, baseW);
         const g = baseW * 0.8 + hf + lag;
-        f.el.style.setProperty('--gust', g.toFixed(4));
+        if (f.y > scrollY - 500 && f.y < scrollY + wh + 500) {
+          f.el.style.setProperty('--gust', g.toFixed(4));
+        }
       }
 
       requestAnimationFrame(frame);
@@ -3574,6 +3581,7 @@ section[id] { scroll-margin-top: 40px; }
       tooltip.style.top = y + 'px';
     }
 
+    let trackFrame = null;
     plants.forEach(plant => {
       plant.addEventListener('mouseenter', () => {
         // Solo mostrar después de que la intro haya terminado (5.5s)
@@ -3583,19 +3591,25 @@ section[id] { scroll-margin-top: 40px; }
         tooltip.querySelector('.species').textContent = plant.dataset.species;
         updateTooltipPos(plant);
         tooltip.classList.add('show');
+        if (!trackFrame) track();
       });
       plant.addEventListener('mouseleave', () => {
         activePlant = null;
         tooltip.classList.remove('show');
+        if (trackFrame) {
+          cancelAnimationFrame(trackFrame);
+          trackFrame = null;
+        }
       });
     });
 
     // Reajustar posición si hay viento/sway (el bounding box cambia)
     function track() {
-      if (activePlant) updateTooltipPos(activePlant);
-      requestAnimationFrame(track);
+      if (activePlant) {
+        updateTooltipPos(activePlant);
+        trackFrame = requestAnimationFrame(track);
+      }
     }
-    track();
   })();
   // ————— KONAMI CODE EASTER EGG —————
   // ↑↑↓↓←→←→BA revela una planta secreta en el jardín (omombé, un
