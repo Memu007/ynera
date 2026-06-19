@@ -1866,6 +1866,7 @@ section[id] { scroll-margin-top: 40px; }
 .skip-link:focus { left: 12px; }
 
 /* Footer: hora de Buenos Aires + promesa de privacidad */
+.footer-bottom { margin-top: 32px; padding-top: 24px; }
 .footer-ba { font-family: 'Geist Mono', monospace; font-size: 10.5px;
   letter-spacing: .1em; text-transform: uppercase; color: var(--ink-45); }
 .footer-ba b { color: var(--moss); font-weight: 500; }
@@ -3166,10 +3167,12 @@ section[id] { scroll-margin-top: 40px; }
       </div>
       <div class="footer-meta">© 2026 · Hecho en Buenos Aires</div>
     </div>
-  </div>
 
-    <p class="footer-ba">Buenos Aires · <b id="baTime">--:--</b> hora local</p>
-    <p class="footer-privacy">Este sitio no usa cookies ni te trackea. Como debe ser.</p>
+    <div class="footer-bottom">
+      <p class="footer-ba">Buenos Aires · <b id="baTime">--:--</b> hora local</p>
+      <p class="footer-privacy">Este sitio no usa cookies ni te trackea. Como debe ser.</p>
+    </div>
+  </div>
 </footer>
 
 <script>
