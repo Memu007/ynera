@@ -1366,18 +1366,24 @@ html.night .stem-head { stroke: #F2ECD9; }
   .origin-sprig { display: flex; justify-content: center; }
   .origin-sprig svg { width: 100%; max-width: 60px; }
   .products-grid { grid-template-columns: 1fr; }
-  /* Fundadores en paralelo para celular */
+  /* Fundadores en paralelo para celular (mini-cards) */
   .founders-grid { 
     grid-template-columns: repeat(2, 1fr) !important; 
-    gap: 0;
+    gap: 16px;
+    border: none !important;
+  }
+  .founder-panel {
+    border: 0.5px solid var(--ink-10) !important;
+    border-radius: 8px;
+    padding: 16px 12px !important;
   }
   .founder-panel:first-child { 
     border-right: 0.5px solid var(--ink-10) !important; 
-    border-bottom: none !important; 
+    border-bottom: 0.5px solid var(--ink-10) !important; 
   }
-  .founder-role { font-size: 16px !important; margin-bottom: 4px; }
-  .founder-tag { font-size: 12px !important; margin-bottom: 12px; }
-  .founder-desc { font-size: 13px !important; line-height: 1.4 !important; }
+  .founder-role { font-size: 15px !important; margin-bottom: 4px; }
+  .founder-tag { font-size: 11px !important; margin-bottom: 10px; }
+  .founder-desc { font-size: 12px !important; line-height: 1.4 !important; }
   .values-grid { grid-template-columns: 1fr; }
   .cta-panel { padding: 56px 28px; }
   .nav-inner { padding: 0 20px; }
@@ -1949,7 +1955,6 @@ section[id] { scroll-margin-top: 40px; }
   .voice { padding: 24px 20px !important; }
   .value-tile { padding: 24px 20px !important; }
   .product-card { padding: 24px 20px !important; min-height: 280px; }
-  .founder-panel { padding: 20px 12px !important; } /* Paralelos, cortos, lindísimos */
 
   /* Compactar el Hero */
   .hero h1 { font-size: clamp(32px, 10vw, 104px) !important; }
