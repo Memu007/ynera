@@ -1,0 +1,3534 @@
+
+:root {
+  --cream: #FAF7EE;
+  --cream-2: #F5F0E0;
+  --ink: #1A1A1F;
+  --ink-60: rgba(26,26,31,0.62);
+  --ink-45: rgba(26,26,31,0.55);
+  --ink-20: rgba(26,26,31,0.2);
+  --ink-15: rgba(26,26,31,0.15);
+  --ink-10: rgba(26,26,31,0.1);
+  --ink-05: rgba(26,26,31,0.05);
+  --clay: #D9603F;
+  --clay-dark: #BE4D2E;
+  --clay-dark: #B84D30;
+  --moss: #3D5C4A;
+  --moss-light: #7A8C5A;
+  --ochre: #E3A02F;
+  --teal: #2B6472; /* reservada SOLO para tech/data (Pieza C) */
+  --radius: 4px;
+  --radius-lg: 14px;
+  /* Transiciones suaves entre día y noche */
+  transition: background-color 1.2s ease, color 1.2s ease;
+}
+
+/* ——— Modo noche automático (>= 19hs o < 7hs local) ———
+   No es dark mode clásico: la página sigue siendo clara, pero con
+   cream más tibio (como a la luz de una vela). Pequeños ajustes al
+   ink para que el contraste siga siendo confortable. */
+html.night {
+  --cream: #F2ECD9;
+  --cream-2: #E9E1C9;
+  --ink: #2A2520;
+  --ink-60: rgba(42, 37, 32, 0.68);
+  --ink-45: rgba(42, 37, 32, 0.5);
+  --ink-20: rgba(42, 37, 32, 0.22);
+  --ink-10: rgba(42, 37, 32, 0.12);
+  --clay: #C25736;
+  --ochre: #D89324;
+}
+html, body {
+  transition: background-color 1.2s ease;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+/* ——— Refinamiento silencioso: selección y scrollbar ——— */
+
+/* Selección de texto: clay suave, no el azul default del sistema */
+::selection {
+  background: rgba(217, 96, 63, 0.25);
+  color: var(--ink);
+}
+::-moz-selection {
+  background: rgba(217, 96, 63, 0.25);
+  color: var(--ink);
+}
+
+/* Scrollbar fina, en la paleta, con agarre suave */
+html { scrollbar-width: thin; scrollbar-color: rgba(61, 92, 74, 0.35) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(61, 92, 74, 0.3);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.25s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 96, 63, 0.55);
+  background-clip: padding-box;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate; /* create stacking context so ::after z:-1 stays above body bg */
+}
+
+/* ——— Fondo atmosférico: mesh de gradientes animado ———
+   Los washes tienen opacidades más bajas (el ojo lo lee como atmósfera,
+   no como manchas) y los puntos focales se mueven muy lentamente en
+   un ciclo de 40s. Imperceptible conscientemente, pero el cerebro lo
+   registra como vivo. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -10% -5%;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    /* ——— NUEVO: vía teal muy tenue centrada ———
+       Pátina "field" en el centro del viewport. Opacidad 0.05 para
+       que el ojo la registre como atmósfera, no como mancha. */
+    radial-gradient(40vw 40vh, rgba(43, 100, 114, 0.05), transparent 70%),
+    radial-gradient(18vw 16vh, rgba(217, 96, 63, 0.11), transparent 75%),
+    radial-gradient(22vw 24vh, rgba(122, 140, 90, 0.07), transparent 75%),
+    radial-gradient(22vw 20vh, rgba(227, 160, 47, 0.09), transparent 76%),
+    linear-gradient(172deg, var(--cream) 0%, #F3ECD9 45%, #EFE6D0 80%, #F2EAD5 100%);
+  background-repeat: no-repeat;
+  background-position: 50% 50%, 115% -20%, -12% 50%, 118% 112%, 0 0;
+  animation: atmosphericDrift 40s ease-in-out infinite;
+  filter: blur(10px);
+}
+@keyframes atmosphericDrift {
+  /* La vía teal se mantiene fija en el centro (50% 50%) — no deriva,
+     es el ancla del "field". Las demás washs sí derivan. */
+  0%, 100% { background-position: 50% 50%, 105% -10%, -8% 50%, 108% 100%, 0 0; }
+  50%      { background-position: 50% 50%, 100% -5%, -3% 55%, 103% 95%, 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+}
+
+/* ——— Grain refinado: neutral, sutil, integrado vía blend-mode ———
+   Sin color sepia encima. Es un noise transparente con mix-blend-mode
+   overlay, así texturiza sin ensuciar. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23g)' opacity='0.4'/></svg>");
+  background-size: 180px 180px;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+}
+
+/* ——— Red orgánica Voronoi ———
+   Capa fija de celdas irregulares conectadas por líneas finas. Las
+   celdas son un patrón matemático (Voronoi) pero también aparece en
+   la naturaleza: panales, grietas de barro seco, tejido celular.
+   Algunos nodos tienen un acento clay o ochre, como floración. Renderizado
+   a opacity 0.28 global sobre strokes con opacidad propia — el efecto
+   neto es imperceptible conscientemente pero le da estructura al fondo.
+   Las celdas escalan con el viewport (position: fixed + 100%x100%). */
+.bg-net {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+}
+.bg-net svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.bg-net .cell { fill: none; stroke: #3D5C4A; stroke-width: 0.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; stroke-dasharray: 3 2; }
+
+/* ——— NUEVO: PCB-Voronoi ———
+   Los nodos pasan de ser simples circles a "pads" con halo/LED/vía.
+   Cada .node es ahora un <g> con dos círculos: núcleo + halo de soldadura.
+   Los acentos clay son "LED pads" (núcleo + anillo + centro LED cream).
+   Los acentos ochre son "vía pads" (donut perforado, hueco cream). */
+
+/* Nodos moss — soldadura con halo */
+.bg-net .node .node-core { fill: #3D5C4A; opacity: 0.7; }
+.bg-net .node .node-halo { fill: none; stroke: #3D5C4A; stroke-width: 0.4; opacity: 0.4; }
+
+/* LED pads clay — más visibles que los moss */
+.bg-net .node-accent-clay .pad-core { fill: #D9603F; opacity: 0.85; }
+.bg-net .node-accent-clay .pad-ring { fill: none; stroke: #D9603F; stroke-width: 0.5; opacity: 0.5; }
+.bg-net .node-accent-clay .pad-led  { fill: var(--cream); opacity: 0.9; }
+
+/* Vía pads ochre — donut perforado */
+.bg-net .node-accent-ochre .via-core { fill: #E3A02F; opacity: 0.8; }
+.bg-net .node-accent-ochre .via-hole { fill: var(--cream); opacity: 0.9; }
+
+html.night .bg-net { opacity: 0.2; }
+@media (max-width: 900px) {
+  .bg-net { opacity: 0.18; }
+}
+
+/* ——— Partículas botánicas flotantes ———
+   Semillas/esporas pequeñas que flotan lentamente desde abajo hacia
+   arriba con leve sway lateral. Generadas por JS con parámetros
+   aleatorios para variedad natural. Como polen en la luz. */
+.particle-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.particle svg { width: 100%; height: 100%; display: block; }
+@keyframes floatUp {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  8%   { opacity: var(--op, 0.3); }
+  92%  { opacity: var(--op, 0.3); }
+  100% { transform: translate(var(--drift, 40px), -105vh) rotate(var(--rot, 120deg)); opacity: 0; }
+}
+.particle.active {
+  animation: floatUp var(--dur, 32s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ——— NUEVO: variante data-packet ———
+   Rect 2×1 teal op 0.4 que CAE en diagonal (no flota up) — como una
+   transmisión UART lenta. Empieza arriba (-5vh) y cae hasta 105vh con
+   leve drift horizontal. Fade in/out para que la entrada y salida sean
+   imperceptibles. Es la única partícula que va "hacia abajo": el cerebro
+   la asocia con señal/dato, no con polen. */
+@keyframes dataPacketFall {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  12%  { opacity: var(--op, 0.4); }
+  88%  { opacity: var(--op, 0.4); }
+  100% { transform: translate(var(--drift, 30px), 110vh); opacity: 0; }
+}
+.particle.packet.active {
+  animation: dataPacketFall var(--dur, 14s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ——— OPCIONAL: scanline horizontal muy tenue ———
+   1px de alto con op 0.04 que barre verticalmente cada 30s. Se renderiza
+   como div fijo dentro del stacking context del body (z-index:0, mismo
+   plano que el bg-net) para que no se superponga al contenido. El cerebro
+   lo registra como "field activity" sin que el ojo consciente lo distinga. */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(43, 100, 114, 0.04) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  animation: scanlineDrift 30s linear infinite;
+}
+@keyframes scanlineDrift {
+  0%   { transform: translateY(-1vh); }
+  100% { transform: translateY(101vh); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanline { animation: none; display: none; }
+}
+
+.serif { font-family: 'Fraunces', serif; letter-spacing: -0.02em; }
+.italic { font-style: italic; }
+.mono { font-family: 'Geist Mono', monospace; }
+
+.eyebrow {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--clay);
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--clay);
+  display: block;
+}
+
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.05;
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+.wrap-tight { max-width: 920px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+/* NAV */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 0;
+  transition: all 0.4s ease;
+  background: rgba(250, 247, 238, 0);
+}
+.nav.scrolled {
+  background: rgba(250, 247, 238, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--ink-10);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+.logo-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--clay);
+  border-radius: 50%;
+  transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.logo:hover .logo-dot { transform: scale(1.6); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  letter-spacing: -0.005em;
+}
+.btn-primary { background: var(--ink); color: var(--cream); position: relative; }
+.btn-primary:hover { background: var(--clay); transform: translateY(-1px); }
+.btn-primary .arrow { transition: transform 0.25s ease; }
+.btn-primary:hover .arrow { transform: translate(2px, -2px); }
+
+/* Pulsación orgánica: halo clay que respira cada 7s en los CTAs grandes.
+   Muy sutil — opacidad baja, duración larga. No la aplicamos al botón del nav
+   para no sobrecargar la cabeza de la página. */
+.btn-primary.btn-lg {
+  overflow: visible;
+}
+.btn-primary.btn-lg::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1.5px solid var(--clay);
+  opacity: 0;
+  pointer-events: none;
+  animation: breathe 7s ease-in-out 2s infinite;
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0; transform: scale(0.98); }
+  15%      { opacity: 0.4; transform: scale(1.02); }
+  30%      { opacity: 0; transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary.btn-lg::before { animation: none; }
+}
+
+.btn-lg { padding: 16px 30px; font-size: 15px; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 0.5px solid var(--ink-20);
+}
+.btn-ghost:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 160px 0 80px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+.hero h1 {
+  font-size: clamp(48px, 8vw, 104px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  margin: 26px 0 28px;
+}
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--clay); }
+
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-60);
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+.hero-ctas { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--ink-20);
+  padding-bottom: 2px;
+  transition: all 0.2s ease;
+}
+.text-link:hover { border-color: var(--clay); color: var(--clay); }
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  /* Custom cursor: una pequeña semilla (SVG inline, 24px) — aparece solo
+     cuando el mouse está sobre el jardín. Fallback a crosshair. */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><ellipse cx='12' cy='12' rx='4' ry='6' fill='%236b4a2a' stroke='%23412a18' stroke-width='0.5'/><path d='M 12 6 Q 12 10 11 13' stroke='%23412a18' stroke-width='0.5' fill='none' stroke-linecap='round'/></svg>") 12 12, crosshair;
+}
+.hero-visual svg {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  overflow: visible;
+}
+
+/* Tooltips botánicos: texto tipo etiqueta de herbario aparece al hover
+   sobre cada planta. Posición absoluta en el sistema de coordenadas del SVG. */
+.plant-tooltip {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%) translateY(-8px);
+  background: var(--cream);
+  border: 0.5px solid var(--ink-20);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Fraunces', serif;
+  font-size: 12px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  z-index: 10;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 6px 20px rgba(26, 26, 31, 0.08);
+}
+.plant-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--cream);
+  filter: drop-shadow(0 1px 0 rgba(26, 26, 31, 0.15));
+}
+.plant-tooltip.show {
+  opacity: 1;
+  transform: translate(-50%, -100%) translateY(-14px);
+}
+.plant-tooltip .species {
+  font-style: italic;
+  color: var(--ink-60);
+  font-size: 11px;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Cada <g class="plant-X"> es hoverable.
+   Tooltips se disparan via JS en mouseenter/mouseleave del <g>.
+   Cada planta tiene un <rect> invisible detrás (.hit-area) que
+   captura el hover sin interferir visualmente. */
+.garden g[class*="plant-"] {
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+.garden g[class*="plant-"]:hover {
+  filter: brightness(1.08) saturate(1.15);
+}
+.hit-area {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.callout {
+  position: absolute;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-60);
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+.callout .line { width: 40px; height: 1px; background: var(--ink-20); }
+.callout-1 { top: 12%; left: -4%; }
+.callout-2 { bottom: 22%; right: -4%; flex-direction: row-reverse; }
+.callout-3 { top: 52%; left: -6%; }
+
+/* Dividers */
+.divider {
+  display: flex; justify-content: center; align-items: center;
+  padding: 40px 0; gap: 24px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 0.5px;
+  background: var(--ink-10); max-width: 160px;
+}
+.divider svg { width: 60px; height: auto; overflow: visible; }
+
+/* ORIGIN */
+.origin { padding: 80px 0 100px; position: relative; }
+.origin-header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  margin-bottom: 50px;
+  align-items: start;
+}
+.origin-header .label-col { padding-top: 8px; }
+.origin h2 {
+  font-size: clamp(36px, 5.4vw, 64px);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+.origin h2 em { font-style: italic; font-weight: 400; color: var(--moss); }
+
+.origin-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.origin-sprig { padding-top: 12px; }
+.origin-sprig svg { width: 120px; height: auto; overflow: visible; }
+
+.origin-prose { max-width: 620px; font-size: 17px; line-height: 1.75; color: var(--ink-60); }
+.origin-prose p { margin-bottom: 20px; }
+.origin-prose p:last-child { margin-bottom: 0; }
+.origin-prose strong { color: var(--ink); font-weight: 500; }
+
+.pull-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(26px, 3.8vw, 42px);
+  line-height: 1.15;
+  color: var(--ink);
+  letter-spacing: -0.025em;
+  margin: 48px -20px;
+  padding: 20px 0 20px 64px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  position: relative;
+}
+.pull-quote::before {
+  content: '"';
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 140px;
+  color: var(--clay);
+  position: absolute;
+  left: -8px;
+  top: 32px;
+  line-height: 0;
+  opacity: 0.85;
+}
+.pull-quote::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  bottom: 0;
+  width: 48px;
+  height: 1px;
+  background: var(--ink-20);
+}
+@media (max-width: 700px) {
+  .pull-quote { margin: 32px 0; padding-left: 44px; }
+  .pull-quote::before { font-size: 100px; left: 0; }
+}
+
+/* ——— Marginalia: ilustraciones tipo herbario en los márgenes del texto.
+       Decorativas, pequeñas (50–80px), flotando fuera del cuerpo principal.
+       Solo se muestran en pantallas anchas. ——— */
+.marginalia {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1.2s cubic-bezier(.3,.8,.3,1), transform 1.2s cubic-bezier(.3,.8,.3,1);
+}
+.marginalia.visible {
+  opacity: 0.7;
+  transform: translateY(0);
+}
+@media (max-width: 1200px) {
+  .marginalia { display: none; }
+}
+.marginalia svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* PRODUCTS */
+.products {
+  padding: 80px 0 100px;
+  position: relative;
+}
+.products-header { text-align: left; margin-bottom: 60px; max-width: 720px; }
+.products h2 { font-size: clamp(36px, 5.4vw, 64px); margin: 22px 0 20px; }
+.products h2 em { font-style: italic; color: var(--moss); font-weight: 400; }
+.products-intro { font-size: 18px; color: var(--ink-60); max-width: 560px; line-height: 1.6; }
+
+.products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.product-card {
+  background: var(--cream);
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 28px;
+  transition: all 0.4s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 360px;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--ink-20);
+  box-shadow: 0 24px 48px -24px rgba(26,26,31,0.14);
+}
+.product-number {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ochre);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.product-illustration {
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 20px;
+  overflow: visible;
+}
+.product-illustration svg { max-height: 100%; width: auto; overflow: visible; }
+
+/* ——— Tallo vertical vegetal que crece con el scroll ———
+   Una línea fina al costado izquierdo que "crece" desde abajo a medida
+   que scrollás. Cada sección tiene un nodo/hoja que aparece cuando
+   pasás por ella. Es el hilo narrativo visual que une toda la página. */
+
+/* ——— Tallo vertical + tooltip de etapa (Pieza D, revisited) ———
+   El tallo botánico se conserva en 40px (no invade el contenido).
+   Los labels aparecen como tooltip al hover de cada nodo, con
+   backdrop-blur para no competir con el texto detrás.
+   La sección activa (en viewport) recibe un anillo clay sutil. */
+.stem-track {
+  position: fixed;
+  top: 0;
+  left: 14px;
+  width: 40px;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 20;
+  display: none;
+}
+@media (min-width: 1100px) { .stem-track { display: block; } }
+
+.stem-svg {
+  position: absolute; left: 0; top: 0;
+  width: 40px; height: 100%; overflow: visible;
+  pointer-events: auto;
+}
+
+/* Labels como tooltip flotante, ocultos por defecto */
+.stem-labels {
+  position: absolute; left: 0; top: 0;
+  width: 40px; height: 100%;
+  pointer-events: none;
+}
+.stem-label {
+  position: absolute;
+  top: var(--y);
+  left: 44px;                       /* justo a la derecha del stem */
+  transform: translateY(-50%) translateX(-6px);
+  white-space: nowrap;
+  background: rgba(250, 247, 238, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 0.5px solid var(--ink-15);
+  border-radius: 6px;
+  padding: 6px 10px 6px 12px;
+  box-shadow: 0 4px 16px rgba(26, 26, 31, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(.2,.7,.2,1);
+  z-index: 30;
+}
+.stem-label.show {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* El label de la sección ACTIVA se muestra siempre, sutil */
+.stem-label.active {
+  opacity: 0.92;
+  transform: translateY(-50%) translateX(0);
+  border-color: rgba(217, 96, 63, 0.35);
+  background: rgba(250, 247, 238, 0.95);
+}
+
+.stem-label-stage {
+  display: block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  line-height: 1.2; color: var(--ink);
+}
+.stem-label.active .stem-label-stage { color: var(--clay); }
+
+.stem-label-meta {
+  display: block; margin-top: 2px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 0.08em;
+  line-height: 1.2; color: var(--teal); opacity: 0.85;
+}
+
+/* El tallo mismo: path vertical con stroke-dashoffset controlado por JS */
+.stem-line {
+  fill: none;
+  stroke: #3D5C4A;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  opacity: 0.55;
+  transition: stroke-dashoffset 0.15s linear, opacity 0.5s ease;
+}
+
+/* Nodos / hojas que florecen en cada hito (una por sección) */
+.stem-node {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(.3,1.5,.5,1);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.stem-node.reached {
+  opacity: 1;
+  transform: scale(1);
+}
+/* Anillo clay sutil en el nodo de la sección activa */
+.stem-node.active-ring {
+  filter: drop-shadow(0 0 0 rgba(217, 96, 63, 0));
+}
+.stem-node.active-ring circle:first-of-type,
+.stem-node.active-ring ellipse:first-of-type {
+  filter: drop-shadow(0 0 4px rgba(217, 96, 63, 0.55));
+}
+
+/* Indicador de sección activa (pequeño punto clay que desliza) */
+.stem-head {
+  fill: #D9603F;
+  stroke: #FAF7EE;
+  stroke-width: 2;
+  transition: cy 0.4s cubic-bezier(.3,.9,.3,1);
+}
+html.night .stem-line { stroke: #5a7a68; }
+html.night .stem-head { stroke: #F2ECD9; }
+html.night .stem-label {
+  background: rgba(242, 236, 217, 0.92);
+  border-color: var(--ink-20);
+}
+html.night .stem-label.active { border-color: rgba(194, 87, 54, 0.4); }
+html.night .stem-label-stage { color: var(--ink); }
+html.night .stem-label-meta { color: var(--teal); }
+
+/* ——— Badges chip para product-cards (Pieza E, sutiles) ——— */
+.product-chips {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin: 10px 0 14px;
+}
+.chip {
+  display: inline-flex; align-items: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px; letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 0.5px solid var(--ink-15);
+  color: var(--ink-60);
+  background: transparent;
+  transition: all 0.25s ease;
+}
+.product-card:hover .chip {
+  border-color: var(--ink-20);
+}
+.chip-teal  { color: var(--teal);  border-color: rgba(43, 100, 114, 0.22); }
+.chip-clay  { color: var(--clay);  border-color: rgba(217, 96, 63, 0.22); }
+.chip-moss  { color: var(--moss);  border-color: rgba(61, 92, 74, 0.22); }
+.chip-ochre { color: var(--ochre); border-color: rgba(227, 160, 47, 0.25); }
+
+/* ——— Chips de SERVICIO (variantes con fondo sólido + borde más firme)
+   Se usan en #oportunidades (col Servicio) y #productos (chips por card).
+   Distintos a los chips técnicos para que se identifiquen como servicios. ——— */
+.chip-svc {
+  font-weight: 500;
+  padding: 2.5px 8px;
+  border-width: 1px;
+  letter-spacing: 0.12em;
+}
+.chip-svc.chip-teal  { background: rgba(43, 100, 114, 0.10);  border-color: rgba(43, 100, 114, 0.55);  color: var(--teal); }
+.chip-svc.chip-clay  { background: rgba(217, 96, 63, 0.10);   border-color: rgba(217, 96, 63, 0.55);   color: var(--clay); }
+.chip-svc.chip-moss  { background: rgba(61, 92, 74, 0.10);    border-color: rgba(61, 92, 74, 0.55);    color: var(--moss); }
+.chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.12);  border-color: rgba(227, 160, 47, 0.60);  color: var(--ochre); }
+html.night .chip-svc.chip-teal  { background: rgba(43, 100, 114, 0.18); }
+html.night .chip-svc.chip-clay  { background: rgba(217, 96, 63, 0.18); }
+html.night .chip-svc.chip-moss  { background: rgba(61, 92, 74, 0.18); }
+html.night .chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.18); }
+
+/* ——— Fila de chips de servicio en #productos (debajo de los chips técnicos) ——— */
+.product-service-chips {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin: 0 0 12px;
+}
+.product-service-chips .chip { font-size: 9px; padding: 2px 7px; }
+
+/* ——— Logos de SaaS: animaciones al hover de cada card ——— */
+.saas-logo { transition: transform 0.5s cubic-bezier(.2,.8,.2,1); }
+.product-card:hover .saas-logo { transform: translateY(-3px); }
+
+/* CDI — la brújula se acerca sutilmente al hover, como si se aproximara
+   a la cámara. Sin rotaciones: se mantiene entera y legible. */
+.saas-logo .logo-rose {
+  transform-box: fill-box;
+  transform-origin: 70px 50px;
+  transition: transform 0.6s cubic-bezier(.2,.8,.2,1);
+}
+.product-card:hover .saas-logo .logo-rose {
+  transform: scale(1.06);
+}
+.saas-logo .logo-pivot {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+.product-card:hover .saas-logo .logo-pivot {
+  transform: scale(1.3);
+}
+@keyframes pan-sway {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-1.5px) rotate(-1deg); }
+}
+.product-card:hover .saas-logo .logo-pan {
+  animation: pan-sway 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+.saas-logo .logo-seed { transition: r 0.3s ease; }
+.product-card:hover .saas-logo .logo-seed { r: 2.2; }
+
+
+
+.product-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.product-industry {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--moss);
+  margin-bottom: 16px;
+}
+.product-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-60);
+  margin-top: auto;
+}
+
+/* FOUNDERS */
+.founders { padding: 100px 0; position: relative; }
+.founders-header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+  align-items: end;
+}
+.founders h2 { font-size: clamp(36px, 5.4vw, 64px); letter-spacing: -0.035em; }
+.founders h2 em { font-style: italic; color: var(--clay); font-weight: 400; }
+
+.founders-sub {
+  font-size: 17px; line-height: 1.65; color: var(--ink-60);
+  max-width: 480px; margin-top: 18px;
+}
+
+.founders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 0.5px solid var(--ink-10);
+  border-bottom: 0.5px solid var(--ink-10);
+}
+
+.founder-panel { padding: 50px 40px; position: relative; transition: background 0.35s ease; }
+.founder-panel:first-child { border-right: 0.5px solid var(--ink-10); }
+.founder-panel:hover { background: var(--cream-2); }
+
+.founder-ornament {
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  overflow: visible;
+}
+.founder-ornament svg { overflow: visible; }
+
+/* ——— Founder icons: mismo tratamiento que los logos de SaaS ——— */
+.founder-icon {
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+}
+.founder-panel:hover .founder-icon {
+  transform: translateY(-3px);
+}
+
+/* El que construye — el martillo golpea al hover */
+.builder-hammer {
+  transform-box: fill-box;
+  transform-origin: 30px 44px;
+  transition: transform 0.5s cubic-bezier(.3,.9,.3,1);
+}
+.founder-panel:hover .builder-hammer {
+  animation: hammer-strike 0.9s cubic-bezier(.3,1.4,.5,1);
+}
+@keyframes hammer-strike {
+  0%   { transform: rotate(0deg); }
+  30%  { transform: rotate(-22deg); }
+  55%  { transform: rotate(8deg); }
+  100% { transform: rotate(0deg); }
+}
+.builder-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.35s ease;
+}
+.founder-panel:hover .builder-core {
+  transform: scale(1.35);
+}
+.builder-spark {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.founder-panel:hover .builder-spark {
+  transform: scale(1.8);
+  opacity: 0.95;
+}
+
+/* El que detecta — la lupa se acerca sobre la semilla; la semilla brilla */
+.spotter-lens {
+  transform-box: fill-box;
+  transform-origin: 24px 22px;
+  transition: transform 0.55s cubic-bezier(.3,.9,.3,1);
+}
+.founder-panel:hover .spotter-lens {
+  transform: scale(1.12) translate(1px, 4px);
+}
+.spotter-find {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(.3,1.4,.5,1);
+}
+.founder-panel:hover .spotter-find {
+  transform: scale(1.5);
+}
+
+.founder-role {
+  font-family: 'Fraunces', serif;
+  font-weight: 500; font-size: 36px;
+  letter-spacing: -0.03em; line-height: 1.05;
+  margin-bottom: 8px;
+}
+.founder-role em { font-style: italic; color: var(--moss); }
+
+.founder-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--ink-45);
+  margin-bottom: 22px;
+}
+
+.founder-links { margin-top: 18px; }
+.founder-links a {
+  font-family: 'Geist Mono', monospace; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-45); text-decoration: none;
+  border-bottom: 1px solid var(--ink-10); padding-bottom: 2px;
+  transition: color .25s, border-color .25s;
+}
+.founder-links a:hover { color: var(--clay); border-color: var(--clay); }
+
+/* ── Testimonios: voces de los que usan los SaaS ── */
+.voices { padding: 90px 0; }
+.voices-header { text-align: center; margin-bottom: 56px; }
+.voices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border-top: .5px solid var(--ink-10); border-bottom: .5px solid var(--ink-10); }
+.voice { padding: 44px 36px; position: relative; }
+.voice + .voice { border-left: .5px solid var(--ink-10); }
+.voice-quote { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 400;
+  line-height: 1.5; letter-spacing: -.01em; color: var(--ink); margin-bottom: 24px; }
+.voice-quote::before { content: '“'; color: var(--clay); font-size: 28px; }
+.voice-who { font-family: 'Geist Mono', monospace; font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-45); }
+.voice-who strong { color: var(--moss); font-weight: 500; display: block; margin-bottom: 3px; }
+@media (max-width: 800px) {
+  .voices-grid { grid-template-columns: 1fr; }
+  .voice + .voice { border-left: none; border-top: .5px solid var(--ink-10); }
+}
+.product-visit {
+  display: inline-block; margin-top: 14px; margin-left: 16px;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--clay); text-decoration: none;
+  border-bottom: 1px solid rgba(217,96,63,.3); padding-bottom: 2px;
+  transition: border-color .25s;
+}
+.product-visit:hover { border-color: var(--clay); }
+.product-live {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--moss);
+  margin-top: 14px;
+}
+.product-live::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--moss); animation: livepulse 2.4s ease-in-out infinite;
+}
+@keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.founder-desc { font-size: 15px; line-height: 1.7; color: var(--ink-60); max-width: 420px; }
+
+/* — Línea "IA es transversal" debajo de los 2 panels — */
+.founders-transversal {
+  margin-top: 28px;
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  color: var(--ink-45);
+  padding-top: 22px;
+  border-top: 0.5px solid var(--ink-10);
+}
+.founders-transversal em {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--moss);
+  letter-spacing: 0;
+  margin: 0 2px;
+}
+
+/* ── Lámina founders: ilustración de los dos ── */
+.founders-lamina {
+  margin: 0 auto 56px;
+  max-width: 520px;
+  padding: 0 10px;
+}
+.lamina-svg { width: 100%; height: auto; overflow: visible; display: block; }
+
+/* draw-on: JS asigna dasharray/dashoffset; .drawn lo transiciona a 0 */
+.lamina-svg .dp { transition: stroke-dashoffset var(--dur,1s) cubic-bezier(.5,.05,.3,.98) var(--d,0s); }
+.lamina-svg.drawn .dp { stroke-dashoffset: 0 !important; }
+.lamina-svg .fp { opacity: 0; transition: opacity var(--fd,.45s) ease var(--fdd,.5s); }
+.lamina-svg.drawn .fp { opacity: var(--op,1); }
+
+/* loops post-dibujo */
+@keyframes lamClayPulse { 0%,100%{transform:scale(1);opacity:.95} 50%{transform:scale(2.1);opacity:.35} }
+.lamina-svg .clay-dot { transform-box: fill-box; transform-origin: center; }
+.lamina-svg.looping .clay-dot { animation: lamClayPulse 3.5s ease-in-out infinite; }
+@keyframes lamLensBlink { 0%,68%,100%{opacity:.7} 73%{opacity:.06} 81%{opacity:.7} }
+.lamina-svg .lens-shine { opacity: 0; }
+.lamina-svg.looping .lens-shine { animation: lamLensBlink 5.5s ease-in-out .5s infinite; }
+@keyframes lamLeafBreathe { 0%,100%{transform:scale(1) rotate(0)} 45%{transform:scale(1.12) rotate(6deg)} 75%{transform:scale(.95) rotate(-4deg)} }
+.lamina-svg .tat-leaf { transform-box: fill-box; }
+.lamina-svg.looping .tat-leaf { animation: lamLeafBreathe 4.2s ease-in-out infinite; }
+
+/* VALUES */
+.values { padding: 100px 0; position: relative; }
+.values-header { margin-bottom: 56px; max-width: 620px; }
+.values h2 { font-size: clamp(36px, 5.4vw, 60px); margin: 22px 0 0; }
+.values h2 em { font-style: italic; color: var(--moss); font-weight: 400; }
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--ink-10);
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.value-tile { background: var(--cream); padding: 38px 34px; transition: background 0.25s ease; }
+.value-tile:hover { background: var(--cream-2); }
+
+.value-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.value-icon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+}
+.value-tile:hover .value-icon svg {
+  transform: scale(1.08) rotate(-2deg);
+}
+/* Animaciones específicas por valor al hover */
+.val-bud {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(.3,1.5,.5,1);
+}
+.value-tile:hover .val-bud {
+  transform: scale(1.4);
+}
+.val-no {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  transition: stroke-dashoffset 0.7s cubic-bezier(.2,.6,.2,1);
+}
+.value-tile:hover .val-no {
+  stroke-dashoffset: 0;
+}
+.val-link {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.4s ease;
+}
+.value-tile:hover .val-link {
+  stroke-dashoffset: -40;
+  animation: dash-move 1.2s linear infinite;
+}
+@keyframes dash-move {
+  to { stroke-dashoffset: -60; }
+}
+.val-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+.value-tile:hover .val-node {
+  transform: scale(1.3);
+}
+
+.value-tile .eyebrow { margin-bottom: 14px; }
+.value-tile h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500; font-size: 26px;
+  letter-spacing: -0.025em; line-height: 1.15;
+  margin-bottom: 12px; color: var(--ink);
+}
+.value-tile h3 em { font-style: italic; color: var(--clay); font-weight: 400; }
+.value-tile p { font-size: 15px; line-height: 1.65; color: var(--ink-60); }
+
+/* CTA */
+.cta { padding: 100px 0 110px; position: relative; overflow: hidden; }
+.cta-panel {
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 24px;
+  padding: 80px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-panel h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(32px, 4.4vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+.cta-panel h2 em { font-style: italic; color: var(--ochre); font-weight: 400; }
+.cta-panel p {
+  font-size: 16px;
+  color: rgba(250, 247, 238, 0.7);
+  max-width: 520px;
+  margin: 0 auto 36px;
+  position: relative; z-index: 1;
+  line-height: 1.6;
+}
+.cta-botanical {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+.cta-botanical.left { top: -40px; left: -20px; width: 300px; height: 300px; }
+.cta-botanical.right { bottom: -30px; right: -10px; width: 260px; height: 260px; }
+.cta-botanical svg { width: 100%; height: 100%; overflow: visible; }
+
+.btn-cta {
+  background: var(--cream); color: var(--ink);
+  padding: 18px 36px; font-size: 15px; font-weight: 500;
+  position: relative; z-index: 1;
+}
+.btn-cta:hover { background: var(--clay); color: var(--cream); transform: translateY(-2px); }
+
+/* FOOTER */
+.footer { border-top: 0.5px solid var(--ink-10); padding: 40px 0 50px; }
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 24px;
+}
+.footer-brand { display: flex; flex-direction: column; gap: 4px; }
+.footer-logo {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px;
+  color: var(--ink); letter-spacing: -0.03em;
+}
+.footer-logo .logo-dot { width: 6px; height: 6px; }
+.footer-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 12px; color: var(--ink-45); }
+.footer-links { display: flex; gap: 24px; font-size: 13px; }
+.footer-links a { color: var(--ink-60); text-decoration: none; transition: color 0.2s ease; }
+.footer-links a:hover { color: var(--clay); }
+.footer-meta {
+  font-family: 'Geist Mono', monospace; font-size: 11px;
+  color: var(--ink-45); text-transform: uppercase; letter-spacing: 0.12em;
+}
+
+/* REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.on { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+@keyframes drawIn {
+  from { stroke-dashoffset: 2000; }
+  to { stroke-dashoffset: 0; }
+}
+.draw path, .draw ellipse, .draw circle {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+}
+.draw.on path, .draw.on ellipse, .draw.on circle {
+  animation: drawIn 3s cubic-bezier(.5,.2,.3,1) forwards;
+}
+.draw.on ellipse, .draw.on circle { animation-duration: 1.6s; }
+
+/* Intro overlay elements shouldn't be stroke-drawn — they need to appear whole
+   (the can is pre-drawn; the draw animation makes it look like a line growing). */
+.garden #intro-can path, .garden #intro-can line, .garden #intro-can ellipse, .garden #intro-can circle,
+.garden #intro-seed ellipse, .garden #intro-seed path {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+/* INTRO sequence: seed → watering can → plants grow. CSS-orchestrated via delays.
+   Total duration ~6s. Wind (JS) is gated to start after this. */
+
+/* Seeds fall from above, staggered so they arrive along the garden row */
+@keyframes seedFall {
+  0%   { opacity: 0; transform: translateY(-60px); }
+  15%  { opacity: 1; }
+  75%  { opacity: 1; transform: translateY(515px); }
+  90%  { opacity: 1; transform: translateY(515px) scale(0.7, 0.5); }
+  100% { opacity: 0; transform: translateY(515px) scale(0.5, 0.3); }
+}
+#intro-seed .seed {
+  transform-box: fill-box;
+  opacity: 0;
+  animation: seedFall 1.3s cubic-bezier(.4,.1,.7,1) both;
+}
+#intro-seed .s1 { animation-delay: 0.15s; }
+#intro-seed .s2 { animation-delay: 0.25s; }
+#intro-seed .s3 { animation-delay: 0.35s; }
+#intro-seed .s4 { animation-delay: 0.45s; }
+#intro-seed .s5 { animation-delay: 0.55s; }
+#intro-seed .s6 { animation-delay: 0.65s; }
+
+/* Can position+rotation and water particles are JS-driven. Seed + plants-grow
+   stay as CSS because they're simple deterministic transforms. */
+#intro-can {
+  transform-box: fill-box;
+  transform-origin: 12px 46px; /* handle-side pivot */
+  /* Initial state — JS will take over on window load */
+  opacity: 0;
+  transform: translate(-80px, 40px) rotate(0deg);
+}
+
+/* Layered plant growth: root → stem → branches → leaves → blooms.
+   Each layer reveals via its own stroke-dashoffset draw (for line paths)
+   or opacity+scale (for filled shapes like berries/petals).
+   Timing: starts while watering is still happening, so it reads as
+   cause→effect. Layers overlap slightly for a natural flow. */
+
+/* Roots grow DOWNWARD from the ground — short paths */
+.layer-root {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+}
+/* Las animaciones arrancan solo cuando .garden recibe la clase .grown
+   (a 4.2s de grow_s en el JS), así se sincronizan con la regadera.
+   Secuencia: roots (0s) → stems (0.7s) → branches (1.6s) → leaves (2.3s) → blooms (3.0s)
+   Las blooms aparecen a 4.2s + 3.0s = 7.2s = DESPUÉS de que la regadera sale (6.5s). */
+.garden.grown .layer-root {
+  animation: drawLayer 0.9s cubic-bezier(.4,.1,.4,1) forwards;
+  animation-delay: 0s;
+}
+
+/* Stems draw upward — main trunks ~300-400 units long */
+.layer-stem {
+  stroke-dasharray: 450;
+  stroke-dashoffset: 450;
+}
+.garden.grown .layer-stem {
+  animation: drawLayer 1.6s cubic-bezier(.2,.6,.2,1) forwards;
+  animation-delay: 0.7s;
+}
+
+/* Branches draw outward — medium arcs ~80-150 units */
+.layer-branch {
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+}
+.garden.grown .layer-branch {
+  animation: drawLayer 1.0s cubic-bezier(.3,.6,.3,1) forwards;
+  animation-delay: 1.6s;
+}
+
+/* Leaves: small scale+fade */
+.layer-leaf {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.3);
+}
+.garden.grown .layer-leaf {
+  animation: bloomIn 0.7s cubic-bezier(.3,1.4,.5,1) forwards;
+  animation-delay: 2.3s;
+}
+
+/* Blooms (flowers, berries) scale+fade, even later */
+.layer-bloom {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.2);
+}
+.garden.grown .layer-bloom {
+  animation: bloomIn 0.8s cubic-bezier(.25,1.5,.5,1) forwards;
+  animation-delay: 3.8s;
+}
+
+/* Cortadera plume: radiating feathery lines that fan open last */
+.layer-plume {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  opacity: 0;
+}
+.garden.grown .layer-plume {
+  animation: plumeFan 1.1s cubic-bezier(.2,.7,.3,1) forwards;
+  animation-delay: 3.6s;
+}
+
+@keyframes drawLayer {
+  0%   { stroke-dashoffset: var(--len, 450); }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes bloomIn {
+  0%   { opacity: 0; transform: scale(0.2); }
+  60%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes plumeFan {
+  0%   { stroke-dashoffset: 50; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* Stagger delays within the same layer so plants grow in sequence L→R,
+   like a wave following the watering can. Each plant gets a delay bump.
+   Los delays son relativos al momento en que .garden recibe .grown (a 4.2s). */
+.plant-1 { --s: 0s; }
+.plant-2 { --s: 0.25s; }
+.plant-3 { --s: 0.5s; }
+.plant-4 { --s: 0.75s; }
+
+.garden.grown .plant-1 .layer-root { animation-delay: calc(0s + 0s); }
+.garden.grown .plant-2 .layer-root { animation-delay: calc(0s + 0.25s); }
+.garden.grown .plant-3 .layer-root { animation-delay: calc(0s + 0.5s); }
+.garden.grown .plant-4 .layer-root { animation-delay: calc(0s + 0.75s); }
+
+.garden.grown .plant-1 .layer-stem { animation-delay: calc(0.7s + 0s); }
+.garden.grown .plant-2 .layer-stem { animation-delay: calc(0.7s + 0.25s); }
+.garden.grown .plant-3 .layer-stem { animation-delay: calc(0.7s + 0.5s); }
+.garden.grown .plant-4 .layer-stem { animation-delay: calc(0.7s + 0.75s); }
+
+.garden.grown .plant-1 .layer-branch { animation-delay: calc(1.6s + 0s); }
+.garden.grown .plant-2 .layer-branch { animation-delay: calc(1.6s + 0.25s); }
+.garden.grown .plant-3 .layer-branch { animation-delay: calc(1.6s + 0.5s); }
+.garden.grown .plant-4 .layer-branch { animation-delay: calc(1.6s + 0.75s); }
+
+.garden.grown .plant-1 .layer-leaf { animation-delay: calc(2.3s + 0s); }
+.garden.grown .plant-2 .layer-leaf { animation-delay: calc(2.3s + 0.25s); }
+.garden.grown .plant-3 .layer-leaf { animation-delay: calc(2.3s + 0.5s); }
+.garden.grown .plant-4 .layer-leaf { animation-delay: calc(2.3s + 0.75s); }
+
+.garden.grown .plant-1 .layer-bloom, .garden.grown .plant-1 .layer-plume { animation-delay: calc(3.8s + 0s); }
+.garden.grown .plant-2 .layer-bloom, .garden.grown .plant-2 .layer-plume { animation-delay: calc(3.8s + 0.25s); }
+.garden.grown .plant-3 .layer-bloom, .garden.grown .plant-3 .layer-plume { animation-delay: calc(3.8s + 0.5s); }
+.garden.grown .plant-4 .layer-bloom, .garden.grown .plant-4 .layer-plume { animation-delay: calc(3.8s + 0.75s); }
+
+/* Ground line just fades in quickly at start */
+.layer-ground {
+  opacity: 0;
+}
+.garden .layer-ground {
+  animation: fadeQuick 0.4s 2.6s forwards;
+}
+@keyframes fadeQuick {
+  to { opacity: 0.5; }
+}
+
+/* WIND — physics-driven sway.
+   Each swaying element is a <g class="sway"> with data-flex (0..1 stiffness inverse) and
+   data-anchor (transform-origin as two numbers in SVG units).
+   JS sets --wind (shared page-wide gust strength, -1..1) and each element's
+   local --phase + --flex to compute its individual rotation. */
+
+/* Sway: rotation at the base + a gentle counter-skew so the stem reads as
+   bending (cantilever), not pivoting rigidly. The skew is ~40% of the rotation
+   in the opposite direction, giving a real C-curve along the length. */
+.sway {
+  transform-box: fill-box;
+  transform-origin: var(--ox, 50%) var(--oy, 100%);
+  will-change: transform;
+  transform:
+    rotate(calc(var(--wind, 0) * var(--flex, 1) * var(--amp, 8deg)))
+    skewX(calc(var(--wind, 0) * var(--flex, 1) * var(--amp, 8deg) * -0.35));
+  transition: none;
+}
+
+/* Flutter: leaves trail the stem — bigger angle when the wind is
+   accelerating, catches up and overshoots. Uses --gust for lag-enhanced wind. */
+.flutter {
+  transform-box: fill-box;
+  transform-origin: var(--ox, 50%) var(--oy, 100%);
+  will-change: transform;
+  transform: rotate(calc(var(--gust, 0) * var(--flex, 1) * var(--amp, 4deg)));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sway, .flutter { transform: none !important; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { padding: 130px 0 60px; min-height: auto; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { min-height: 320px; order: -1; }
+  .callout { display: none; }
+  .origin-header, .origin-body, .founders-header { grid-template-columns: 1fr; gap: 24px; }
+  .origin-sprig svg { width: 80px; }
+  .products-grid { grid-template-columns: 1fr; }
+  .founders-grid { grid-template-columns: 1fr; }
+  .founder-panel:first-child { border-right: none; border-bottom: 0.5px solid var(--ink-10); }
+  .values-grid { grid-template-columns: 1fr; }
+  .cta-panel { padding: 56px 28px; }
+  .nav-inner { padding: 0 20px; }
+  .wrap, .wrap-tight { padding: 0 20px; }
+}
+
+/* ════════════════════════════════════════════════
+   DIAGNÓSTICO — sección interactiva (de Ynera-scene)
+   ════════════════════════════════════════════════ */
+.diagnostico-section { padding: 90px 0 100px; position: relative; }
+.diag-wrap { max-width: 880px; margin: 0 auto; padding: 0 32px; }
+.diag-header { text-align: center; margin-bottom: 48px; }
+.diag-lead { font-size: 17px; color: var(--ink-60); max-width: 560px; margin: 0 auto; line-height: 1.6; }
+/* Container ("plate") */
+.diag-plate {
+  border: .5px solid var(--ink-10); border-radius: 12px;
+  background: var(--paper); padding: 44px 40px;
+  position: relative;
+}
+.diag-plate-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .16em; color: var(--ink-45); text-transform: uppercase;
+  margin-bottom: 32px;
+  padding-bottom: 16px; border-bottom: .5px solid var(--ink-10);
+}
+.diag-plate-head em { font-family: 'Fraunces', serif; color: var(--clay); font-style: italic; font-size: 12px; }
+.diag-plate-head .live {
+  display: inline-flex; align-items: center; gap: 6px; color: var(--moss);
+}
+.live-dot {
+  width: 6px; height: 6px; background: var(--moss); border-radius: 50%;
+  animation: livepulse 1.8s ease-in-out infinite;
+}
+@keyframes livepulse {
+  0%, 100% { opacity: .35; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* The prompt area */
+.prompt-section {
+  margin-bottom: 0;
+}
+.prompt-label {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 17px; color: var(--ink); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.prompt-label::before {
+  content: '';
+  width: 18px; height: 1px; background: var(--clay);
+}
+.prompt-input-wrap {
+  position: relative;
+  margin-bottom: 18px;
+}
+.prompt-input {
+  width: 100%;
+  background: var(--cream);
+  border: .5px solid var(--ink-20);
+  border-radius: 8px;
+  padding: 16px 60px 16px 18px;
+  font-family: 'Geist', sans-serif;
+  font-size: 16px; color: var(--ink);
+  line-height: 1.5;
+  outline: none;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.prompt-input::placeholder {
+  color: var(--ink-45);
+  font-style: italic;
+}
+.prompt-input:focus {
+  border-color: var(--clay);
+  box-shadow: 0 0 0 3px rgba(217, 96, 63, 0.08);
+}
+.prompt-submit {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px;
+  background: var(--ink); color: var(--cream);
+  border: none; border-radius: 6px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s ease, transform .2s ease;
+}
+.prompt-submit:hover:not(:disabled) {
+  background: var(--clay);
+  transform: translateY(-50%) translateX(2px);
+}
+.prompt-submit:disabled {
+  opacity: .35; cursor: not-allowed;
+}
+.prompt-submit svg { width: 16px; height: 16px; }
+
+/* Suggestion chips */
+.chips-label {
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .14em; color: var(--ink-45);
+  text-transform: uppercase; margin: 16px 0 12px;
+}
+.chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.chip {
+  background: transparent;
+  border: .5px solid var(--ink-20);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: 'Geist', sans-serif; font-size: 13px;
+  color: var(--ink-60);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.chip:hover {
+  border-color: var(--clay);
+  color: var(--clay);
+  background: rgba(217, 96, 63, 0.04);
+}
+.chip.selected {
+  background: var(--ink); color: var(--cream); border-color: var(--ink);
+}
+
+/* Output area */
+.output {
+  margin-top: 40px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity .6s ease, max-height .8s ease;
+}
+.output.visible {
+  opacity: 1;
+  max-height: 2000px;
+}
+
+/* Thinking state — la plantita crece mientras "piensa" */
+.thinking {
+  display: flex; align-items: center; gap: 18px;
+  padding: 32px 0;
+  font-family: 'Fraunces', serif; font-style: italic;
+  color: var(--ink-60); font-size: 16px;
+}
+.thinking-plant {
+  width: 48px; height: 64px;
+  flex-shrink: 0;
+}
+.thinking-text {
+  display: inline-block;
+}
+.thinking-text::after {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  text-align: left;
+  animation: dots 1.6s steps(4, end) infinite;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+/* Plant growth: stem first, then branches, leaves, bud — looped */
+.tp-stem {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  animation: tpStemGrow 3.2s cubic-bezier(.3,.6,.3,1) infinite;
+}
+.tp-branch {
+  stroke-dasharray: 25;
+  stroke-dashoffset: 25;
+}
+.tp-b1 {
+  animation: tpBranchGrow 3.2s cubic-bezier(.3,.6,.3,1) infinite;
+  animation-delay: .9s;
+}
+.tp-b2 {
+  animation: tpBranchGrow 3.2s cubic-bezier(.3,.6,.3,1) infinite;
+  animation-delay: 1.4s;
+}
+.tp-leaf {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.tp-l1 {
+  animation: tpLeafBloom 3.2s cubic-bezier(.25,1.5,.5,1) infinite;
+  animation-delay: 1.1s;
+}
+.tp-l2 {
+  animation: tpLeafBloom 3.2s cubic-bezier(.25,1.5,.5,1) infinite;
+  animation-delay: 1.6s;
+}
+.tp-bud {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: tpBudBloom 3.2s cubic-bezier(.25,1.5,.5,1) infinite;
+  animation-delay: 2.1s;
+}
+@keyframes tpStemGrow {
+  0% { stroke-dashoffset: 90; }
+  35%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes tpBranchGrow {
+  0% { stroke-dashoffset: 25; }
+  20%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes tpLeafBloom {
+  0% { opacity: 0; transform: scale(.2); }
+  15% { opacity: .8; transform: scale(1.1); }
+  25%, 100% { opacity: .8; transform: scale(1); }
+}
+@keyframes tpBudBloom {
+  0% { opacity: 0; transform: scale(0); }
+  15% { opacity: 1; transform: scale(1.2); }
+  25%, 100% { opacity: 1; transform: scale(1); }
+}
+
+/* Diagnosis output */
+.diagnosis {
+  display: none;
+}
+.diagnosis.visible { display: block; }
+
+.diagnosis-intro {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 19px; line-height: 1.5; color: var(--ink);
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: .5px solid var(--ink-10);
+}
+.diagnosis-intro .stream-cursor {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--clay);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.opportunities-label {
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .16em; color: var(--moss);
+  text-transform: uppercase; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.opportunities-label::before {
+  content: ''; width: 14px; height: 1px; background: var(--moss);
+}
+
+.opportunity {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: .5px solid var(--ink-10);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.opportunity.shown { opacity: 1; transform: translateY(0); }
+.opportunity:last-child { border-bottom: none; }
+
+.opportunity-num {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 22px; color: var(--clay); font-weight: 500;
+  line-height: 1; padding-top: 4px;
+}
+.opportunity-content h4 {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: 18px; color: var(--ink); letter-spacing: -.015em;
+  margin-bottom: 6px;
+}
+.opportunity-content p {
+  font-size: 14px; color: var(--ink-60); line-height: 1.55;
+}
+.opportunity-content .impact {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--moss); margin-top: 8px;
+  padding: 3px 8px; border-radius: 3px;
+  background: rgba(61, 92, 74, 0.08);
+}
+
+/* Honesty disclaimer */
+.honesty {
+  margin-top: 28px; padding: 16px 18px;
+  background: rgba(217, 96, 63, 0.06);
+  border-left: 2px solid var(--clay);
+  border-radius: 0 6px 6px 0;
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 13px; color: var(--ink-60); line-height: 1.5;
+  opacity: 0;
+  transition: opacity .6s ease .3s;
+}
+.honesty.shown { opacity: 1; }
+
+/* CTA */
+.cta-area {
+  margin-top: 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+  opacity: 0; transition: opacity .6s ease .5s;
+}
+.cta-area.shown { opacity: 1; }
+.cta-text {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 15px; color: var(--ink-60);
+}
+.cta-buttons { display: flex; gap: 10px; }
+.diag-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 500;
+  padding: 12px 22px; border-radius: 999px; border: none;
+  cursor: pointer; text-decoration: none;
+  transition: all .25s ease;
+}
+.diag-btn-primary { background: var(--ink); color: var(--cream); }
+.diag-btn-primary:hover { background: var(--clay); transform: translateY(-1px); }
+.diag-btn-ghost {
+  background: transparent; color: var(--ink);
+  border: .5px solid var(--ink-20);
+}
+.diag-btn-ghost:hover { border-color: var(--ink); }
+
+/* The mini-garden: each diagnosis generates a sprig in this collection */
+.garden-collection {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: .5px solid var(--ink-10);
+}
+.garden-label {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 13px; color: var(--ink-45); margin-bottom: 12px;
+}
+.garden-sprigs {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
+  min-height: 60px;
+}
+.garden-sprig {
+  width: 32px; height: 56px;
+  opacity: 0;
+  animation: sprigGrow .9s cubic-bezier(.25,1.3,.5,1) forwards;
+}
+@keyframes sprigGrow {
+  from { opacity: 0; transform: translateY(8px) scale(.6); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.garden-sprig svg { width: 100%; height: 100%; }
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { padding: 56px 16px 48px; }
+  .diag-plate { padding: 28px 22px; }
+  .opportunity { grid-template-columns: 28px 1fr; gap: 12px; }
+  .cta-area { flex-direction: column; align-items: stretch; }
+  .cta-buttons { flex-direction: column; }
+  .diag-btn { justify-content: center; }
+}
+
+
+/* ── Performance ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .lamina-svg .dp { stroke-dashoffset: 0 !important; }
+  .lamina-svg .fp { opacity: var(--op,1) !important; }
+}
+.voices, .founders, .values, .cta { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+
+
+/* ── Oportunidades por rubro (contenido indexable) ── */
+.rubros-seo { padding: 90px 0; }
+.rubros-seo-header { margin-bottom: 40px; max-width: 640px; }
+.rubros-seo-lead { font-size: 16px; color: var(--ink-60); line-height: 1.65; margin-top: 14px; }
+.seo-rubro { border-top: .5px solid var(--ink-10); }
+.seo-rubro:last-of-type { border-bottom: .5px solid var(--ink-10); }
+.seo-rubro summary { list-style: none; cursor: pointer; padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+.seo-rubro summary::-webkit-details-marker { display: none; }
+.seo-rubro summary::after { content: '+'; font-family: 'Geist Mono', monospace; font-size: 18px; color: var(--clay); transition: transform .25s; }
+.seo-rubro[open] summary::after { transform: rotate(45deg); }
+.seo-rubro summary h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -.02em; color: var(--ink); }
+.seo-rubro summary:hover h3 { color: var(--clay); }
+.seo-intro { font-size: 15px; color: var(--ink-60); line-height: 1.65; margin-bottom: 22px; max-width: 620px; }
+.seo-opp { margin-bottom: 22px; max-width: 620px; }
+.seo-opp h4 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 16.5px; color: var(--ink); margin-bottom: 6px; }
+.seo-opp p { font-size: 14.5px; color: var(--ink-60); line-height: 1.65; }
+.seo-impact { font-family: 'Geist Mono', monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--moss) !important; margin-top: 6px; }
+.seo-rubro[open] { padding-bottom: 16px; }
+
+/* ═══════════════ PREMIUM LAYER ═══════════════ */
+
+/* 1. Grano de papel: textura editorial sutil sobre toda la página */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none; opacity: .032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 2. Scrollbar fina y de marca */
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: rgba(61,92,74,.32); border-radius: 99px; border: 2px solid var(--cream); }
+::-webkit-scrollbar-thumb:hover { background: rgba(61,92,74,.55); }
+html { scrollbar-width: thin; scrollbar-color: rgba(61,92,74,.35) var(--cream); }
+
+/* 3. Tipografía fina: ligaduras + kerning óptico en serif */
+.serif, h1, h2, h3 { font-feature-settings: "liga" 1, "kern" 1, "calt" 1; text-rendering: optimizeLegibility; }
+.hero h1 { font-variation-settings: "opsz" 144; }
+
+/* 4. Hero: revelado por líneas con máscara (premium type motion) */
+.line-mask { display: block; overflow: hidden; }
+.line-mask > span {
+  display: block; transform: translateY(110%);
+  transition: transform 1.05s cubic-bezier(.22,.9,.24,1);
+}
+.lines-in .line-mask > span { transform: translateY(0); }
+.line-mask:nth-child(2) > span { transition-delay: .12s; }
+
+/* 5. Tallo de progreso de scroll (en vez de barra genérica) */
+.scroll-stem {
+  position: fixed; left: 22px; top: 0; bottom: 0; width: 14px;
+  z-index: 90; pointer-events: none; opacity: 0; transition: opacity .6s ease .4s;
+}
+.scroll-stem.on { opacity: 1; }
+.scroll-stem svg { width: 100%; height: 100%; overflow: visible; }
+.scroll-stem .stem-track { stroke: var(--ink-10); stroke-width: 1; }
+.scroll-stem .stem-line { stroke: var(--moss); stroke-width: 1.4; stroke-linecap: round; }
+.scroll-stem .stem-tip { fill: var(--moss); opacity: .85; transition: transform .2s ease; transform-box: fill-box; transform-origin: center; }
+@media (max-width: 1100px) { .scroll-stem { display: none; } }
+
+/* 6. Botones magnéticos + sheen */
+.btn-primary, .btn-cta {
+  position: relative; overflow: hidden;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+  will-change: transform;
+}
+.btn-primary::before, .btn-cta::before {
+  content: ''; position: absolute; top: 0; left: -80%;
+  width: 60%; height: 100%; transform: skewX(-22deg);
+  background: linear-gradient(90deg, transparent, rgba(250,247,238,.22), transparent);
+  transition: left .6s ease;
+}
+.btn-primary:hover::before, .btn-cta:hover::before { left: 130%; }
+.btn-primary:hover, .btn-cta:hover {
+  box-shadow: 0 8px 28px -10px rgba(217,96,63,.5), 0 2px 8px -2px rgba(26,26,31,.15);
+}
+
+/* 7. Cards con elevación táctil en capas */
+.product-card, .diag-plate, .voice {
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 2px rgba(26,26,31,.04), 0 6px 16px -6px rgba(26,26,31,.08), 0 20px 44px -18px rgba(61,92,74,.14);
+}
+
+/* 8. Cinta editorial (marquee) entre secciones */
+.ticker { border-top: .5px solid var(--ink-10); border-bottom: .5px solid var(--ink-10);
+  overflow: hidden; padding: 16px 0; background: var(--cream); }
+.ticker-track { display: flex; gap: 0; width: max-content; animation: tickerMove 38s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker span { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ink-45); padding: 0 28px; white-space: nowrap; }
+.ticker span em { font-style: normal; color: var(--clay); padding-right: 28px; }
+@keyframes tickerMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* 9. Focus visible refinado (premium = también accesible) */
+:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; border-radius: 2px; }
+
+/* 10. Anchor scrolling con offset */
+section[id] { scroll-margin-top: 40px; }
+
+/* reduced-motion cubre lo nuevo */
+@media (prefers-reduced-motion: reduce) {
+  .line-mask > span { transform: none !important; transition: none !important; }
+  .ticker-track { animation: none !important; }
+  .scroll-stem { display: none; }
+}
+
+/* Mobile: las ilustraciones flotantes no pelean con el texto */
+@media (max-width: 760px) {
+  .marginalia { display: none !important; }
+  .origin-sprig { width: 54px; opacity: .55; margin-bottom: 8px; }
+  .origin-sprig svg { width: 54px; height: auto; }
+}
+
+/* CTA editorial intermedio */
+.mid-cta { margin-top: 48px; padding-top: 28px; border-top: .5px solid var(--ink-10); }
+.mid-cta p { font-family: 'Fraunces', serif; font-size: 19px; font-style: italic;
+  color: var(--ink-60); margin-bottom: 14px; letter-spacing: -.01em; }
+.mid-cta a { font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--clay-dark, #BE4D2E); text-decoration: none;
+  border-bottom: 1px solid rgba(217,96,63,.35); padding-bottom: 3px; transition: border-color .25s; }
+.mid-cta a:hover { border-color: var(--clay); }
+
+/* Micro-línea que baja la barrera del CTA */
+.cta-note { display: block; margin-top: 12px; font-family: 'Geist Mono', monospace;
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-45); }
+.cta-note b { color: var(--moss); font-weight: 500; }
+
+/* ── Detalles creativos ── */
+
+/* Logo: el punto clay brota dos hojitas al hover */
+.logo { position: relative; }
+.logo .logo-sprout { position: absolute; top: -14px; left: 2px; width: 16px; height: 16px;
+  opacity: 0; transform: translateY(4px) scale(.6); transform-origin: bottom center;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
+.logo:hover .logo-sprout { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Skip to content (a11y pro: invisible hasta que tabuleás) */
+.skip-link { position: absolute; left: -9999px; top: 12px; z-index: 999;
+  background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: 99px;
+  font-family: 'Geist', sans-serif; font-size: 13px; text-decoration: none; }
+.skip-link:focus { left: 12px; }
+
+/* Footer: hora de Buenos Aires + promesa de privacidad */
+.footer-ba { font-family: 'Geist Mono', monospace; font-size: 10.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-45); }
+.footer-ba b { color: var(--moss); font-weight: 500; }
+.footer-privacy { font-size: 12px; color: var(--ink-45); margin-top: 6px; }
+
+/* Tallo de scroll: la punta florece al llegar al final */
+.scroll-stem .stem-bloom { opacity: 0; transform: scale(.3); transform-box: fill-box;
+  transform-origin: center; transition: opacity .5s ease, transform .6s cubic-bezier(.34,1.56,.64,1); }
+.scroll-stem.bloomed .stem-tip { opacity: 0; }
+.scroll-stem.bloomed .stem-bloom { opacity: 1; transform: scale(1); }
+
+/* Impresión limpia (alguien guarda PDF para mostrarle al socio) */
+@media print {
+  .scroll-stem, .ticker, nav, .mid-cta, .cta-note, body::after { display: none !important; }
+  body { background: white; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .lamina-svg .dp { stroke-dashoffset: 0 !important; }
+  .lamina-svg .fp { opacity: var(--op,1) !important; }
+  section { page-break-inside: avoid; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PIEZA C — #como-pensamos : grafo de agentes + bloque Geist Mono real
+   La señal "tech" más fuerte del sitio: un schema JSON vivo al lado de
+   un esquema de agente RAG. Mismo lenguaje editorial-botánico (hairlines,
+   whitespace, eyebrow italic) pero con --teal reservado para data.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.como-pensamos { padding: 100px 0; position: relative; }
+
+/* — Header: eyebrow → h2 → intro, apilados a la izquierda — */
+.cp-header { max-width: 680px; margin-bottom: 64px; }
+.cp-header .eyebrow { margin-bottom: 18px; }
+.como-pensamos h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5.4vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 500;
+  color: var(--ink);
+}
+/* el <em> va en moss (color "pensamiento/conocimiento"), no clay */
+.como-pensamos h2 em { font-style: italic; color: var(--moss); font-weight: 400; }
+.cp-intro {
+  font-size: 17px; line-height: 1.65; color: var(--ink-60);
+  max-width: 560px; margin-top: 18px;
+}
+
+/* — Grid 3 columnas: IA | Datos | Ciberseguridad (cada una con su figura + bloque mono) — */
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+/* Cada columna apila caption + svg + bloque mono */
+.cp-col { display: flex; flex-direction: column; gap: 14px; }
+.cp-col .cp-graph-caption { margin-bottom: 0; }
+.cp-col .agent-graph { margin: 0; max-height: 240px; }
+.cp-col .cp-code { flex: 1; }
+.cp-col .cp-code-block { padding: 14px 16px; font-size: 11.5px; line-height: 1.6; }
+.cp-col .cp-code-foot { padding: 10px 14px; }
+
+/* Pie único debajo del grid de 3 columnas */
+.cp-grid-foot {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 0.5px solid var(--ink-10);
+  text-align: center;
+}
+.cp-grid-foot .cp-foot-text {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.06em;
+}
+.cp-grid-foot .cp-arrow { color: var(--clay); margin-right: 6px; }
+
+/* ───────── IZQUIERDA: grafo SVG ───────── */
+
+/* El contenedor del grafo es flex-column: caption arriba, leyenda abajo,
+   SVG centrado en el medio (margin:auto). Así se balancea contra el bloque
+   mono que es más alto, sin dejar un agujero bajo el diagrama. */
+.cp-graph { display: flex; flex-direction: column; }
+
+/* Caption arriba del grafo: "FIG. 01" mono + hairline lateral + descripción serif italic */
+.cp-graph-caption {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+}
+.cp-graph-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--teal);
+  white-space: nowrap;
+}
+.cp-graph-rule { width: 1px; height: 16px; background: var(--ink-20); flex: none; }
+.cp-graph-text {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 13px; color: var(--ink-60); line-height: 1.4;
+}
+
+.agent-graph { width: 100%; height: auto; display: block; margin: auto 0; /* centra el SVG en el espacio sobrante */ }
+
+/* Nodos: círculos hairline con fill cream (se adaptan a modo noche vía vars) */
+.cp-node-in    { fill: var(--cream);   stroke: var(--moss);  stroke-width: 1; }
+.cp-node-out   { fill: var(--cream);   stroke: var(--teal);  stroke-width: 1; }
+.cp-node-guard { fill: var(--cream);   stroke: var(--ochre); stroke-width: 1; }
+/* Agente orquestador: más grande, fill cream-2 (sutilmente más lleno), stroke clay más firme */
+.cp-node-agent { fill: var(--cream-2); stroke: var(--clay);  stroke-width: 1.4; }
+
+/* Labels mono debajo de cada nodo */
+.cp-lbl {
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  fill: var(--ink-60); letter-spacing: 0.04em;
+}
+.cp-agent-name {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 15px; fill: var(--ink); letter-spacing: -0.01em;
+}
+.cp-agent-sub {
+  font-family: 'Geist Mono', monospace; font-size: 9px;
+  fill: var(--ink-45); letter-spacing: 0.04em;
+}
+
+/* Edges: cables de datos. Todos tocan al agente → clay @ 0.6.
+   stroke-dasharray + animation = "datos fluyendo" (8s, sutil). */
+.cp-edge {
+  fill: none;
+  stroke: var(--clay);
+  stroke-width: 1;
+  opacity: 0.6;
+  stroke-dasharray: 3 5;
+  stroke-linecap: round;
+  animation: cp-flow 8s linear infinite;
+}
+@keyframes cp-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -64; } }
+
+/* Marcadores (origen = circulito, destino = guion + punto). 
+   Se pintan con var(--clay) vía CSS para acompañar el modo noche. */
+.cp-mk-org      { fill: var(--clay); opacity: 0.75; }
+.cp-mk-arr-line { stroke: var(--clay); stroke-width: 1; opacity: 0.75; }
+.cp-mk-arr-dot  { fill: var(--clay); opacity: 0.75; }
+
+/* Leyenda del grafo: explica la semántica de colores (balancea la columna
+   contra el bloque mono, que es más alto). Swatches hairline + cream, igual
+   que los nodos del SVG. */
+.cp-legend { margin-top: 28px; display: grid; gap: 11px; }
+.cp-leg { display: grid; grid-template-columns: 14px 72px 1fr; align-items: center; gap: 10px; }
+.cp-swatch { width: 10px; height: 10px; border: 1px solid; border-radius: 2px; background: var(--cream); }
+.cp-sw-moss  { border-color: var(--moss); }
+.cp-sw-clay  { border-color: var(--clay); }
+.cp-sw-teal  { border-color: var(--teal); }
+.cp-sw-ochre { border-color: var(--ochre); }
+.cp-leg-k { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+.cp-leg-d { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; color: var(--ink-60); line-height: 1.4; }
+
+/* ───────── DERECHA: bloque Geist Mono real ───────── */
+
+.cp-code {
+  background: rgba(43, 100, 114, 0.04);            /* teal 4% */
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  overflow: hidden;                                  /* clipea header/foot a los radius */
+  display: flex; flex-direction: column;
+}
+
+/* Header tipo "semáforo" de editor: 3 dots + nombre de archivo + meta */
+.cp-code-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px;
+  background: rgba(43, 100, 114, 0.08);              /* teal 8% */
+  border-bottom: 0.5px solid var(--ink-10);
+  font-size: 11px; color: var(--ink-60);
+}
+.cp-dots { display: inline-flex; gap: 6px; align-items: center; flex: none; }
+.cp-dots i { width: 6px; height: 6px; border-radius: 50%; display: block; }
+.cp-dots i:nth-child(1) { background: var(--moss); }
+.cp-dots i:nth-child(2) { background: var(--ochre); }
+.cp-dots i:nth-child(3) { background: var(--clay); }
+.cp-code-tab  { flex: 1; }                           /* empuja la meta a la derecha */
+.cp-code-meta { color: var(--ink-45); white-space: nowrap; }
+
+/* Bloque de código: font-size 12.5px, line-height 1.7, padding 20/24, scroll horizontal */
+.cp-code-block {
+  margin: 0;
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--ink-45);          /* default = puntuación (llaves, :, ,) */
+  background: transparent;
+  -webkit-overflow-scrolling: touch;
+  tab-size: 2;
+}
+.cp-code-block code { font-family: inherit; color: inherit; white-space: pre; }
+/* Resaltado manual (sin libs): keys teal, strings moss, numbers ochre */
+.cp-code-block .k { color: var(--teal); }
+.cp-code-block .s { color: var(--moss); }
+.cp-code-block .n { color: var(--ochre); }
+
+/* Scrollbar fino del bloque */
+.cp-code-block::-webkit-scrollbar { height: 6px; }
+.cp-code-block::-webkit-scrollbar-thumb { background: var(--ink-20); border-radius: 3px; }
+.cp-code-block::-webkit-scrollbar-track { background: transparent; }
+
+/* Foot: prefijo › en clay, texto en teal */
+.cp-code-foot {
+  padding: 12px 16px;
+  border-top: 0.5px solid var(--ink-10);
+  font-size: 11px;
+}
+.cp-code-foot .cp-foot-text { font-family: 'Geist Mono', monospace; color: var(--teal); }
+.cp-code-foot .cp-arrow { color: var(--clay); margin-right: 6px; }
+
+/* — Modo noche: el bloque mono gana un pelín más de teal para no perderse — */
+html.night .cp-code       { background: rgba(43, 100, 114, 0.08); }
+html.night .cp-code-header { background: rgba(43, 100, 114, 0.14); }
+
+/* — Respeta prefers-reduced-motion: wires estáticos, sin flujo — */
+@media (prefers-reduced-motion: reduce) {
+  .cp-edge { animation: none; }
+}
+
+/* — Responsive: 2 columnas bajo 1100px, 1 columna bajo 760px — */
+@media (max-width: 1100px) {
+  .cp-grid { grid-template-columns: 1fr; gap: 48px; }
+  .cp-col .agent-graph { max-height: 280px; }
+}
+@media (max-width: 900px) {
+  .como-pensamos { padding: 70px 0; }
+  .cp-header { margin-bottom: 48px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PIEZA A — #metodologia : pipeline horizontal de consultoría IA
+   Cuatro etapas (una por trimestre) unidas por conectores herbarios.
+   Cada etapa entrega un artefacto concreto (JSON, pipeline, deploy,
+   reporte) señalado en Geist Mono teal — la firma "tech/data".
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.metodologia { padding: 80px 0 100px; position: relative; }
+
+.metodologia-header {
+  text-align: left;
+  margin-bottom: 64px;
+  max-width: 720px;
+}
+.metodologia h2 {
+  font-size: clamp(36px, 5.4vw, 64px);
+  margin: 22px 0 20px;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.metodologia h2 em {
+  font-style: italic;
+  color: var(--clay);
+  font-weight: 400;
+}
+.metodologia-intro {
+  font-size: 18px;
+  color: var(--ink-60);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.pipeline {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 0;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition:
+    border-color 0.4s cubic-bezier(.2,.8,.2,1),
+    transform 0.4s cubic-bezier(.2,.8,.2,1),
+    background-color 0.4s ease,
+    opacity 0.9s cubic-bezier(.2,.7,.2,1);
+}
+.stage:hover {
+  border-color: var(--ink-20);
+  transform: translateY(-2px);
+}
+
+.stage-index {
+  position: absolute;
+  top: 26px;
+  right: 28px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+.stage-index .now { color: var(--ink-45); transition: color 0.3s ease; }
+.stage-index .of  { color: var(--ink-20); transition: color 0.3s ease; }
+.stage:hover .stage-index .now { color: var(--ink); }
+.stage:hover .stage-index .of  { color: var(--ink-45); }
+
+.stage-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.stage-svg {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+  transition: transform 0.45s cubic-bezier(.2,.8,.2,1);
+}
+.stage:hover .stage-svg { transform: translateY(-2px); }
+.stage-svg .ink-teal { stroke: var(--teal); }
+.stage-svg .ink-clay { stroke: var(--clay); }
+.stage-svg .fill-clay { fill: var(--clay); stroke: none; }
+
+.stage-week {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+
+.stage-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 26px;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.stage-bullets {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+.stage-bullets li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-60);
+  margin-bottom: 8px;
+}
+.stage-bullets li:last-child { margin-bottom: 0; }
+.stage-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 7px;
+  height: 0.5px;
+  background: var(--moss);
+  opacity: 0.55;
+}
+
+.stage-output {
+  margin-top: auto;
+  display: block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: var(--teal);
+  background: rgba(43, 100, 114, 0.06);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  transition: background 0.3s ease;
+  word-break: break-word;
+}
+.stage-output::before {
+  content: '› ';
+  color: var(--clay);
+  font-weight: 500;
+}
+.stage:hover .stage-output {
+  background: rgba(43, 100, 114, 0.10);
+}
+
+.connector {
+  position: relative;
+  width: 40px;
+}
+.connector::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 0.5px;
+  background: var(--ink-10);
+  transform: translateY(-50%);
+}
+.connector::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--clay);
+  transform: translate(-50%, -50%);
+}
+
+.metodologia-foot {
+  margin-top: 56px;
+  text-align: center;
+}
+.mono-foot {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+.mono-foot::before,
+.mono-foot::after {
+  content: '';
+  width: 28px;
+  height: 0.5px;
+  background: var(--ink-10);
+}
+
+html.night .stage-output { background: rgba(43, 100, 114, 0.10); }
+html.night .stage:hover .stage-output { background: rgba(43, 100, 114, 0.15); }
+
+@media (max-width: 900px) {
+  .pipeline { grid-template-columns: 1fr; }
+  .connector { width: 100%; height: 40px; }
+  .connector::before {
+    top: 0; bottom: 0;
+    left: 50%; right: auto;
+    width: 0.5px; height: 100%;
+    transform: translateX(-50%);
+  }
+  .metodologia h2 { font-size: clamp(32px, 8vw, 44px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage, .stage-svg, .stage-output,
+  .stage-index .now, .stage-index .of { transition: none; }
+  .stage:hover { transform: none; }
+  .stage:hover .stage-svg { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PIEZA B — #oportunidades : matriz visual de casos de uso IA
+   Reemplaza el listón expandible por una grilla tipo BCG/McKinsey.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.oportunidades-matriz { padding: 90px 0; }
+
+.op-header { margin-bottom: 40px; max-width: 680px; }
+.op-header .eyebrow { margin-bottom: 18px; }
+.op-header h2 {
+  font-size: clamp(36px, 5.4vw, 60px);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  margin: 0 0 18px;
+}
+.op-header h2 em { font-style: italic; font-weight: 400; color: var(--moss); }
+.op-intro {
+  font-size: 16px; color: var(--ink-60); line-height: 1.65;
+  max-width: 620px; margin: 0;
+}
+
+.op-leyenda {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 22px;
+  padding: 14px 0;
+  border-top: 0.5px solid var(--ink-10);
+  border-bottom: 0.5px solid var(--ink-10);
+  margin-bottom: 8px;
+}
+.op-leyenda-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-60);
+}
+.op-leyenda-meta {
+  margin-left: auto;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-45);
+}
+
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.dot-alto  { background: var(--clay); }
+.dot-medio { background: var(--ochre); }
+.dot-bajo  { background: var(--moss); opacity: 0.6; }
+
+.op-table { display: block; }
+
+.op-row {
+  display: grid;
+  grid-template-columns: 0.7fr 2fr 0.7fr 0.6fr;
+  align-items: center;
+  column-gap: 24px;
+}
+
+.op-row-head { padding: 12px 0; border-bottom: 0.5px solid var(--ink-20); }
+.op-row-head .op-cell {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-45);
+}
+
+.op-row:not(.op-row-head) {
+  padding: 20px 0;
+  border-bottom: 0.5px solid var(--ink-10);
+  transition: background-color 0.25s ease;
+}
+.op-row:not(.op-row-head):hover { background: rgba(43, 100, 114, 0.04); }
+.op-row:last-child { border-bottom: 0.5px solid var(--ink-20); }
+
+.op-cell { min-width: 0; }
+.op-cell-rubro { display: flex; align-items: baseline; gap: 12px; }
+.op-rubro-num {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
+  font-size: 14px; color: var(--ochre);
+  font-variant-numeric: tabular-nums; flex-shrink: 0;
+}
+.op-rubro-name {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: 18px; color: var(--ink);
+  letter-spacing: -0.02em; line-height: 1.15;
+}
+
+.op-cell-caso {
+  font-family: 'Geist', sans-serif;
+  font-size: 14px; color: var(--ink-60); line-height: 1.5;
+}
+
+.op-cell-impacto { display: flex; align-items: center; gap: 10px; }
+.impacto-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-60);
+}
+
+.op-cell-ttv { display: flex; align-items: center; }
+.op-cell-servicio { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.op-cell-servicio .chip-svc { font-size: 9px; padding: 2px 6px; letter-spacing: 0.10em; }
+.ttv-mono {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; color: var(--ink-60);
+  background: rgba(43, 100, 114, 0.05);
+  padding: 4px 10px; border-radius: 4px;
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+
+.op-foot { display: flex; align-items: center; gap: 16px; margin-top: 24px; }
+.op-foot::before, .op-foot::after {
+  content: ''; height: 0.5px; background: var(--ink-10); flex: 1;
+}
+
+@media (max-width: 760px) {
+  .oportunidades-matriz { padding: 64px 0; }
+  .op-leyenda { gap: 14px 18px; }
+  .op-leyenda-meta { margin-left: 0; flex-basis: 100%; }
+  .op-row-head { display: none; }
+  .op-row {
+    display: block;
+    padding: 22px 0;
+    border-bottom: 0.5px solid var(--ink-10);
+  }
+  .op-row:last-child { border-bottom: 0.5px solid var(--ink-20); }
+  .op-cell { display: flex; align-items: center; gap: 10px; }
+  .op-cell + .op-cell { margin-top: 10px; }
+  .op-cell-rubro, .op-cell-caso { align-items: baseline; }
+  .op-rubro-name { font-size: 19px; }
+  .op-cell-caso { line-height: 1.5; }
+  .op-cell-caso::before,
+  .op-cell-impacto::before,
+  .op-cell-servicio::before,
+  .op-cell-ttv::before {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-45);
+    width: 72px; flex-shrink: 0;
+  }
+  .op-cell-caso::before    { content: 'Caso'; }
+  .op-cell-impacto::before { content: 'Impacto'; }
+  .op-cell-servicio::before { content: 'Servicio'; }
+  .op-cell-ttv::before     { content: 'TTV'; }
+  .op-foot { margin-top: 20px; }
+}
+
+/* ——— Nav anchors internos (Pieza E, ajustado) ——— */
+.nav-anchors {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.nav-anchors a {
+  font-family: 'Geist', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-60);
+  text-decoration: none;
+  border-bottom: 0.5px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.nav-anchors a:hover { color: var(--clay); border-color: var(--clay); }
+@media (max-width: 1100px) { .nav-anchors { display: none; } }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HERBARIO DEL FUTURO — Piezas F, G, H, I
+   Micro-detalles técnicos sobre siluetas botánicas existentes.
+   Paleta: cream / ink / clay / moss / ochre / teal. Sin neón, sin saturar.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* — LED pad: punto de estado SMD. Sin glow externo. Variantes por color. */
+.led-pad        { fill: var(--clay);  fill-opacity: 1; stroke: none; }
+.led-pad.ochre  { fill: var(--ochre); }
+.led-pad.teal   { fill: var(--teal); }
+.led-pad.moss   { fill: var(--moss); }
+
+/* — LED ring: bayas como LEDs de estado. Anillo stroke + dot interno. */
+.led-ring           { fill: none; stroke: var(--clay);  stroke-width: .9; stroke-opacity: 1; }
+.led-ring.ochre     { stroke: var(--ochre); }
+.led-ring.teal      { stroke: var(--teal); }
+.led-ring__dot      { fill: var(--clay);  fill-opacity: 1; stroke: none; }
+.led-ring__dot.ochre{ fill: var(--ochre); }
+.led-ring__dot.teal { fill: var(--teal); }
+
+/* — Vía-hole: agujero de paso PCB. Anillo cream + dot interno moss. */
+.via-hole        { fill: none; stroke: var(--cream); stroke-width: .9; stroke-opacity: 1; }
+.via-hole__dot   { fill: var(--moss); fill-opacity: 1; stroke: none; }
+
+/* — Trace: pista de circuito fina, baja opacidad. Variantes dashed/dotted/teal. */
+.trace           { fill: none; stroke: var(--moss); stroke-width: .8; stroke-opacity: .8; stroke-linecap: round; }
+.trace.teal      { stroke: var(--teal);  stroke-opacity: .9; }
+.trace.ochre     { stroke: var(--ochre); stroke-opacity: .45; }
+.trace.dashed    { stroke-dasharray: 2 1; }
+.trace.dotted    { stroke-dasharray: .8 .8; }
+
+/* — Trace-bus: línea modular bus-line. Aplica dasharray sin tocar dashoffset. */
+.trace-bus { stroke-dasharray: 3 2; }
+.scroll-stem .stem-line.trace-bus { stroke-dasharray: 2 1; stroke-dashoffset: 0; }
+.sprig-svg .trace-bus { stroke-dasharray: 2 1; }
+.lamina-svg .dp.trace-bus-dp { stroke-dasharray: 3 2 !important; }
+
+/* — Solder pad: pad de soldadura SMD. Rect moss + pin cream. */
+.solder-pad          { fill: var(--moss); fill-opacity: .8; stroke: var(--moss); stroke-width: .8; }
+.solder-pad.clay     { fill: var(--clay); }
+.solder-pad.ochre    { fill: var(--ochre); }
+.solder-pad__pin     { fill: var(--cream); stroke: none; }
+
+/* — Tag pad: pad de etiqueta SMD para ReservaYá. */
+.tag-pad         { fill: var(--moss); fill-opacity: 1; stroke: none; }
+.tag-pad__pin    { fill: var(--cream); stroke: none; }
+
+/* — Capacitor-leaf: hoja que lee como capacitor eléctrico. */
+.capacitor-leaf          { fill: var(--moss); fill-opacity: .85; stroke: none; }
+.capacitor-leaf__plate   { fill: none; stroke: var(--moss); stroke-width: .8; stroke-opacity: .95; }
+
+/* — Sensor dot: terminal de antena/sensor. Dot teal op 0.75. */
+.sensor-dot      { fill: var(--teal); fill-opacity: 1; stroke: none; }
+
+/* — Micro pad: patitas de bug-bot. Dot moss op 0.7. */
+.micro-pad       { fill: var(--moss); fill-opacity: 1; stroke: none; }
+
+/* — Solder-dot: punto de soldadura en bifurcación de tallo/raíz. */
+.solder-dot { fill: var(--moss); opacity: 1; stroke: none; }
+
+/* — Tick: marca corta op 0.35. */
+.tick            { fill: none; stroke: var(--moss); stroke-width: .9; stroke-opacity: .7; stroke-linecap: round; }
+.tick.ochre      { stroke: var(--ochre); }
+
+/* — Dorsal trace: línea central con dashes (esplits del escarabajo). */
+.dorsal-trace    { fill: none; stroke: var(--moss); stroke-width: .9; stroke-opacity: 1; stroke-dasharray: 4 2; }
+
+/* — Clock tick: tickmark op 0.3 alrededor de círculo grande (CTA der). */
+.clock-tick      { fill: none; stroke: var(--moss); stroke-width: .9; stroke-opacity: .7; stroke-linecap: round; }
+
+/* — Donut ochre: vía perforada en ochre (sprig ochre del divider). */
+.donut-ochre     { fill: none; stroke: var(--ochre); stroke-width: 1; opacity: 1; }
+.donut-ochre-dot { fill: var(--cream); }
+
+/* — HUD ring: anillos concéntricos teal para anteojos de Mariano. */
+.hud-ring { fill: none; stroke: var(--teal); stroke-width: .9; opacity: .8; }
+.hud-tick { stroke: var(--teal); stroke-width: .9; opacity: 1; stroke-linecap: round; }
+
+/* — Scanline: línea horizontal moss que recorre el lente verticalmente. */
+@keyframes lamScanline {
+  0%   { transform: translateY(-8px); opacity: 0; }
+  15%  { opacity: 0.65; }
+  85%  { opacity: 0.65; }
+  100% { transform: translateY(8px); opacity: 0; }
+}
+.lamina-svg.looping .lens-shine.scanline {
+  animation: lamScanline 5.5s ease-in-out 0.5s infinite;
+}
+
+/* — Capacitor-plate: placas internas paralelas stroke moss 0.4. */
+.capacitor-plate { stroke: var(--moss); stroke-width: .8; opacity: 1; fill: none; stroke-linecap: round; }
+
+/* — Clip-LED: clip rectangular clay + dot clay. */
+.clip-led { fill: var(--clay); }
+.clip-led-dot { fill: var(--clay); }
+
+/* — Tickmark: marca vertical fina sobre bus-line del divider. */
+.tickmark { stroke: var(--moss); stroke-width: .8; opacity: .6; stroke-linecap: round; }
+
+/* — Teal ring estático rodeando el stem-head en posición inicial. */
+.stem-head-ring { fill: none; stroke: var(--teal); stroke-width: 1; opacity: .9; }
+
+/* — Transistor-blossom: body rect teal + 3 patitas moss. */
+.transistor .body { fill: var(--teal); opacity: 1; stroke: none; }
+.transistor .leg  { stroke: var(--moss); stroke-width: 1.4; opacity: 1; stroke-linecap: round; }
+
+/* — Chip-pellet: pastilla IC con 2 pines (reemplaza semillas). */
+.chip-pellet rect { fill: var(--moss); opacity: 1; stroke: none; }
+.chip-pellet line { stroke: var(--moss); stroke-width: 0.5; opacity: 0.6; }
+
+/* — Capsule-led: cápsula LED (rect rounded + pin moss arriba). */
+.capsule-led rect { fill: var(--clay); opacity: 1; stroke: none; }
+.capsule-led .pin { fill: var(--moss); stroke: none; }
+
+/* — Roots: se dibujan sólidas y al final resuelven en dashes 2-1. */
+@keyframes drawRootTrace {
+  0%   { stroke-dashoffset: 60; stroke-dasharray: 60; }
+  82%  { stroke-dashoffset: 0;  stroke-dasharray: 60; }
+  100% { stroke-dashoffset: 0;  stroke-dasharray: 2 1; }
+}
+.garden .layer-root { animation-name: drawRootTrace; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PIEZA I — Fondo "field network"
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* — bg-net Voronoi → PCB-Voronoi: cells con stroke-dasharray blueprint. */
+.bg-net .cell {
+  fill: none;
+  stroke: #3D5C4A;
+  stroke-width: 0.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.55;
+  stroke-dasharray: 3 2;
+}
+.bg-net .node .node-core { fill: #3D5C4A; opacity: 0.7; }
+.bg-net .node .node-halo { fill: none; stroke: #3D5C4A; stroke-width: 0.4; opacity: 0.4; }
+.bg-net .node-accent-clay .pad-core { fill: #D9603F; opacity: 0.85; }
+.bg-net .node-accent-clay .pad-ring { fill: none; stroke: #D9603F; stroke-width: 0.5; opacity: 0.5; }
+.bg-net .node-accent-clay .pad-led  { fill: var(--cream); opacity: 0.9; }
+.bg-net .node-accent-ochre .via-core { fill: #E3A02F; opacity: 0.8; }
+.bg-net .node-accent-ochre .via-hole { fill: var(--cream); opacity: 0.9; }
+
+/* — Particle-field: nueva variante data-packet (cae en diagonal UART). */
+@keyframes dataPacketFall {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  12%  { opacity: var(--op, 0.4); }
+  88%  { opacity: var(--op, 0.4); }
+  100% { transform: translate(var(--drift, 30px), 110vh); opacity: 0; }
+}
+.particle.packet.active {
+  animation: dataPacketFall var(--dur, 14s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* — Scanline opcional: 1px gradiente teal op 0.04 barre vertical cada 30s. */
+.scanline {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(43, 100, 114, 0.04) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  animation: scanlineDrift 30s linear infinite;
+}
+@keyframes scanlineDrift {
+  0%   { transform: translateY(-1vh); }
+  100% { transform: translateY(101vh); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanline { animation: none; display: none; }
+}
+
+/* — Custom cursor futurista (semilla + 2 pins moss). */
+.hero-visual {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><ellipse cx='12' cy='12' rx='4' ry='6' fill='%236b4a2a' stroke='%23412a18' stroke-width='0.5'/><path d='M 12 6 Q 12 10 11 13' stroke='%23412a18' stroke-width='0.5' fill='none' stroke-linecap='round'/><path d='M 10 18 L 10 20' stroke='%233D5C4A' stroke-width='0.5' stroke-opacity='0.6' stroke-linecap='round'/><path d='M 14 18 L 14 20' stroke='%233D5C4A' stroke-width='0.5' stroke-opacity='0.6' stroke-linecap='round'/></svg>") 12 12, crosshair;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ROBOT AI MOVEMENT — Mariposa drone + Garden circuit board
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ——— MARIPOSA: servo wing flap ——— */
+@keyframes servoWingL {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(-12deg); }
+  25%  { transform: rotate(-4deg); }
+  40%  { transform: rotate(-14deg); }
+  55%  { transform: rotate(-2deg); }
+  70%  { transform: rotate(-10deg); }
+  85%  { transform: rotate(-3deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes servoWingR {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(12deg); }
+  25%  { transform: rotate(4deg); }
+  40%  { transform: rotate(14deg); }
+  55%  { transform: rotate(2deg); }
+  70%  { transform: rotate(10deg); }
+  85%  { transform: rotate(3deg); }
+  100% { transform: rotate(0deg); }
+}
+.mariposa-wing-l {
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: servoWingL 0.7s cubic-bezier(0.25, 0, 0.75, 1) infinite;
+}
+.mariposa-wing-r {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: servoWingR 0.7s cubic-bezier(0.25, 0, 0.75, 1) infinite;
+}
+
+/* ——— MARIPOSA: drone hover ——— */
+@keyframes droneHover {
+  0%   { transform: translate(0, 0); }
+  12%  { transform: translate(1.5px, -2px); }
+  25%  { transform: translate(-2px, 1px); }
+  37%  { transform: translate(2px, -1.5px); }
+  50%  { transform: translate(-1px, 2px); }
+  62%  { transform: translate(1.5px, 1px); }
+  75%  { transform: translate(-2px, -1px); }
+  87%  { transform: translate(1px, 2px); }
+  100% { transform: translate(0, 0); }
+}
+.mariposa-svg {
+  animation: droneHover 2.4s steps(1) infinite;
+}
+
+/* ——— MARIPOSA: LED blink sequence (data transmission) ——— */
+@keyframes ledBlinkSeq {
+  0%, 100% { opacity: 1; }
+  20% { opacity: 1; }
+  25% { opacity: 0.15; }
+  30% { opacity: 1; }
+  60% { opacity: 1; }
+  65% { opacity: 0.15; }
+  70% { opacity: 1; }
+}
+.mariposa-led {
+  animation: ledBlinkSeq 1.8s ease-in-out infinite;
+}
+.mariposa-wing-l .mariposa-led:nth-of-type(1) { animation-delay: 0s; }
+.mariposa-wing-l .mariposa-led:nth-of-type(2) { animation-delay: 0.25s; }
+.mariposa-wing-l .mariposa-led:nth-of-type(3) { animation-delay: 0.5s; }
+.mariposa-wing-l .mariposa-led:nth-of-type(4) { animation-delay: 0.75s; }
+.mariposa-wing-r .mariposa-led:nth-of-type(1) { animation-delay: 0.1s; }
+.mariposa-wing-r .mariposa-led:nth-of-type(2) { animation-delay: 0.35s; }
+.mariposa-wing-r .mariposa-led:nth-of-type(3) { animation-delay: 0.6s; }
+.mariposa-wing-r .mariposa-led:nth-of-type(4) { animation-delay: 0.85s; }
+
+/* ——— MARIPOSA: trace data flow ——— */
+@keyframes traceDataFlow {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -10; }
+}
+.mariposa-trace {
+  stroke-dasharray: 3 2;
+  animation: traceDataFlow 1s linear infinite;
+}
+
+/* ——— GARDEN: LED blink coordinado por planta ——— */
+@keyframes gardenLedPulse {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.85; }
+  50% { opacity: 0.3; }
+  55% { opacity: 0.85; }
+}
+.garden .led-pad {
+  animation: gardenLedPulse 3s ease-in-out infinite;
+}
+.garden .plant-1 .led-pad { animation-delay: 0s; animation-duration: 2.5s; }
+.garden .plant-2 .led-pad { animation-delay: 0.4s; animation-duration: 3.2s; }
+.garden .plant-3 .led-pad { animation-delay: 0.8s; animation-duration: 2.8s; }
+.garden .plant-4 .led-pad { animation-delay: 1.2s; animation-duration: 3.5s; }
+
+/* Capsule LEDs del calafate pulsan */
+@keyframes capsulePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.garden .capsule-led rect {
+  animation: capsulePulse 2.5s ease-in-out infinite;
+}
+
+/* ——— GARDEN: transistores jacarandá pulsan teal ——— */
+@keyframes transistorPulse {
+  0%, 100% { opacity: 1; }
+  40% { opacity: 1; }
+  50% { opacity: 0.4; }
+  60% { opacity: 1; }
+}
+.garden .transistor .body {
+  animation: transistorPulse 2s ease-in-out infinite;
+}
+
+/* ——— GARDEN: trace data flow ——— */
+.garden .trace {
+  stroke-dasharray: 3 2;
+  animation: traceDataFlow 1.5s linear infinite;
+}
+
+/* ——— GARDEN: scan pulse (calibration sweep) ———
+   DESACTIVADO: la barra teal que bajaba por el garden se veía invasiva.
+   Si se quiere reactivar, agregar .garden-scan { animation: gardenScan 12s ... }
+@keyframes gardenScan {
+  0% { transform: translateY(-30px); opacity: 0; }
+  4% { opacity: 0.8; }
+  96% { opacity: 0.8; }
+  100% { transform: translateY(560px); opacity: 0; }
+}
+.garden-scan {
+  animation: gardenScan 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 4s;
+}
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .mariposa-wing-l, .mariposa-wing-r, .mariposa-svg,
+  .mariposa-led, .mariposa-trace,
+  .garden .led-pad, .garden .capsule-led rect,
+  .garden .transistor .body, .garden .trace, .garden-scan {
+    animation: none !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NEURONA FLOTANTE + SENSOR NODE — Combo 1 "Neural"
+   Reemplazan a la mariposa y al escarabajo respectivamente.
+   Estilo hairline + LED pads que pulsan + drone hover + sinapsis.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ——— NEURONA: drone hover (igual que la mariposa) ——— */
+.neurona-svg {
+  animation: droneHover 2.4s steps(1) infinite;
+}
+
+/* ——— NEURONA: dendritas ondulan sutilmente (servo micro) ——— */
+@keyframes dendriteWave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-1.5deg); }
+  75% { transform: rotate(1.5deg); }
+}
+.neurona-dendrite {
+  transform-box: fill-box;
+  transform-origin: 80% 80%;  /* ancladas al soma */
+  animation: dendriteWave 4s ease-in-out infinite;
+}
+.neurona-dendrite:nth-of-type(1) { animation-delay: 0s; }
+.neurona-dendrite:nth-of-type(2) { animation-delay: 0.3s; }
+.neurona-dendrite:nth-of-type(3) { animation-delay: 0.6s; }
+.neurona-dendrite:nth-of-type(4) { animation-delay: 0.9s; }
+.neurona-dendrite:nth-of-type(5) { animation-delay: 1.2s; }
+
+/* ——— NEURONA: sinapsis LED pulse (data transmission entre dendritas) ——— */
+@keyframes synapsePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.7); }
+}
+.neurona-synapse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: synapsePulse 1.6s ease-in-out infinite;
+}
+.neurona-synapse:nth-of-type(1) { animation-delay: 0s; }
+.neurona-synapse:nth-of-type(2) { animation-delay: 0.2s; }
+.neurona-synapse:nth-of-type(3) { animation-delay: 0.4s; }
+.neurona-synapse:nth-of-type(4) { animation-delay: 0.6s; }
+.neurona-synapse:nth-of-type(5) { animation-delay: 0.8s; }
+.neurona-synapse:nth-of-type(6) { animation-delay: 1.0s; }
+
+/* ——— NEURONA: axón trace data flow (mismo que traces mariposa) ——— */
+.neurona-axon {
+  stroke-dasharray: 3 2;
+  animation: traceDataFlow 1.2s linear infinite;
+}
+
+/* ——— NEURONA: soma (cuerpo central) pulsa levemente ——— */
+@keyframes somaPulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+.neurona-soma {
+  animation: somaPulse 2.5s ease-in-out infinite;
+}
+
+/* ——— SENSOR NODE: antenas wave (servo micro como mariposa antenas) ——— */
+@keyframes antennaWave {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-3deg); }
+  70% { transform: rotate(3deg); }
+}
+.sensor-antenna-l {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: antennaWave 3s ease-in-out infinite;
+}
+.sensor-antenna-r {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: antennaWave 3s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+/* ——— SENSOR NODE: status LED blink (mismo que mariposa LED blink) ——— */
+.sensor-led {
+  animation: ledBlinkSeq 2s ease-in-out infinite;
+}
+.sensor-led:nth-of-type(2) { animation-delay: 0.3s; }
+.sensor-led:nth-of-type(3) { animation-delay: 0.6s; }
+
+/* ——— SENSOR NODE: mini pantalla scanline ——— */
+@keyframes screenScan {
+  0% { transform: translateY(-3px); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(3px); opacity: 0; }
+}
+.sensor-screen-line {
+  animation: screenScan 2.5s ease-in-out infinite;
+}
+.sensor-screen-line:nth-of-type(2) { animation-delay: 0.4s; }
+.sensor-screen-line:nth-of-type(3) { animation-delay: 0.8s; }
+
+/* ——— SENSOR NODE: patitas jitter (igual que micro-pads del escarabajo) ——— */
+@keyframes legJitter {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0.3px, -0.3px); }
+}
+.sensor-leg {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: legJitter 0.8s ease-in-out infinite;
+}
+.sensor-leg:nth-of-type(2) { animation-delay: 0.1s; }
+.sensor-leg:nth-of-type(3) { animation-delay: 0.2s; }
+.sensor-leg:nth-of-type(4) { animation-delay: 0.3s; }
+.sensor-leg:nth-of-type(5) { animation-delay: 0.4s; }
+.sensor-leg:nth-of-type(6) { animation-delay: 0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .neurona-svg, .neurona-dendrite, .neurona-synapse, .neurona-axon, .neurona-soma,
+  .sensor-antenna-l, .sensor-antenna-r, .sensor-led, .sensor-screen-line, .sensor-leg {
+    animation: none !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SELECTOR DE IDIOMA — i18n ES/EN/IT/FR
+   ═══════════════════════════════════════════════════════════════════════ */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-left: 0.5px solid var(--ink-15);
+  padding-left: 22px;
+  margin-left: 8px;
+}
+.lang-switcher button {
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  color: var(--ink-45);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+.lang-switcher button:hover { color: var(--ink); }
+.lang-switcher button.active {
+  color: var(--clay);
+  border-bottom-color: var(--clay);
+}
+.lang-switcher .sep {
+  color: var(--ink-20);
+  padding: 0 2px;
+  user-select: none;
+}
+@media (max-width: 1100px) {
+  .lang-switcher {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+}
+
+/* ——— Crossfade al cambiar idioma ——— */
+.i18n-fade {
+  transition: opacity 0.25s ease;
+}
+.i18n-fade.out {
+  opacity: 0;
+}
+
+/* ——— Mobile: el selector va debajo del CTA ——— */
+@media (max-width: 900px) {
+  .nav-anchors { display: none; }
+  .nav-inner { flex-wrap: wrap; gap: 12px; }
+  .lang-switcher { order: 3; flex-basis: 100%; justify-content: center; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SECCIÓN SERVICIOS — 4 cards (IA, Datos, Ciberseguridad, Desarrollo)
+   ═══════════════════════════════════════════════════════════════════════ */
+.servicios { padding: 80px 0 100px; position: relative; }
+.servicios-header { text-align: left; margin-bottom: 60px; max-width: 720px; }
+.servicios h2 {
+  font-size: clamp(36px, 5.4vw, 64px);
+  margin: 22px 0 20px;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.servicios h2 em { font-style: italic; color: var(--clay); font-weight: 400; }
+.servicios-intro {
+  font-size: 18px; color: var(--ink-60); max-width: 560px; line-height: 1.6;
+}
+
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.servicio-card {
+  background: var(--cream);
+  border: 0.5px solid var(--ink-10);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 28px;
+  transition: all 0.4s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+}
+.servicio-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--ink-20);
+  box-shadow: 0 24px 48px -24px rgba(26,26,31,0.14);
+}
+.servicio-number {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ochre);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.servicio-icon {
+  height: 56px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+.servicio-icon svg { max-height: 56px; width: auto; overflow: visible; }
+.servicio-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.servicio-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-60);
+  margin-bottom: 16px;
+}
+.servicio-chips {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: auto;
+}
+.servicio-chips .chip { font-size: 9.5px; padding: 2px 7px; }
+
+@media (max-width: 900px) {
+  .servicios-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .servicios-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MEJORAS UX — mini-CTAs, FAQ animation, hamburguesa, urgencia
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ——— Mini-CTA: call-to-action sutil al pie de secciones ——— */
+.mini-cta {
+  margin-top: 48px;
+  padding: 20px 0;
+  border-top: 0.5px solid var(--ink-10);
+  text-align: center;
+}
+.mini-cta-text {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-60);
+  margin-bottom: 12px;
+}
+.mini-cta-link {
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--clay);
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--clay);
+  padding-bottom: 2px;
+  transition: all 0.2s ease;
+}
+.mini-cta-link:hover { color: var(--ink); border-color: var(--ink); }
+
+/* ——— FAQ: animación de apertura + chevron rotatorio ——— */
+details.seo-rubro {
+  border-bottom: 0.5px solid var(--ink-10);
+  padding: 18px 0;
+}
+details.seo-rubro summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 30px;
+}
+details.seo-rubro summary::-webkit-details-marker { display: none; }
+details.seo-rubro summary::after {
+  content: '＋';
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px;
+  color: var(--clay);
+  transition: transform 0.3s ease;
+}
+details.seo-rubro[open] summary::after {
+  content: '－';
+  transform: rotate(180deg);
+}
+details.seo-rubro summary h3 {
+  display: inline;
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+details.seo-rubro .seo-intro {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(.2,.8,.2,1), opacity 0.3s ease;
+}
+details.seo-rubro[open] .seo-intro {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 14px;
+}
+
+/* ——— Urgencia: badge en Hero + CTA ——— */
+.urgency-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-top: 16px;
+}
+.urgency-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ——— Menú hamburguesa en móvil ——— */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 101;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 0; right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: var(--cream);
+  box-shadow: -8px 0 32px rgba(26,26,31,0.12);
+  padding: 80px 32px 32px;
+  z-index: 100;
+  transition: right 0.4s cubic-bezier(.2,.8,.2,1);
+  overflow-y: auto;
+}
+.nav-mobile.open { right: 0; }
+.nav-mobile a {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--ink-10);
+  transition: color 0.2s ease;
+}
+.nav-mobile a:hover { color: var(--clay); }
+.nav-mobile .btn { margin-top: 20px; width: 100%; justify-content: center; }
+.nav-mobile .lang-switcher {
+  margin-top: 24px;
+  border-left: none;
+  padding-left: 0;
+  justify-content: center;
+}
+
+@media (max-width: 1100px) {
+  .nav-toggle { display: block; }
+  .nav-anchors { display: none; }
+  .nav-mobile { display: block; }
+  .nav-mobile.hidden { display: none; }
+  .nav-inner .btn-primary { display: none; }
+  .nav-inner .lang-switcher { display: none; }
+}
+
+/* ——— Overlay para cerrar menú móvil ——— */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,31,0.3);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.nav-overlay.open { display: block; opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  details.seo-rubro .seo-intro { transition: none; }
+  .nav-mobile { transition: none; }
+  .urgency-badge::before { animation: none; }
+}
+
+
+/* ——— Ideas flotantes arriba de los founders ——— */
+.holo-idea {
+  font-family: 'Geist Mono', monospace;
+  font-size: 6px;
+  fill: var(--teal);
+  opacity: 0;
+  letter-spacing: 0.1em;
+  animation: holoIdeaAppear 1s ease-out forwards, holoIdeaFloat 4s ease-in-out infinite 1s;
+}
+.holo-idea:nth-child(1) { animation-delay: 0s, 1s; }
+.holo-idea:nth-child(2) { animation-delay: 0.15s, 1.15s; }
+.holo-idea:nth-child(3) { animation-delay: 0.3s, 1.3s; }
+.holo-idea:nth-child(4) { animation-delay: 0.45s, 1.45s; }
+.holo-idea:nth-child(5) { animation-delay: 0.6s, 1.6s; }
+.holo-idea:nth-child(6) { animation-delay: 0.75s, 1.75s; }
+.holo-idea:nth-child(7) { animation-delay: 0.9s, 1.9s; }
+
+@keyframes holoIdeaAppear {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 0.6; transform: translateY(0); }
+}
+@keyframes holoIdeaFloat {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-idea { animation: none; opacity: 0.6; }
+}
+
+
+/* ——— Founders holograma: grid, rescan, flicker ——— */
+.holo-grid {
+  position: absolute;
+  inset: -10px;
+  pointer-events: none;
+  opacity: 0.12;
+  transition: opacity 0.5s ease;
+  background-image:
+    linear-gradient(rgba(43, 100, 114, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 100, 114, 0.4) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0;
+}
+.founders-lamina:hover .holo-grid { opacity: 0.25; }
+
+@keyframes holoFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.85; }
+  94% { opacity: 1; }
+  95% { opacity: 0.9; }
+  96% { opacity: 1; }
+}
+.lamina-svg.holo {
+  animation: holoFlicker 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 1px rgba(43, 100, 114, 0.15));
+}
+
+@keyframes holoRescan {
+  0% { transform: translateY(-140px); opacity: 0; }
+  5% { opacity: 0.9; }
+  95% { opacity: 0.9; }
+  100% { transform: translateY(280px); opacity: 0; }
+}
+.holo-rescan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(43, 100, 114, 0.8), transparent);
+  pointer-events: none;
+  z-index: 6;
+  opacity: 0;
+}
+.founders-lamina:hover .holo-rescan {
+  animation: holoRescan 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lamina-svg.holo { animation: none; }
+  .holo-idea { animation: none; opacity: 0.6; }
+}
+

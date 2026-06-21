@@ -1,7 +1,7 @@
 {
   "name": "ynera-site",
-  "version": "1.0.0",
-  "description": "Ynera — Consultoría de IA para PyMEs",
+  "version": "2.0.0",
+  "description": "Ynera — Consultoría de IA, datos, ciberseguridad y desarrollo para PyMEs",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
