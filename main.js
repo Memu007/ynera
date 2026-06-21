@@ -171,6 +171,8 @@
         requestAnimationFrame(frame);
       } else {
         can.style.opacity = 0;
+        // Detener el loop de gotas cuando termina la intro
+        return;
       }
     }
     requestAnimationFrame(frame);
@@ -215,8 +217,9 @@
       });
     }
     measure();
-    window.addEventListener('resize', () => { measure(); }, { passive: true });
-    window.addEventListener('scroll', () => { measure(); }, { passive: true });
+    let measureTicking = false;
+    window.addEventListener('resize', () => { if (!measureTicking) { measureTicking = true; requestAnimationFrame(() => { measure(); measureTicking = false; }); } }, { passive: true });
+    window.addEventListener('scroll', () => { if (!measureTicking) { measureTicking = true; requestAnimationFrame(() => { measure(); measureTicking = false; }); } }, { passive: true });
 
     // Wind "field": a slow base + gust packets that travel across viewport
     // at a set speed. We accumulate in `windAt(x, t)` which is what plants
@@ -306,8 +309,20 @@
 
     let start = performance.now();
     const WIND_START_MS = 8500; // After full layered growth sequence
+    let gardenVisible = true;
+    const gardenIO = new IntersectionObserver(entries => {
+      gardenVisible = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    if (garden) gardenIO.observe(garden);
+
     function frame(now) {
       const t = now - start;
+
+      // Pausar viento cuando el jardín no es visible
+      if (!gardenVisible) {
+        requestAnimationFrame(frame);
+        return;
+      }
 
       // During intro: keep everything at rest (--wind=0 → no rotation).
       if (t < WIND_START_MS) {
