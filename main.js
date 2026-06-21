@@ -11,7 +11,9 @@
   const SPACING = 55;
   const MOUSE_RADIUS = 220;
   let mx = -999, my = -999;
-  let t = 0;
+  let mouseActive = false;
+  let mouseTimer;
+  let bgCanvas, bgCtx; // canvas off-screen para fondo estático
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -22,53 +24,84 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.scale(dpr, dpr);
+
+    // Canvas off-screen para el fondo (se dibuja 1 sola vez)
+    bgCanvas = document.createElement('canvas');
+    bgCanvas.width = W * dpr;
+    bgCanvas.height = H * dpr;
+    bgCtx = bgCanvas.getContext('2d');
+    bgCtx.scale(dpr, dpr);
+
     nodes = [];
     for (let x = SPACING; x < W; x += SPACING) {
       for (let y = SPACING; y < H; y += SPACING) {
-        nodes.push({
-          bx: x, by: y,           // posición base
-          x, y,                    // posición actual (con offset)
-          phase: Math.random() * Math.PI * 2,
-          amp: 2 + Math.random() * 3,  // amplitud de respiración 2-5px
-        });
+        nodes.push({ x, y });
       }
     }
+
+    // Dibujar fondo estático 1 sola vez
+    bgCtx.clearRect(0, 0, W, H);
+    bgCtx.fillStyle = 'rgba(43, 100, 114, 0.025)';
+    for (let i = 0; i < nodes.length; i++) {
+      bgCtx.beginPath();
+      bgCtx.arc(nodes[i].x, nodes[i].y, 0.8, 0, Math.PI * 2);
+      bgCtx.fill();
+    }
+
+    // Pintar fondo al canvas principal
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(bgCanvas, 0, 0, W, H);
   }
 
-  function draw() {
+  function drawMouseArea() {
+    // Copiar fondo estático
     ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(bgCanvas, 0, 0, W, H);
 
+    if (mx < 0) return; // mouse fuera de pantalla
+
+    // Solo procesar nodos cercanos al mouse (bounding box optimizado)
+    const minX = mx - MOUSE_RADIUS;
+    const maxX = mx + MOUSE_RADIUS;
+    const minY = my - MOUSE_RADIUS;
+    const maxY = my + MOUSE_RADIUS;
+
+    const nearby = [];
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i];
-      // Respiración orgánica: seno lento con fase aleatoria por nodo
-      const breath = Math.sin(t * 0.0008 + n.phase) * n.amp;
-      n.x = n.bx + breath * 0.6;
-      n.y = n.by + breath * 0.4;
+      if (n.x >= minX && n.x <= maxX && n.y >= minY && n.y <= maxY) {
+        nearby.push(n);
+      }
+    }
 
+    // Dibujar nodos cercanos + líneas
+    for (let i = 0; i < nearby.length; i++) {
+      const n = nearby[i];
       const dx = n.x - mx;
       const dy = n.y - my;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < MOUSE_RADIUS) {
         const intensity = 1 - dist / MOUSE_RADIUS;
-        const ease = intensity * intensity; // ease-in suave
-        const alpha = ease * 0.35;
-        ctx.fillStyle = `rgba(43, 100, 114, ${alpha})`;
+        const ease = intensity * intensity;
+        ctx.fillStyle = `rgba(43, 100, 114, ${ease * 0.35})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, 1 + ease * 2, 0, Math.PI * 2);
         ctx.fill();
 
-        // Conectar nodos cercanos al mouse
-        for (let j = i + 1; j < nodes.length; j++) {
-          const m = nodes[j];
-          const mdx = m.x - mx;
-          const mdy = m.y - my;
-          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mdist < MOUSE_RADIUS) {
-            const lineDist = Math.sqrt((n.x - m.x) ** 2 + (n.y - m.y) ** 2);
-            if (lineDist < SPACING * 1.6) {
-              const mIntensity = 1 - mdist / MOUSE_RADIUS;
-              const lineAlpha = Math.min(ease, mIntensity * mIntensity) * 0.18;
+        // Líneas solo entre nodos cercanos
+        for (let j = i + 1; j < nearby.length; j++) {
+          const m = nearby[j];
+          const lineDx = m.x - n.x;
+          const lineDy = m.y - n.y;
+          const lineDist = Math.sqrt(lineDx * lineDx + lineDy * lineDy);
+          if (lineDist < SPACING * 1.6) {
+            const mdx = m.x - mx;
+            const mdy = m.y - my;
+            const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+            if (mdist < MOUSE_RADIUS) {
+              const mEase = (1 - mdist / MOUSE_RADIUS) ** 2;
+              const lineAlpha = Math.min(ease, mEase) * 0.18;
               if (lineAlpha > 0.01) {
                 ctx.strokeStyle = `rgba(43, 100, 114, ${lineAlpha})`;
                 ctx.lineWidth = 0.5;
@@ -80,31 +113,41 @@
             }
           }
         }
-      } else {
-        // Nodo lejano: punto muy tenue que respira
-        const breathAlpha = 0.025 + Math.sin(t * 0.0008 + n.phase) * 0.015;
-        ctx.fillStyle = `rgba(43, 100, 114, ${Math.max(0.01, breathAlpha)})`;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 0.8, 0, Math.PI * 2);
-        ctx.fill();
       }
     }
   }
 
-  function loop(now) {
-    t = now;
-    draw();
-    requestAnimationFrame(loop);
+  function loop() {
+    if (mouseActive) {
+      drawMouseArea();
+      requestAnimationFrame(loop);
+    }
   }
 
   window.addEventListener('mousemove', (e) => {
     mx = e.clientX;
     my = e.clientY;
+    if (!mouseActive) {
+      mouseActive = true;
+      requestAnimationFrame(loop);
+    }
+    clearTimeout(mouseTimer);
+    // Pausar 2s después del último movimiento
+    mouseTimer = setTimeout(() => {
+      mouseActive = false;
+      // Redibujar fondo limpio una vez
+      ctx.clearRect(0, 0, W, H);
+      ctx.drawImage(bgCanvas, 0, 0, W, H);
+    }, 2000);
   }, { passive: true });
 
   window.addEventListener('mouseleave', () => {
     mx = -999;
     my = -999;
+    mouseActive = false;
+    clearTimeout(mouseTimer);
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(bgCanvas, 0, 0, W, H);
   }, { passive: true });
 
   let resizeTimer;
@@ -114,7 +157,6 @@
   }, { passive: true });
 
   resize();
-  requestAnimationFrame(loop);
 })();
 
 // Nav scroll state
