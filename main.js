@@ -8,10 +8,10 @@
 
   const ctx = canvas.getContext('2d');
   let W, H, dpr, nodes = [];
-  const SPACING = 50; // distancia entre nodos
-  const MOUSE_RADIUS = 180; // radio de influencia del mouse
+  const SPACING = 55;
+  const MOUSE_RADIUS = 220;
   let mx = -999, my = -999;
-  let needsRedraw = true;
+  let t = 0;
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -22,14 +22,17 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.scale(dpr, dpr);
-    // Generar nodos en grilla
     nodes = [];
     for (let x = SPACING; x < W; x += SPACING) {
       for (let y = SPACING; y < H; y += SPACING) {
-        nodes.push({ x, y });
+        nodes.push({
+          bx: x, by: y,           // posición base
+          x, y,                    // posición actual (con offset)
+          phase: Math.random() * Math.PI * 2,
+          amp: 2 + Math.random() * 3,  // amplitud de respiración 2-5px
+        });
       }
     }
-    needsRedraw = true;
   }
 
   function draw() {
@@ -37,66 +40,71 @@
 
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i];
+      // Respiración orgánica: seno lento con fase aleatoria por nodo
+      const breath = Math.sin(t * 0.0008 + n.phase) * n.amp;
+      n.x = n.bx + breath * 0.6;
+      n.y = n.by + breath * 0.4;
+
       const dx = n.x - mx;
       const dy = n.y - my;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < MOUSE_RADIUS) {
-        // Nodo cerca del mouse: brilla teal
         const intensity = 1 - dist / MOUSE_RADIUS;
-        const alpha = intensity * 0.5;
+        const ease = intensity * intensity; // ease-in suave
+        const alpha = ease * 0.35;
         ctx.fillStyle = `rgba(43, 100, 114, ${alpha})`;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.5 + intensity * 1.5, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, 1 + ease * 2, 0, Math.PI * 2);
         ctx.fill();
 
-        // Conectar a nodos cercanos
+        // Conectar nodos cercanos al mouse
         for (let j = i + 1; j < nodes.length; j++) {
           const m = nodes[j];
-          const ndx = m.x - mx;
-          const ndy = m.y - my;
-          const ndist = Math.sqrt(ndx * ndx + ndy * ndy);
-          if (ndist < MOUSE_RADIUS) {
+          const mdx = m.x - mx;
+          const mdy = m.y - my;
+          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mdist < MOUSE_RADIUS) {
             const lineDist = Math.sqrt((n.x - m.x) ** 2 + (n.y - m.y) ** 2);
-            if (lineDist < SPACING * 1.5) {
-              const lineAlpha = Math.min(intensity, 1 - ndist / MOUSE_RADIUS) * 0.25;
-              ctx.strokeStyle = `rgba(43, 100, 114, ${lineAlpha})`;
-              ctx.lineWidth = 0.5;
-              ctx.beginPath();
-              ctx.moveTo(n.x, n.y);
-              ctx.lineTo(m.x, m.y);
-              ctx.stroke();
+            if (lineDist < SPACING * 1.6) {
+              const mIntensity = 1 - mdist / MOUSE_RADIUS;
+              const lineAlpha = Math.min(ease, mIntensity * mIntensity) * 0.18;
+              if (lineAlpha > 0.01) {
+                ctx.strokeStyle = `rgba(43, 100, 114, ${lineAlpha})`;
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(n.x, n.y);
+                ctx.lineTo(m.x, m.y);
+                ctx.stroke();
+              }
             }
           }
         }
       } else {
-        // Nodo lejano: punto tenue
-        ctx.fillStyle = 'rgba(43, 100, 114, 0.06)';
+        // Nodo lejano: punto muy tenue que respira
+        const breathAlpha = 0.025 + Math.sin(t * 0.0008 + n.phase) * 0.015;
+        ctx.fillStyle = `rgba(43, 100, 114, ${Math.max(0.01, breathAlpha)})`;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, 1, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, 0.8, 0, Math.PI * 2);
         ctx.fill();
       }
     }
   }
 
-  function loop() {
-    if (needsRedraw) {
-      draw();
-      needsRedraw = false;
-    }
+  function loop(now) {
+    t = now;
+    draw();
     requestAnimationFrame(loop);
   }
 
   window.addEventListener('mousemove', (e) => {
     mx = e.clientX;
     my = e.clientY;
-    needsRedraw = true;
   }, { passive: true });
 
   window.addEventListener('mouseleave', () => {
     mx = -999;
     my = -999;
-    needsRedraw = true;
   }, { passive: true });
 
   let resizeTimer;
@@ -106,7 +114,7 @@
   }, { passive: true });
 
   resize();
-  loop();
+  requestAnimationFrame(loop);
 })();
 
 // Nav scroll state
