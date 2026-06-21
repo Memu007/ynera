@@ -1,5 +1,114 @@
 // Ynera main.js — toda la lógica del sitio
 
+// ————— NEURAL GRID: grilla de fondo que reacciona al mouse —————
+(() => {
+  const canvas = document.getElementById('neuralGrid');
+  if (!canvas) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr, nodes = [];
+  const SPACING = 50; // distancia entre nodos
+  const MOUSE_RADIUS = 180; // radio de influencia del mouse
+  let mx = -999, my = -999;
+  let needsRedraw = true;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+    // Generar nodos en grilla
+    nodes = [];
+    for (let x = SPACING; x < W; x += SPACING) {
+      for (let y = SPACING; y < H; y += SPACING) {
+        nodes.push({ x, y });
+      }
+    }
+    needsRedraw = true;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      const dx = n.x - mx;
+      const dy = n.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < MOUSE_RADIUS) {
+        // Nodo cerca del mouse: brilla teal
+        const intensity = 1 - dist / MOUSE_RADIUS;
+        const alpha = intensity * 0.5;
+        ctx.fillStyle = `rgba(43, 100, 114, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.5 + intensity * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Conectar a nodos cercanos
+        for (let j = i + 1; j < nodes.length; j++) {
+          const m = nodes[j];
+          const ndx = m.x - mx;
+          const ndy = m.y - my;
+          const ndist = Math.sqrt(ndx * ndx + ndy * ndy);
+          if (ndist < MOUSE_RADIUS) {
+            const lineDist = Math.sqrt((n.x - m.x) ** 2 + (n.y - m.y) ** 2);
+            if (lineDist < SPACING * 1.5) {
+              const lineAlpha = Math.min(intensity, 1 - ndist / MOUSE_RADIUS) * 0.25;
+              ctx.strokeStyle = `rgba(43, 100, 114, ${lineAlpha})`;
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(m.x, m.y);
+              ctx.stroke();
+            }
+          }
+        }
+      } else {
+        // Nodo lejano: punto tenue
+        ctx.fillStyle = 'rgba(43, 100, 114, 0.06)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  function loop() {
+    if (needsRedraw) {
+      draw();
+      needsRedraw = false;
+    }
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    needsRedraw = true;
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', () => {
+    mx = -999;
+    my = -999;
+    needsRedraw = true;
+  }, { passive: true });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 200);
+  }, { passive: true });
+
+  resize();
+  loop();
+})();
+
 // Nav scroll state
   const nav = document.getElementById('nav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);

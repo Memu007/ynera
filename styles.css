@@ -186,6 +186,20 @@ html.night .bg-net { opacity: 0.2; }
    Semillas/esporas pequeñas que flotan lentamente desde abajo hacia
    arriba con leve sway lateral. Generadas por JS con parámetros
    aleatorios para variedad natural. Como polen en la luz. */
+/* ——— Neural grid canvas: grilla que reacciona al mouse ——— */
+#neuralGrid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  #neuralGrid { display: none; }
+}
+
 .particle-field {
   position: fixed;
   inset: 0;
