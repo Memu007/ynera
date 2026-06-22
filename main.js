@@ -1,19 +1,22 @@
 // Ynera main.js — toda la lógica del sitio
 
-// ————— NEURAL GRID: grilla de fondo que reacciona al mouse —————
+// ————— RED NEURONAL: nodos flotantes, conexiones orgánicas, pulsos —————
 (() => {
   const canvas = document.getElementById('neuralGrid');
   if (!canvas) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const ctx = canvas.getContext('2d');
-  let W, H, dpr, nodes = [];
-  const SPACING = 55;
-  const MOUSE_RADIUS = 220;
+  let W, H, dpr;
+  let nodes = [], pulses = [];
+  const NODE_COUNT = 90;
+  const LINK_DIST = 140;
+  const MOUSE_RADIUS = 200;
   let mx = -999, my = -999;
-  let mouseActive = false;
-  let mouseTimer;
-  let bgCanvas, bgCtx; // canvas off-screen para fondo estático
+  let visible = true;
+  let lastPulse = 0;
+
+  function rand(min, max) { return min + Math.random() * (max - min); }
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -24,139 +27,175 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.scale(dpr, dpr);
-
-    // Canvas off-screen para el fondo (se dibuja 1 sola vez)
-    bgCanvas = document.createElement('canvas');
-    bgCanvas.width = W * dpr;
-    bgCanvas.height = H * dpr;
-    bgCtx = bgCanvas.getContext('2d');
-    bgCtx.scale(dpr, dpr);
-
-    nodes = [];
-    for (let x = SPACING; x < W; x += SPACING) {
-      for (let y = SPACING; y < H; y += SPACING) {
-        nodes.push({ x, y });
-      }
-    }
-
-    // Dibujar fondo estático 1 sola vez
-    bgCtx.clearRect(0, 0, W, H);
-    bgCtx.fillStyle = 'rgba(43, 100, 114, 0.025)';
-    for (let i = 0; i < nodes.length; i++) {
-      bgCtx.beginPath();
-      bgCtx.arc(nodes[i].x, nodes[i].y, 0.8, 0, Math.PI * 2);
-      bgCtx.fill();
-    }
-
-    // Pintar fondo al canvas principal
-    ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(bgCanvas, 0, 0, W, H);
   }
 
-  function drawMouseArea() {
-    // Copiar fondo estático
-    ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(bgCanvas, 0, 0, W, H);
-
-    if (mx < 0) return; // mouse fuera de pantalla
-
-    // Solo procesar nodos cercanos al mouse (bounding box optimizado)
-    const minX = mx - MOUSE_RADIUS;
-    const maxX = mx + MOUSE_RADIUS;
-    const minY = my - MOUSE_RADIUS;
-    const maxY = my + MOUSE_RADIUS;
-
-    const nearby = [];
-    for (let i = 0; i < nodes.length; i++) {
-      const n = nodes[i];
-      if (n.x >= minX && n.x <= maxX && n.y >= minY && n.y <= maxY) {
-        nearby.push(n);
-      }
+  function spawnNodes() {
+    nodes = [];
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: rand(0, W),
+        y: rand(0, H),
+        vx: rand(-0.15, 0.15),
+        vy: rand(-0.15, 0.15),
+        r: rand(1, 2.5),
+        phase: rand(0, Math.PI * 2),
+      });
     }
+  }
 
-    // Dibujar nodos cercanos + líneas
-    for (let i = 0; i < nearby.length; i++) {
-      const n = nearby[i];
-      const dx = n.x - mx;
-      const dy = n.y - my;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist < MOUSE_RADIUS) {
-        const intensity = 1 - dist / MOUSE_RADIUS;
-        const ease = intensity * intensity;
-        ctx.fillStyle = `rgba(43, 100, 114, ${ease * 0.35})`;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 1 + ease * 2, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Líneas solo entre nodos cercanos
-        for (let j = i + 1; j < nearby.length; j++) {
-          const m = nearby[j];
-          const lineDx = m.x - n.x;
-          const lineDy = m.y - n.y;
-          const lineDist = Math.sqrt(lineDx * lineDx + lineDy * lineDy);
-          if (lineDist < SPACING * 1.6) {
-            const mdx = m.x - mx;
-            const mdy = m.y - my;
-            const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-            if (mdist < MOUSE_RADIUS) {
-              const mEase = (1 - mdist / MOUSE_RADIUS) ** 2;
-              const lineAlpha = Math.min(ease, mEase) * 0.18;
-              if (lineAlpha > 0.01) {
-                ctx.strokeStyle = `rgba(43, 100, 114, ${lineAlpha})`;
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(n.x, n.y);
-                ctx.lineTo(m.x, m.y);
-                ctx.stroke();
-              }
-            }
-          }
+  function spawnPulse() {
+    // Encontrar un par de nodos conectados
+    for (let attempts = 0; attempts < 10; attempts++) {
+      const i = Math.floor(Math.random() * nodes.length);
+      const a = nodes[i];
+      for (let j = 0; j < nodes.length; j++) {
+        if (j === i) continue;
+        const b = nodes[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < LINK_DIST) {
+          pulses.push({ a, b, t: 0, speed: rand(0.008, 0.015) });
+          return;
         }
       }
     }
   }
 
-  function loop() {
-    if (mouseActive) {
-      drawMouseArea();
-      requestAnimationFrame(loop);
+  function update() {
+    // Mover nodos
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      // Rebote suave en bordes
+      if (n.x < 0) { n.x = 0; n.vx *= -1; }
+      if (n.x > W) { n.x = W; n.vx *= -1; }
+      if (n.y < 0) { n.y = 0; n.vy *= -1; }
+      if (n.y > H) { n.y = H; n.vy *= -1; }
     }
+
+    // Avanzar pulsos
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      pulses[i].t += pulses[i].speed;
+      if (pulses[i].t >= 1) pulses.splice(i, 1);
+    }
+
+    // Spawn pulsos periódicamente
+    const now = performance.now();
+    if (now - lastPulse > rand(2000, 4000) && pulses.length < 5) {
+      spawnPulse();
+      lastPulse = now;
+    }
+  }
+
+  function draw(now) {
+    ctx.clearRect(0, 0, W, H);
+
+    // 1. Conexiones entre nodos cercanos
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < LINK_DIST) {
+          const alpha = (1 - dist / LINK_DIST) * 0.08;
+
+          // Boost si está cerca del mouse
+          const midX = (a.x + b.x) / 2;
+          const midY = (a.y + b.y) / 2;
+          const mDist = Math.hypot(midX - mx, midY - my);
+          let boost = 0;
+          if (mDist < MOUSE_RADIUS) {
+            boost = (1 - mDist / MOUSE_RADIUS) * 0.15;
+          }
+
+          const finalAlpha = alpha + boost;
+          if (finalAlpha > 0.005) {
+            // Curva bezier sutil para conexión orgánica
+            const cx = (a.x + b.x) / 2 + dy * 0.08;
+            const cy = (a.y + b.y) / 2 - dx * 0.08;
+            ctx.strokeStyle = `rgba(43, 100, 114, ${finalAlpha})`;
+            ctx.lineWidth = 0.5 + boost * 2;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.quadraticCurveTo(cx, cy, b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // 2. Pulsos de señal viajando por conexiones
+    for (let i = 0; i < pulses.length; i++) {
+      const p = pulses[i];
+      const px = p.a.x + (p.b.x - p.a.x) * p.t;
+      const py = p.a.y + (p.b.y - p.a.y) * p.t;
+      const glow = Math.sin(p.t * Math.PI); // fade in/out
+
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(43, 100, 114, 0.8)';
+      ctx.fillStyle = `rgba(43, 100, 114, ${glow * 0.6})`;
+      ctx.beginPath();
+      ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // 3. Nodos
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      const mDist = Math.hypot(n.x - mx, n.y - my);
+      const nearMouse = mDist < MOUSE_RADIUS;
+      const mouseBoost = nearMouse ? (1 - mDist / MOUSE_RADIUS) : 0;
+      const breath = 0.5 + Math.sin(now * 0.001 + n.phase) * 0.2;
+
+      const alpha = 0.08 + breath * 0.04 + mouseBoost * 0.3;
+      const radius = n.r + mouseBoost * 2;
+
+      if (nearMouse) {
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = 'rgba(43, 100, 114, 0.5)';
+      }
+      ctx.fillStyle = `rgba(43, 100, 114, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      if (nearMouse) ctx.shadowBlur = 0;
+    }
+  }
+
+  function loop(now) {
+    if (!visible) return;
+    update();
+    draw(now);
+    requestAnimationFrame(loop);
   }
 
   window.addEventListener('mousemove', (e) => {
     mx = e.clientX;
     my = e.clientY;
-    if (!mouseActive) {
-      mouseActive = true;
-      requestAnimationFrame(loop);
-    }
-    clearTimeout(mouseTimer);
-    // Pausar 2s después del último movimiento
-    mouseTimer = setTimeout(() => {
-      mouseActive = false;
-      // Redibujar fondo limpio una vez
-      ctx.clearRect(0, 0, W, H);
-      ctx.drawImage(bgCanvas, 0, 0, W, H);
-    }, 2000);
   }, { passive: true });
 
   window.addEventListener('mouseleave', () => {
     mx = -999;
     my = -999;
-    mouseActive = false;
-    clearTimeout(mouseTimer);
-    ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(bgCanvas, 0, 0, W, H);
   }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    visible = !document.hidden;
+    if (visible) requestAnimationFrame(loop);
+  });
 
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 200);
+    resizeTimer = setTimeout(() => { resize(); spawnNodes(); }, 200);
   }, { passive: true });
 
   resize();
+  spawnNodes();
+  requestAnimationFrame(loop);
 })();
 
 // Nav scroll state
