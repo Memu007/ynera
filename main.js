@@ -513,6 +513,10 @@
     }, { threshold: 0 });
     if (garden) gardenIO.observe(garden);
 
+    // Cap a 30fps: el viento no necesita 60fps y reduce carga de CPU
+    let lastWindFrame = 0;
+    const WIND_FRAME_MS = 1000 / 30;
+
     function frame(now) {
       const t = now - start;
 
@@ -521,6 +525,13 @@
         requestAnimationFrame(frame);
         return;
       }
+
+      // Limitar a 30fps
+      if (now - lastWindFrame < WIND_FRAME_MS) {
+        requestAnimationFrame(frame);
+        return;
+      }
+      lastWindFrame = now;
 
       // During intro: keep everything at rest (--wind=0 → no rotation).
       if (t < WIND_START_MS) {
@@ -613,6 +624,14 @@
       tooltip.style.top = y + 'px';
     }
 
+    let trackId = null;
+    // Reajustar posición si hay viento/sway (el bounding box cambia)
+    function track() {
+      if (!activePlant) { trackId = null; return; }
+      updateTooltipPos(activePlant);
+      trackId = requestAnimationFrame(track);
+    }
+
     plants.forEach(plant => {
       plant.addEventListener('mouseenter', () => {
         // Solo mostrar después de que la intro haya terminado (5.5s)
@@ -622,19 +641,14 @@
         tooltip.querySelector('.species').textContent = plant.dataset.species;
         updateTooltipPos(plant);
         tooltip.classList.add('show');
+        // Iniciar el seguimiento solo mientras el tooltip está visible
+        if (trackId === null) trackId = requestAnimationFrame(track);
       });
       plant.addEventListener('mouseleave', () => {
         activePlant = null;
         tooltip.classList.remove('show');
       });
     });
-
-    // Reajustar posición si hay viento/sway (el bounding box cambia)
-    function track() {
-      if (activePlant) updateTooltipPos(activePlant);
-      requestAnimationFrame(track);
-    }
-    track();
   })();
   // ————— KONAMI CODE EASTER EGG —————
   // ↑↑↓↓←→←→BA revela una planta secreta en el jardín (omombé, un

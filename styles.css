@@ -108,7 +108,6 @@ body::after {
     linear-gradient(172deg, var(--cream) 0%, #F3ECD9 45%, #EFE6D0 80%, #F2EAD5 100%);
   background-repeat: no-repeat;
   background-position: 50% 50%, 115% -20%, -12% 50%, 118% 112%, 0 0;
-  animation: atmosphericDrift 40s ease-in-out infinite;
   filter: blur(10px);
 }
 @keyframes atmosphericDrift {
