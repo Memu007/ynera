@@ -1317,8 +1317,8 @@ html.night .chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.18); }
 
 /* REVEAL */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
 }
 .reveal.on { opacity: 1; transform: translateY(0); }
@@ -1979,7 +1979,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(61,92,74,.35) var(--cream); 
 /* 4. Hero: revelado por líneas con máscara (premium type motion) */
 .line-mask { display: block; overflow: hidden; }
 .line-mask > span {
-  display: block; transform: translateY(110%);
+  display: block; transform: translateY(0);
   transition: transform 1.05s cubic-bezier(.22,.9,.24,1);
 }
 .lines-in .line-mask > span { transform: translateY(0); }
