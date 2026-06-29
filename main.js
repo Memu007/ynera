@@ -416,8 +416,9 @@
     }
     measure();
     let measureTicking = false;
+    // Solo re-medir en resize. El scroll vertical NO cambia el centro horizontal
+    // de las plantas, así que medir en scroll era un costo inútil (47 reflows/frame).
     window.addEventListener('resize', () => { if (!measureTicking) { measureTicking = true; requestAnimationFrame(() => { measure(); measureTicking = false; }); } }, { passive: true });
-    window.addEventListener('scroll', () => { if (!measureTicking) { measureTicking = true; requestAnimationFrame(() => { measure(); measureTicking = false; }); } }, { passive: true });
 
     // Wind "field": a slow base + gust packets that travel across viewport
     // at a set speed. We accumulate in `windAt(x, t)` which is what plants
@@ -776,8 +777,14 @@
       head.setAttribute('cy', pt.y);
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    let stemTicking = false;
+    const onScrollThrottled = () => {
+      if (stemTicking) return;
+      stemTicking = true;
+      requestAnimationFrame(() => { onScroll(); stemTicking = false; });
+    };
+    window.addEventListener('scroll', onScrollThrottled, { passive: true });
+    window.addEventListener('resize', onScrollThrottled);
     onScroll();
 
     // Florecer cada nodo cuando su sección correspondiente es visible
