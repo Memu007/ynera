@@ -936,6 +936,14 @@ html.night .chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.18); }
   line-height: 1;
   margin-bottom: 6px;
 }
+.product-acronym {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--moss);
+}
 .product-industry {
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
