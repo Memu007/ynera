@@ -928,6 +928,21 @@
     setInterval(apply, 60000);
   })();
 
+/* ── Pausar animaciones CSS de secciones fuera de pantalla ── */
+(function(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const secs = document.querySelectorAll('section');
+  if (!secs.length) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      // Buffer de 200px: reanuda un poco antes de entrar (sin salto visible)
+      e.target.classList.toggle('anim-paused', !e.isIntersecting);
+    });
+  }, { rootMargin: '200px 0px 200px 0px' });
+  secs.forEach(s => io.observe(s));
+})();
+
 /* ── Lámina founders: draw-on + loop ── */
 (function(){
   const svgs = document.querySelectorAll('.lamina-svg');

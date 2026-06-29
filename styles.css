@@ -1312,6 +1312,13 @@ html.night .chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.18); }
   color: var(--ink-45); text-transform: uppercase; letter-spacing: 0.12em;
 }
 
+/* Pausar animaciones de secciones fuera de pantalla (ahorra CPU/GPU) */
+section.anim-paused *,
+section.anim-paused *::before,
+section.anim-paused *::after {
+  animation-play-state: paused !important;
+}
+
 /* REVEAL */
 .reveal {
   opacity: 1;
