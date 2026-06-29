@@ -6,15 +6,21 @@
   if (!canvas) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  // Deshabilitar en mobile o pantallas chicas (sin mouse real)
+  if (window.innerWidth < 768) return;
+
   const ctx = canvas.getContext('2d');
   let W, H, dpr;
   let nodes = [], pulses = [];
-  const NODE_COUNT = 90;
-  const LINK_DIST = 140;
-  const MOUSE_RADIUS = 200;
+  const NODE_COUNT = 25;
+  const LINK_DIST = 120;
+  const MOUSE_RADIUS = 180;
   let mx = -999, my = -999;
   let visible = true;
   let lastPulse = 0;
+  const FPS = 24;
+  const FRAME_MS = 1000 / FPS;
+  let lastFrame = 0;
 
   function rand(min, max) { return min + Math.random() * (max - min); }
 
@@ -133,13 +139,10 @@
       const py = p.a.y + (p.b.y - p.a.y) * p.t;
       const glow = Math.sin(p.t * Math.PI); // fade in/out
 
-      ctx.shadowBlur = 6;
-      ctx.shadowColor = 'rgba(43, 100, 114, 0.8)';
       ctx.fillStyle = `rgba(43, 100, 114, ${glow * 0.6})`;
       ctx.beginPath();
       ctx.arc(px, py, 1.5, 0, Math.PI * 2);
       ctx.fill();
-      ctx.shadowBlur = 0;
     }
 
     // 3. Nodos
@@ -153,20 +156,17 @@
       const alpha = 0.08 + breath * 0.04 + mouseBoost * 0.3;
       const radius = n.r + mouseBoost * 2;
 
-      if (nearMouse) {
-        ctx.shadowBlur = 4;
-        ctx.shadowColor = 'rgba(43, 100, 114, 0.5)';
-      }
       ctx.fillStyle = `rgba(43, 100, 114, ${alpha})`;
       ctx.beginPath();
       ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
       ctx.fill();
-      if (nearMouse) ctx.shadowBlur = 0;
     }
   }
 
   function loop(now) {
-    if (!visible) return;
+    if (!visible) { requestAnimationFrame(loop); return; }
+    if (now - lastFrame < FRAME_MS) { requestAnimationFrame(loop); return; }
+    lastFrame = now;
     update();
     draw(now);
     requestAnimationFrame(loop);
