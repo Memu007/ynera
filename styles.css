@@ -108,7 +108,6 @@ body::after {
     linear-gradient(172deg, var(--cream) 0%, #F3ECD9 45%, #EFE6D0 80%, #F2EAD5 100%);
   background-repeat: no-repeat;
   background-position: 50% 50%, 115% -20%, -12% 50%, 118% 112%, 0 0;
-  filter: blur(10px);
 }
 @keyframes atmosphericDrift {
   /* La vía teal se mantiene fija en el centro (50% 50%) — no deriva,
@@ -120,9 +119,9 @@ body::after {
   body::after { animation: none; }
 }
 
-/* ——— Grain refinado: neutral, sutil, integrado vía blend-mode ———
-   Sin color sepia encima. Es un noise transparente con mix-blend-mode
-   overlay, así texturiza sin ensuciar. */
+/* ——— Grain: textura sutil de papel ———
+   Sin mix-blend-mode (re-mezclaba toda la pantalla en cada frame = lag).
+   El grain de body::after ya texturiza; esta capa queda como refuerzo leve. */
 body::before {
   content: '';
   position: fixed;
@@ -131,8 +130,7 @@ body::before {
   z-index: 1;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23g)' opacity='0.4'/></svg>");
   background-size: 180px 180px;
-  opacity: 0.08;
-  mix-blend-mode: overlay;
+  opacity: 0.05;
 }
 
 /* ——— Red orgánica Voronoi ———
@@ -1527,7 +1525,6 @@ html.night .chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.18); }
 .sway {
   transform-box: fill-box;
   transform-origin: var(--ox, 50%) var(--oy, 100%);
-  will-change: transform;
   transform:
     rotate(calc(var(--wind, 0) * var(--flex, 1) * var(--amp, 8deg)))
     skewX(calc(var(--wind, 0) * var(--flex, 1) * var(--amp, 8deg) * -0.35));
@@ -1539,7 +1536,6 @@ html.night .chip-svc.chip-ochre { background: rgba(227, 160, 47, 0.18); }
 .flutter {
   transform-box: fill-box;
   transform-origin: var(--ox, 50%) var(--oy, 100%);
-  will-change: transform;
   transform: rotate(calc(var(--gust, 0) * var(--flex, 1) * var(--amp, 4deg)));
 }
 
