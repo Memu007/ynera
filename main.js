@@ -12,13 +12,16 @@
   const ctx = canvas.getContext('2d');
   let W, H, dpr;
   let nodes = [], pulses = [];
-  const NODE_COUNT = 25;
-  const LINK_DIST = 120;
-  const MOUSE_RADIUS = 180;
+  // Densidad adaptativa: ~1 nodo cada 32k px², cap entre 30 y 60.
+  // Así en pantallas grandes hay suficientes nodos para que se vean
+  // conexiones, y en chicas no sobran. Antes 25 fijo = casi sin red.
+  let NODE_COUNT = 40;
+  const LINK_DIST = 150;
+  const MOUSE_RADIUS = 190;
   let mx = -999, my = -999;
   let visible = true;
   let lastPulse = 0;
-  const FPS = 24;
+  const FPS = 30;
   const FRAME_MS = 1000 / FPS;
   let lastFrame = 0;
 
@@ -32,7 +35,9 @@
     canvas.height = H * dpr;
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
-    ctx.scale(dpr, dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Recalcular cantidad de nodos según área visible
+    NODE_COUNT = Math.max(30, Math.min(60, Math.round((W * H) / 32000)));
   }
 
   function spawnNodes() {
@@ -105,7 +110,7 @@
         const dy = b.y - a.y;
         const dist = Math.hypot(dx, dy);
         if (dist < LINK_DIST) {
-          const alpha = (1 - dist / LINK_DIST) * 0.08;
+          const alpha = (1 - dist / LINK_DIST) * 0.16;
 
           // Boost si está cerca del mouse
           const midX = (a.x + b.x) / 2;
@@ -113,7 +118,7 @@
           const mDist = Math.hypot(midX - mx, midY - my);
           let boost = 0;
           if (mDist < MOUSE_RADIUS) {
-            boost = (1 - mDist / MOUSE_RADIUS) * 0.15;
+            boost = (1 - mDist / MOUSE_RADIUS) * 0.3;
           }
 
           const finalAlpha = alpha + boost;
@@ -153,8 +158,8 @@
       const mouseBoost = nearMouse ? (1 - mDist / MOUSE_RADIUS) : 0;
       const breath = 0.5 + Math.sin(now * 0.001 + n.phase) * 0.2;
 
-      const alpha = 0.08 + breath * 0.04 + mouseBoost * 0.3;
-      const radius = n.r + mouseBoost * 2;
+      const alpha = 0.16 + breath * 0.06 + mouseBoost * 0.4;
+      const radius = n.r + mouseBoost * 2.5;
 
       ctx.fillStyle = `rgba(43, 100, 114, ${alpha})`;
       ctx.beginPath();
