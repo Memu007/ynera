@@ -187,6 +187,15 @@
     if (visible) requestAnimationFrame(loop);
   });
 
+  // Pausar cuando el hero sale de pantalla
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const heroIO = new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    heroIO.observe(hero);
+  }
+
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -909,6 +918,15 @@
     // 8 partículas — suficientes para sentir vida, pocas para no distraer.
     // En promedio ~1 será data-packet; las demás botánicas.
     for (let i = 0; i < 8; i++) spawn(i);
+
+    // Pausar partículas cuando el hero sale de pantalla (el field es fixed)
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      const pIO = new IntersectionObserver(entries => {
+        field.style.display = entries[0].isIntersecting ? '' : 'none';
+      }, { rootMargin: '100px 0px 100px 0px' });
+      pIO.observe(heroEl);
+    }
   })();
 
   // ————— MODO DÍA / NOCHE AUTOMÁTICO —————

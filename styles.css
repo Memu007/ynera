@@ -243,24 +243,8 @@ html.night .bg-net { opacity: 0.2; }
    como div fijo dentro del stacking context del body (z-index:0, mismo
    plano que el bg-net) para que no se superponga al contenido. El cerebro
    lo registra como "field activity" sin que el ojo consciente lo distinga. */
-.scanline {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(43, 100, 114, 0.04) 50%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-  animation: scanlineDrift 30s linear infinite;
-}
-@keyframes scanlineDrift {
-  0%   { transform: translateY(-1vh); }
-  100% { transform: translateY(101vh); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scanline { animation: none; display: none; }
-}
+/* Scanlines eliminadas: 4 animaciones fixed infinitas por 1px casi invisible (op 0.04)
+   — no se notaban pero costaban compositing constante. */
 
 .serif { font-family: 'Fraunces', serif; letter-spacing: -0.02em; }
 .italic { font-style: italic; }
@@ -2865,22 +2849,7 @@ html.night .stage:hover .stage-output { background: rgba(43, 100, 114, 0.15); }
   animation-delay: var(--delay, 0s);
 }
 
-/* — Scanline opcional: 1px gradiente teal op 0.04 barre vertical cada 30s. */
-.scanline {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(43, 100, 114, 0.04) 50%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-  animation: scanlineDrift 30s linear infinite;
-}
-@keyframes scanlineDrift {
-  0%   { transform: translateY(-1vh); }
-  100% { transform: translateY(101vh); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scanline { animation: none; display: none; }
-}
+/* Scanline fija eliminada — ver nota arriba (op 0.04 invisible, costo de compositing constante) */
 
 /* — Custom cursor futurista (semilla + 2 pins moss). */
 .hero-visual {
