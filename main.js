@@ -46,8 +46,8 @@
       nodes.push({
         x: rand(0, W),
         y: rand(0, H),
-        vx: rand(-0.15, 0.15),
-        vy: rand(-0.15, 0.15),
+        vx: rand(-0.35, 0.35),
+        vy: rand(-0.35, 0.35),
         r: rand(1, 2.5),
         phase: rand(0, Math.PI * 2),
       });
@@ -187,19 +187,13 @@
     my = -999;
   }, { passive: true });
 
+  // Pausar solo al cambiar de pestaña (no al scrollear): las secciones
+  // son transparentes y el canvas es fixed, así que la red da volumen a
+  // toda la página. Pausar por scroll dejaba un frame congelado arriba.
   document.addEventListener('visibilitychange', () => {
     visible = !document.hidden;
     if (visible) requestAnimationFrame(loop);
   });
-
-  // Pausar cuando el hero sale de pantalla
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    const heroIO = new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
-    }, { threshold: 0 });
-    heroIO.observe(hero);
-  }
 
   let resizeTimer;
   window.addEventListener('resize', () => {
