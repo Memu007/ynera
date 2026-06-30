@@ -2118,21 +2118,19 @@ section[id] { scroll-margin-top: 40px; }
   max-width: 560px; margin-top: 18px;
 }
 
-/* — Grid 3 columnas: IA | Datos | Ciberseguridad (cada una con su figura + bloque mono) — */
+/* — Grid 2 columnas: diagrama del agente (FIG.01) | esquema JSON, lado a lado — */
 .cp-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  align-items: stretch;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
 }
 
-/* Cada columna apila caption + svg + bloque mono */
-.cp-col { display: flex; flex-direction: column; gap: 14px; }
+/* Cada columna apila su contenido; el diagrama se centra contra el bloque JSON */
+.cp-col { display: flex; flex-direction: column; gap: 18px; }
 .cp-col .cp-graph-caption { margin-bottom: 0; }
-.cp-col .agent-graph { margin: 0; max-height: 240px; }
+.cp-col .agent-graph { margin: 0; max-height: 340px; }
 .cp-col .cp-code { flex: 1; }
-.cp-col .cp-code-block { padding: 14px 16px; font-size: 11.5px; line-height: 1.6; }
-.cp-col .cp-code-foot { padding: 10px 14px; }
 
 /* Pie único debajo del grid de 3 columnas */
 .cp-grid-foot {
