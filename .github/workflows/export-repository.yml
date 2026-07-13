@@ -1,0 +1,26 @@
+name: Export repository snapshot
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create exact original main snapshot
+        run: git archive --format=zip --output=ynera-main.zip b8fbb9f80e44be19adda9441231d3ae38e98fdd1
+
+      - name: Upload snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ynera-main
+          path: ynera-main.zip
+          if-no-files-found: error
+          retention-days: 1
